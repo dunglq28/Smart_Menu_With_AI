@@ -1,0 +1,17 @@
+@import "../../../styles/shared.scss";
+
+.SettingCustomerSegment {
+  @extend .settingItem;
+
+  .SettingsIconBtn {
+    @extend .settingsIconBtn;
+
+    .SettingsIcon {
+      @extend .settingsIcon;
+    }
+  }
+}
+
+.PopoverContent {
+  @extend .PopoverContent;
+}

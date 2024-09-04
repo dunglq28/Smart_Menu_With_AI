@@ -1,0 +1,80 @@
+.Login {
+  background-color: #fff;
+  .Wave {
+    height: 100vh;
+    width: 40vw;
+    position: absolute;
+  }
+
+  .Bg {
+    height: 100vh;
+    width: 30vw;
+    z-index: 0;
+    margin-left: 30%;
+  }
+
+  .Avatar {
+    height: 100px;
+    width: 100px;
+  }
+
+  .LeftContainer {
+    width: 40%;
+  }
+
+  .RightContainer {
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .FormContainer {
+    flex-direction: column;
+    min-width: 40%;
+    row-gap: 10px;
+  }
+
+  .HeaderContainer {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .WelcomeText {
+    font-size: 44px;
+    font-weight: bold;
+  }
+
+  .InputContainer {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  .ShowPasswordContainer {
+    width: 4.5rem;
+  }
+
+  .ShowPasswordButton {
+    height: 1.75rem;
+    size: sm;
+  }
+
+  .ForgotPasswordLink {
+    text-align: right;
+  }
+
+  .LoginButton {
+    background-color: #b9d7d5;
+    &:hover {
+      background-color: #a0c4c3;
+    }
+  }
+
+  .SignupPrompt {
+    text-align: center;
+  }
+
+  .ContactLink {
+    color: teal.500;
+  }
+}

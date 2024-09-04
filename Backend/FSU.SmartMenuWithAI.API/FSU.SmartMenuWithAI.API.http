@@ -1,0 +1,6 @@
+@FSU.SmartMenuWithAI.API_HostAddress = http://localhost:5245
+
+GET {{FSU.SmartMenuWithAI.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

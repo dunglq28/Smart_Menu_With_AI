@@ -1,0 +1,45 @@
+.Card {
+  width: 31%;
+  // height: 100%;
+  margin-bottom: 24px;
+  justify-content: center;
+  align-items: center;
+  .MenuCard {
+    transition: 0.3s;
+    width: 98%;
+    height: 100%;
+    padding: 20px;
+    transition: 0.3s;
+    user-select: none;
+    cursor: pointer;
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+      transform: scale(1.02);
+    }
+    &:active {
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      transform: scale(0.98);
+    }
+
+    .imageContainer {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .MenuCardTitle {
+      flex-direction: column;
+      row-gap: 10px;
+      align-items: center;
+
+      .Title {
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .Description {
+        margin-top: 14px;
+        text-align: center;
+      }
+    }
+  }
+}

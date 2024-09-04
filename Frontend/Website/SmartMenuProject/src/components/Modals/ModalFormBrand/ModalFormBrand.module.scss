@@ -1,0 +1,46 @@
+@import "../../../styles/shared.scss";
+
+.containerForm {
+  .textFontWeight600 {
+    @extend .textFontWeight600;
+  }
+
+  input {
+    @extend .InputField;
+  }
+
+  .inputImage {
+    border: none;
+    padding: 0;
+    border-radius: 0;
+
+    &:focus {
+      border: none;
+    }
+    &:hover {
+      border: none;
+    }
+  }
+
+  .imagePreview {
+    margin-top: 10px;
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+
+  .errorMessage {
+    color: red;
+    font-size: 1em;
+    font-style: italic;
+  }
+}
+
+.MainBtn {
+  @extend .primaryButton;
+}
+
+.CancelBtn {
+  @extend .cancelButton;
+}

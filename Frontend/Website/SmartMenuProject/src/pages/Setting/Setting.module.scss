@@ -1,0 +1,32 @@
+.Setting {
+  width: 100%;
+  justify-content: center;
+  .Card {
+    width: 50%;
+    height: 300px;
+    .CardContainer {
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 20px;
+      padding: 25px;
+
+      .CardNav {
+        user-select: none;
+        justify-content: space-between;
+        width: 100%;
+
+        .CardNavText {
+          font-size: 20px;
+          font-weight: bold;
+        }
+        .CardSubNav {
+          column-gap: 20px;
+          align-items: center;
+          justify-content: center;
+          width: 50%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  mssql:
+    container_name: sql-server
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    # restart: always
+    environment:
+      ACCEPT_EULA: "sa"
+      SA_PASSWORD: "@Password123"
+    ports:
+      - 1434:1433
+    volumes:
+      - my-volume:/var/opt/mssql
+  smart-menu:
+    build:
+      context: .
+      dockerfile: SmartMenu/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONEMNT=Docker
+      - ASPNETCORE_URLS=http://+:80 
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=SmartMenu;uid=sa;pwd=@Password123; TrustServerCertificate=True
+    ports:
+      - 7000:80
+    depends_on:
+      - mssql
+      
+volumes:
+  my-volume:

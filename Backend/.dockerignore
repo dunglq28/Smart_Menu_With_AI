@@ -1,0 +1,50 @@
+# Compiled output
+bin/
+obj/
+*.swp
+
+# dotnet core runtime
+.dotnet/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio cache/options directory
+.vs/
+*.vscode
+
+# Rider
+.idea/
+*.DotSettings.user
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+
+# Compiled output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Misc
+.DS_Store
+Thumbs.db

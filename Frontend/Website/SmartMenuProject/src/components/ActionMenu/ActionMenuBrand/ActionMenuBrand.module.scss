@@ -1,0 +1,29 @@
+@import "../../../styles/shared.scss";
+
+.SettingBrand {
+  @extend .settingItem;
+
+  .SettingsIconBtn {
+    width: 0px;
+    height: 25px;
+    background-color: transparent;
+    .SettingsIcon {
+      transition: 0.3s;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      &:active {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  .SettingsIconBtn:hover {
+    color: #000;
+    background-color: #fff;
+  }
+}
+
+.PopoverContent {
+  @extend .PopoverContent;
+}

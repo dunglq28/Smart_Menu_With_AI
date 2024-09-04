@@ -1,0 +1,63 @@
+
+$primaryColor: #466d6b;
+$secondaryColor: #E2E8F0;
+$whiteColor: #fff; 
+
+.primaryColor {
+  color: $primaryColor !important;
+}
+
+.secondaryColor {
+  color: $secondaryColor !important;;
+}
+
+.whiteColor {
+  color: $whiteColor !important;;
+}
+
+
+.NavDotContainer {
+   direction: row;
+   spacing: 2;
+   justify-content: center;
+   align-items: center;
+   margin-bottom: 20px;
+   margin-top: 6px;
+ }
+
+ .NavDotButton {
+   font-size: 16px !important;
+   padding: 10px !important;
+ }
+
+ .NavDotText {
+   font-size: 16px;
+ } 
+
+.NavDotSelect {
+  font-size: 16px !important;
+  font-weight: bold;
+  background-color: $whiteColor !important;
+  color: $primaryColor !important;
+  max-height: 130px; 
+  overflow-y: auto;
+}
+
+.NavDotSelect option {
+  font-size: 16px !important;
+  font-weight: bold;
+  background-color: $whiteColor !important;
+  color: $primaryColor !important;
+}
+
+ .NavDotButtonSecondary {
+   background-color: $secondaryColor;
+   color: $primaryColor;
+ }
+
+ .NavDotButtonHover {
+   &:hover {
+     background-color: $primaryColor;
+     color: $whiteColor;
+   }
+ }

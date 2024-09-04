@@ -1,0 +1,10 @@
+.primaryButton {
+    background-color: #466d6b !important;
+    color: #f1f8e8 !important;
+    &:hover {
+      background-color: #499182 !important;
+    }
+    &:active {
+      background-color: #3f7a6f !important;
+    }
+  }

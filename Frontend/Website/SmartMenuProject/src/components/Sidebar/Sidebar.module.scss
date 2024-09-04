@@ -1,0 +1,115 @@
+.Sidebar {
+  background-color: #fff;
+  color: #2c2c2e;
+  height: 100vh;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  user-select: none;
+  transition: 0.3s;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  .Logo {
+    margin-top: 10px;
+    padding: 12px;
+    align-items: center;
+    overflow: hidden;
+
+    .Avatar {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .LogoText {
+      font-size: 22px;
+      font-weight: bold;
+      white-space: nowrap;
+      color: #2c2c2e;
+    }
+  }
+
+  .ArrowSidebar {
+    position: absolute;
+    right: -9px;
+    top: 34px;
+    background-color: #55ad9b;
+    color: #2c2c2e;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.5s;
+    width: 20px;
+    height: 20px;
+  }
+
+  .MenuItems {
+    flex-grow: 1;
+    padding: 10px 0;
+    align-items: center;
+    row-gap: 10px;
+    overflow: hidden;
+
+    .MenuItem {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      cursor: pointer;
+      width: 90%;
+      border-radius: 7px;
+      transition: background-color 0.3s;
+      font-weight: 500;
+
+      &:hover {
+        background-color: #55ad9b;
+        color: #f1f8e8;
+      }
+      &:active {
+        background-color: #429b89;
+      }
+
+      .MenuIcon {
+        font-size: 25px;
+        margin-right: 10px;
+        margin-left: -6px;
+      }
+
+      .MenuText {
+        white-space: nowrap;
+        font-size: 16px;
+        overflow: hidden;
+        // color: #2c2c2e;
+      }
+    }
+  }
+
+  .Profile {
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #a0c4c3;
+    height: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: #2c2c2e;
+
+    &:hover {
+      background-color: #a0c4c3;
+    }
+
+    .LogoutIcon {
+      font-size: 25px;
+      margin: 0 10px;
+      color: #2c2c2e;
+    }
+
+    .LogoutText {
+      white-space: nowrap;
+      font-size: 16px;
+      overflow: hidden;
+      font-weight: bold;
+      color: #2c2c2e;
+    }
+  }
+}

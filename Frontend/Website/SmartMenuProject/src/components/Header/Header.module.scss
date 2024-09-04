@@ -1,0 +1,153 @@
+.Header {
+  user-select: none;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+
+  top: 0;
+  z-index: 1;
+
+  .PathName {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a202c;
+  }
+
+  .Content {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .Actions {
+    display: flex;
+    align-items: center;
+    column-gap: 25px;
+  }
+
+  .LanguageSelect {
+    width: 150px;
+    margin-left: 20px;
+    padding: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fff;
+  }
+
+  .NotificationButton {
+    background-color: #fff7e6;
+    border: none;
+    margin-left: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: #ffa411;
+    }
+  }
+
+  .ProfileButton {
+    background-color: transparent;
+    transition: 0.3s;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .ProfileContainer {
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+    user-select: none;
+    transition: 0.3s;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: #fff;
+    }
+    &:active {
+      background-color: #fff;
+    }
+  }
+
+  .ProfileImage {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
+  .ProfileImageAdmin {
+    height: 50px;
+    border-radius: 8px;
+  }
+
+  .ProfileInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-top: 4px;
+  }
+
+  .ProfileName {
+    font-size: 18px;
+  }
+
+  .ProfileRole {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 4px;
+  }
+
+  .DropdownIcon {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    color: #1a202c;
+  }
+  .PopupContainer {
+    width: 170px;
+    margin-top: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    .PopupNav {
+      flex-direction: column;
+      width: 100%;
+      row-gap: 10px;
+      .PopupSubNav {
+        cursor: pointer;
+        height: 40px;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+        transition: 0.3s;
+        &:hover {
+          background-color: #55ad9b;
+          color: #f1f8e8;
+        }
+        &:active {
+          background-color: #499788;
+        }
+
+        .Text {
+          height: 20px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+@import "../../../styles/shared.scss";
+
+.containerForm {
+  .roleId,
+  .status {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    color: #1c1c1c !important;
+  }
+
+  ::placeholder {
+    @extend .placeholder;
+  }
+
+  input,
+  select {
+    @extend .InputField;
+  }
+
+  .textFontWeight600 {
+    @extend .textFontWeight600;
+  }
+}
+
+.MainBtn {
+  @extend .primaryButton;
+}
+
+.CancelBtn {
+  @extend .cancelButton;
+}
+

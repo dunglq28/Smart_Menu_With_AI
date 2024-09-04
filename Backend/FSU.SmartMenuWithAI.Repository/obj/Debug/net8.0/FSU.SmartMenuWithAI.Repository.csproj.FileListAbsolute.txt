@@ -1,0 +1,15 @@
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\bin\Debug\net8.0\FSU.SmartMenuWithAI.Repository.deps.json
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\bin\Debug\net8.0\FSU.SmartMenuWithAI.Repository.runtimeconfig.json
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\bin\Debug\net8.0\FSU.SmartMenuWithAI.Repository.dll
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\bin\Debug\net8.0\FSU.SmartMenuWithAI.Repository.pdb
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.csproj.AssemblyReference.cache
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.AssemblyInfoInputs.cache
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.AssemblyInfo.cs
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.csproj.CoreCompileInputs.cache
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.sourcelink.json
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.dll
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\refint\FSU.SmartMenuWithAI.Repository.dll
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.pdb
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\FSU.SmartMenuWithAI.Repository.genruntimeconfig.cache
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Repository\obj\Debug\net8.0\ref\FSU.SmartMenuWithAI.Repository.dll

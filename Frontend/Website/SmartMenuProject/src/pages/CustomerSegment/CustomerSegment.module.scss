@@ -1,0 +1,31 @@
+@import "../../styles/shared.scss";
+
+.container {
+  @extend .container;
+
+  .searchWrapper {
+    @extend .searchWrapper;
+  }
+
+  
+  .AddCustomerSegmentBtn {
+    @extend .primaryButton;
+    @extend .addButton;
+  }
+  
+  .CustomerSegment {
+    @extend .table;
+
+    .CustomerSegmentTbl {
+      @extend .tableContainer;
+      @extend .shadow;
+
+      .CustomerSegmentItem {
+        @extend .tableItem;
+      }
+    }
+    .HeaderTbl {
+      @extend .header;
+    }
+  }
+}

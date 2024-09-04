@@ -1,0 +1,78 @@
+.Footer {
+  margin-top: 300px;
+  width: 100%;
+  padding: 20px;
+  flex-direction: column;
+  row-gap: 20px;
+  background-color: #fff;
+  user-select: none;
+  .LeftFooter {
+    width: 50%;
+    flex-direction: column;
+    row-gap: 35px;
+    .LogoText {
+      font-size: 30px;
+      color: "#B9D7D5";
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    .ContentOfLeftFooter {
+      column-gap: 20%;
+      .LeftContentOfLeftFooter {
+        row-gap: 10px;
+        flex-direction: column;
+      }
+      .RightContentOfRightFooter {
+        row-gap: 10px;
+        flex-direction: column;
+      }
+    }
+    .SocialMediaIcon {
+      font-size: 35px;
+      column-gap: 5%;
+    }
+  }
+  .RightFooter {
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
+    .InputRightFooter {
+      width: 50%;
+      border: 1px solid black;
+      background-color: #fff;
+    }
+    .ContactBtn {
+      background-color: #fff;
+      border: 1px solid black;
+      transition: transform 0.3s; // Thêm hiệu ứng chuyển động cho transform
+      &:hover {
+        transform: translateY(-3px); // Di chuyển nút lên 2px khi hover
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+          rgba(0, 0, 0, 0.22) 0px 10px 10px;
+      }
+      &:active {
+        transition: 0.1s;
+        background-color: #fff;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        transform: translateY(1px); // Di chuyển nút xuống 2px khi active
+      }
+    }
+  }
+  .BottomFooter {
+    width: 100%;
+    flex-wrap: wrap;
+    .TextBottomFooter {
+      margin-right: 20px;
+      margin-bottom: 10px;
+
+      //đoạn code này để chèn | vào giữa các bottom footer
+      &:not(:last-child)::after {
+        content: "|";
+        margin-left: 20px;
+        color: #000;
+      }
+    }
+  }
+}

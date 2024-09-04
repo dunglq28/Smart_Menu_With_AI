@@ -1,0 +1,28 @@
+@import "../../styles/shared.scss";
+
+.container {
+  @extend .container;
+
+  .searchWrapper {
+    @extend .searchWrapper;
+  }
+
+  .User {
+    @extend .table;
+
+    .UserTbl {
+      @extend .tableContainer;
+      @extend .shadow;
+
+      .UserItem {
+        @extend .tableItem;
+        td {
+          font-size: 17px;
+        }
+      }
+    }
+    .HeaderTbl {
+      @extend .header;
+    }
+  }
+}

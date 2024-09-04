@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Backend",
+    "\\Backend\\SmartMenu",
+    "\\Backend\\SmartMenu\\Controllers",
+    "\\Backend\\SmartMenu\\DTOs",
+    "\\Backend\\SmartMenu\\Entities",
+    "\\Backend\\SmartMenu\\Validations"
+  ],
+  "PreviewInSolutionExplorer": false
+}

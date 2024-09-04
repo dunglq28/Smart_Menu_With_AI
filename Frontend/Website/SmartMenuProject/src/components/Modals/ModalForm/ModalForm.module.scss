@@ -1,0 +1,23 @@
+.modal-header {
+  // background-color: #5d5fef;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  position: relative;
+  border-radius: 20px 20px 0 0;
+  margin-bottom: 20px;
+
+  .close-button {
+    background: none;
+    padding: 0;
+    color: white;
+    font-size: 25px;
+    position: absolute;
+    right: 4px;
+    top: 12px;
+
+    &:hover {
+      background: none;
+    }
+  }
+}

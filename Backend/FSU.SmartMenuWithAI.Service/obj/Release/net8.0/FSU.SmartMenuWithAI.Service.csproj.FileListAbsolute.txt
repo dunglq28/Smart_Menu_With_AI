@@ -1,0 +1,16 @@
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\bin\Release\net8.0\FSU.SmartMenuWithAI.Service.deps.json
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\bin\Release\net8.0\FSU.SmartMenuWithAI.Service.dll
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\bin\Release\net8.0\FSU.SmartMenuWithAI.Service.pdb
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\bin\Release\net8.0\FSU.SmartMenuWithAI.Repository.dll
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\bin\Release\net8.0\FSU.SmartMenuWithAI.Repository.pdb
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.csproj.AssemblyReference.cache
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.AssemblyInfoInputs.cache
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.AssemblyInfo.cs
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.csproj.CoreCompileInputs.cache
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.sourcelink.json
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.csproj.CopyComplete
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.dll
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\refint\FSU.SmartMenuWithAI.Service.dll
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\FSU.SmartMenuWithAI.Service.pdb
+D:\SWD392-SmartMenu_With_AI\Backend\FSU.SmartMenuWithAI.Service\obj\Release\net8.0\ref\FSU.SmartMenuWithAI.Service.dll

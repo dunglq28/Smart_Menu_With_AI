@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "Thu Phap";
+  src: url("../../../fonts/ThuPhapFont.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+// @import "../../../styles/shared.scss";
+
+img {
+  display: inline-block;
+}
+
+.SpotligtTitle {
+  font-family: "Thu Phap", sans-serif;
+  font-size: 4.4vw;
+  color: #7dd7f3;
+  line-height: 0.8;
+}
+
+.ErrorText {
+  color: red;
+  font-size: 1em;
+  font-style: italic;
+  margin-bottom: -20px;
+  margin-top: -10px;
+}
+
+.spotLight {
+  font-family: "Thu Phap", sans-serif;
+  font-weight: bold;
+  font-size: 3vw;
+  // color: #5a3d41;
+  color: #b1292d;
+  line-height: 0.7;
+  width: 6vw;
+  position: absolute;
+  margin-left: -1vw;
+  transform: rotate(-7deg);
+  text-align: center;
+  margin-top: 1vw;
+  margin-left: 0;
+}
+
+.primaryButton {
+  background-color: #466d6b !important;
+  color: #f1f8e8 !important;
+  &:hover {
+    background-color: #499182 !important;
+  }
+  &:active {
+    background-color: #3f7a6f !important;
+  }
+}

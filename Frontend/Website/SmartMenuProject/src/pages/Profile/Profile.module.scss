@@ -1,0 +1,86 @@
+.profile_container {
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  padding: 50px 0;
+
+  .icon {
+    height: 25px;
+    width: 25px;
+    margin-right: 5px;
+  }
+
+  .tabs_container {
+    width: 100%;
+    column-gap: 20px;
+    .tab_list {
+      flex-direction: column;
+      width: 40%;
+      background-color: #fff;
+      border-radius: 7px;
+      height: 240px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      justify-content: center;
+      padding: 10px;
+      row-gap: 5px;
+      user-select: none;
+      .tab {
+        border-radius: 7px;
+        &:hover {
+          color: white;
+          background-color: #5d5fef;
+        }
+        .tab_text {
+          text-align: left;
+          width: 100%;
+        }
+      }
+    }
+
+    .tab_panels {
+      background-color: #fff;
+      border-radius: 7px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+      .tab_panels_container {
+        flex-direction: column;
+        row-gap: 15px;
+        user-select: none;
+        .tab_panels_container_title {
+          font-size: 20px;
+          font-weight: bold;
+        }
+        .tab_panels_container_content {
+          flex-direction: column;
+          row-gap: 10px;
+          .text_title_content {
+            font-size: 16px;
+          }
+          .text_content {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  .btn_content {
+    background-color: #5d5fef;
+    color: #fff;
+    &:hover {
+      background-color: #4b4eed;
+    }
+    &:active {
+      background-color: #3c3ff2;
+    }
+  }
+  .btn_delete {
+    background-color: #ff0000b4;
+    color: #fff;
+    &:hover {
+      background-color: #ff0000d3;
+    }
+    &:active {
+      background-color: #ff0000;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@import "../../../styles/shared.scss";
+
+.ModalBody {
+  flex-direction: column;
+  row-gap: 20px;
+  .ModalBodyItem {
+    flex-direction: column;
+    row-gap: 10px;
+    .FieldTitle {
+      font-weight: bold;
+      font-size: 17px;
+    }
+    .InputField {
+      @extend .InputField;
+    }
+    .InputFileField {
+      @extend .InputFileField;
+    }
+  }
+
+  .imagePreview {
+    margin-top: 10px;
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+
+  .ErrorText {
+    color: red;
+    font-size: 1em;
+    font-style: italic;
+  }
+}
+
+.Footer {
+  column-gap: 30px;
+  .AddProductBtn {
+    @extend .primaryButton;
+    @extend .ml16Down;
+  }
+}

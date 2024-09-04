@@ -1,0 +1,39 @@
+@import "../../styles/shared.scss";
+
+.container {
+  @extend .container;
+
+  .searchWrapper {
+    @extend .searchWrapper;
+  }
+
+  .AddCategoryBtn {
+    @extend .primaryButton;
+    @extend .addButton;
+  }
+
+  .Category {
+    @extend .table;
+
+    .CategoryTbl {
+      @extend .tableContainer;
+      @extend .shadow;
+
+      .CategoryItem {
+        @extend .tableItem;
+      }
+
+      .WrapText {
+        @extend .wrapText;
+      }
+
+      .CategoryImage {
+        @extend .itemImage;
+      }
+    }
+
+    .HeaderTbl {
+      @extend .header;
+    }
+  }
+}
