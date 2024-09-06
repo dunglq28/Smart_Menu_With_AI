@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JZcZUEzoGd0=",
+  "dgSpecHash": "uoWBtfcghKE=",
   "success": true,
-  "projectFilePath": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj",
+  "projectFilePath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hj\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\hj\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

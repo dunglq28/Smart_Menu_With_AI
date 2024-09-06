@@ -26,7 +26,11 @@ const resources = {
       profile: PROFILE_VI,
       translation: {
         "dashboard": "Bảng Thống Kê",
+        "admin-dashboard": "Bảng Thống Kê",
+        "brand-dashboard": "Bảng Thống Kê",
         "users":"Người Dùng",
+        "paymentHistory":"Lịch sử thanh toán",
+        "payment-history":"Lịch sử thanh toán",
         "brands":"Thương Hiệu",
         "branches":"Chi Nhánh",
         "customer segment":"Phân Khúc Khách Hàng",
