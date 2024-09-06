@@ -52,9 +52,9 @@ function Login() {
       localStorage.getItem("RefreshToken") !== null;
     if (isLoggedIn && roleId !== null) {
       if (roleId.toString() === UserRole.Admin.toString()) {
-        navigate("/users");
+        navigate("/admin-dashboard");
       } else if (roleId.toString() === UserRole.BrandManager.toString()) {
-        navigate("/products");
+        navigate("/brand-dashboard");
       }
     }
   });
@@ -104,12 +104,12 @@ function Login() {
           localStorage.setItem("BrandId", brand.data.brandId.toString());
           localStorage.setItem("BrandName", brand.data.brandName.toString());
           localStorage.setItem("BrandLogo", brand.data.imageUrl.toString());
-          navigate("/products", { state: { toastMessage } });
+          navigate("/brand-dashboard", { state: { toastMessage } });
         } else if (
           response.data.roleId.toString() === UserRole.Admin.toString()
         ) {
           localStorage.setItem("UserId", response.data.userId.toString());
-          navigate("/users", { state: { toastMessage } });
+          navigate("/admin-dashboard", { state: { toastMessage } });
         }
       }
     } finally {

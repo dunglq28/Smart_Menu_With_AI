@@ -18,7 +18,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Logo from "../../assets/images/Logo.jpeg";
-import { AiOutlineProduct } from "react-icons/ai";
+import { AiOutlineCreditCard, AiOutlineProduct } from "react-icons/ai";
 import { MdOutlineCategory } from "react-icons/md";
 import { GoHome } from "react-icons/go";
 import { AiOutlineUser } from "react-icons/ai";
@@ -26,6 +26,7 @@ import { IoGitBranchOutline } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdListAlt } from "react-icons/md";
 import { MdOutlineBrandingWatermark } from "react-icons/md";
+import { MdOutlineDashboard } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
 import ModalForm from "../Modals/ModalForm/ModalForm";
@@ -92,10 +93,28 @@ function Sidebar() {
   const roleId = roleIdString ? roleIdString : "";
   const menuItems = [
     {
+      icon: MdOutlineDashboard,
+      label: t("dashboard"),
+      to: "/admin-dashboard",
+      permissionRole: UserRole.Admin,
+    },
+    {
+      icon: MdOutlineDashboard,
+      label: t("dashboard"),
+      to: "/brand-dashboard",
+      permissionRole: UserRole.BrandManager,
+    },
+    {
       icon: AiOutlineUser,
       label: t("users"),
       to: "/users",
       permissionRole: UserRole.Admin,
+    },
+    {
+      icon: AiOutlineCreditCard, 
+      label: t("paymentHistory"), 
+      to: "/payment-history",
+      permissionRole: UserRole.Admin, 
     },
     {
       icon: MdOutlineBrandingWatermark,

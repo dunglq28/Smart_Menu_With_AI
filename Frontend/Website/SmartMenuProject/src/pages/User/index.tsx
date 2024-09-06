@@ -43,8 +43,11 @@ function User() {
         const loadData = async () => {
           if (searchValue) {
             result = await getUsers(currentPage, rowsPerPage, searchValue);
+             
           } else {
             result = await getUsers(currentPage, rowsPerPage, "");
+            console.log(result);
+
           }
           setData(result.list);
           setTotalPages(result.totalPage);

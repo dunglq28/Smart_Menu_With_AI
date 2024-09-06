@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n3kXKGD8Z9U=",
+  "dgSpecHash": "jlOmHeeINvs=",
   "success": true,
-  "projectFilePath": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj",
+  "projectFilePath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hj\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\hj\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
