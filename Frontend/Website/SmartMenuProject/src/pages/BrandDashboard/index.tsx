@@ -1,10 +1,10 @@
 import { Flex, Text } from "@chakra-ui/react";
-import style from "./Dashboard.module.scss";
+import style from "./BrandDashboard.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-function Dashboard() {
+function BrandDashboard() {
   const location = useLocation();
   const navigate = useNavigate();
   let flag = false;
@@ -26,4 +26,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default BrandDashboard;
