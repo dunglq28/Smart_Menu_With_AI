@@ -13,6 +13,7 @@ import CustomerSegment from "../pages/CustomerSegment";
 import CreateMenu from "../pages/Menu/CreateMenu";
 import AdminDashboard from "../pages/AdminDashboard";
 import BrandDashboard from "../pages/BrandDashboard";
+import PagmentHistory from "../pages/PaymentHistory";
 
 interface RouteItem {
   path: string;
@@ -26,7 +27,7 @@ export const publicRoutes: RouteItem[] = [
   { path: "/admin-dashboard", component: AdminDashboard },
   { path: "/brand-dashboard", component: BrandDashboard },
   { path: "/users", component: User },
-  { path: "/payment-history", component: User },
+  { path: "/payment-history", component: PagmentHistory },
   { path: "/brands", component: Brand },
   { path: "/branches", component: Branch },
   { path: "/branches/:brandName", component: Branch },
