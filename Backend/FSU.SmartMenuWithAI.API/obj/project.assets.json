@@ -7877,19 +7877,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hj\\.nuget\\packages\\": {}
+    "C:\\Users\\HP\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj",
+      "projectUniqueName": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj",
       "projectName": "FSU.SmartMenuWithAI.API",
-      "projectPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj",
-      "packagesPath": "C:\\Users\\hj\\.nuget\\packages\\",
-      "outputPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\obj\\",
+      "projectPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj",
+      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+      "outputPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\hj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7904,8 +7904,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj": {
-              "projectPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj"
+            "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj": {
+              "projectPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj"
             }
           }
         }

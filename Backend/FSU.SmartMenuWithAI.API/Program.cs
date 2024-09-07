@@ -87,6 +87,8 @@ builder.Services.AddScoped<IProductListRepository, ProductListRepository>();
 builder.Services.AddScoped<ICustomerSegmentRepository, CustomerSegmentRepository>();
 builder.Services.AddScoped<IMenuSegmentRepository, MenuSegmentRepository>();
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
 
 
 // Register servicies
@@ -106,6 +108,7 @@ builder.Services.AddScoped<IListPositionService, ListPositionService>();
 builder.Services.AddScoped<IProductListService, ProductListService>();
 builder.Services.AddScoped<ISegmentAttributeService, SegmentAttributeService>();
 builder.Services.AddScoped<IMenuSegmentService, MenuSegmentService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 
 

@@ -225,5 +225,10 @@
 
             public const string Add = Base + "/customer-segments/";
         }
+        public static class Dashboard
+        {
+            public const string GetAll = Base + "/dashboard/";
+
+        }
     }
 }

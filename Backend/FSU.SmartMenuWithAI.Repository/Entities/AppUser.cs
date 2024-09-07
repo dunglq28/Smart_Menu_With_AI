@@ -9,9 +9,9 @@ public partial class AppUser
 
     public string UserCode { get; set; } = null!;
 
-    public string UserName { get; set; } = null!;
+    public string? UserName { get; set; }
 
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; }
 
     public int RoleId { get; set; }
 
@@ -34,6 +34,8 @@ public partial class AppUser
     public DateOnly? UpdateDate { get; set; }
 
     public virtual ICollection<Brand> Brands { get; set; } = new List<Brand>();
+
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
