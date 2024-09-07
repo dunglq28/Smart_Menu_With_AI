@@ -16,6 +16,9 @@ import {
   Tr,
   Td,
   Badge,
+  Thead,
+  Th,
+  GridItem,
 } from "@chakra-ui/react";
 import { FaUserCheck, FaLuggageCart, FaTrademark } from "react-icons/fa";
 import { Line, Bar } from "react-chartjs-2";
@@ -62,7 +65,7 @@ function AdminDashboard() {
       userFullName: "lequangdung232@gmail.com",
       orderDate: "Sep 5, 2024, 2.15PM",
       totalPrice: 100000,
-      status: 1,
+      status: 2,
     },
     {
       userFullName: "lequangdung232@gmail.com",
@@ -223,70 +226,111 @@ function AdminDashboard() {
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
         <Card>
           <CardBody>
-            <Heading size="md">Thống kê doanh thu theo tháng</Heading>
+            <Heading className={style.title}>
+              Thống kê doanh thu theo tháng
+            </Heading>
             <Line data={lineChartData} />
           </CardBody>
         </Card>
 
         <Card>
           <CardBody>
-            <Heading size="md">Thống kê thương hiệu theo tháng</Heading>
+            <Heading className={style.title}>
+              Thống kê thương hiệu theo tháng
+            </Heading>
             <Bar data={barChartData} />
           </CardBody>
         </Card>
       </SimpleGrid>
 
-      <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
-        <Card>
-          <CardBody>
-            <Heading size="md">Người dùng mới</Heading>
-            <Box maxHeight="300px" overflowY="auto">
-              <Table>
-                <Tbody>
-                  {users.map((user, index) => (
-                    <Tr key={index}>
-                      <Td textAlign="start">
-                        <Text>{user.fullName} - {user.createDate} - {user.userName}</Text>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </Box>
-          </CardBody>
-        </Card>
+      <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4} mt={8}>
+        <GridItem colSpan={1}>
+          <Card>
+            <CardBody>
+              <Heading className={style.title}>Người dùng mới</Heading>
+              <Box maxHeight="300px" maxW="350px" overflowY="auto">
+                <Table className={style.tableNewUser}>
+                  <Tbody>
+                    {users.map((user, index) => (
+                      <Tr key={index}>
+                        <Td className={style.userInfo}>
+                          <Box
+                            className={style.avatar}
+                            bg="#55AD9B"
+                            color="white"
+                            rounded="full"
+                            display="inline-block"
+                            p={2}
+                          >
+                            {user.fullName.charAt(0)}
+                          </Box>
+                          <Box>
+                            <Text className={style.userDetails}>
+                              {user.fullName} - {user.createDate}
+                            </Text>
+                            <Text className={style.userName}>
+                              {user.userName}
+                            </Text>
+                          </Box>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
+            </CardBody>
+          </Card>
+        </GridItem>
 
-        <Card>
-          <CardBody>
-            <Heading size="md">Lịch sử giao dịch</Heading>
-            <Box maxHeight="300px" overflowY="auto">
-              <Table>
-                <Tbody>
-                  {orders.map((order, index) => (
-                    <Tr key={index}>
-                      <Td>
-                        <Badge colorScheme="green">
-                          Thanh toán từ {order.userFullName}
-                        </Badge>
-                      </Td>
-                      <Td textAlign="end">{order.orderDate}</Td>
-                      <Td textAlign="end">
-                        {formatCurrency(order.totalPrice.toString())}
-                      </Td>
-                      <Td textAlign="end">
-                        {order.status === 1 ? (
-                          <Badge colorScheme="green">Thành công</Badge>
-                        ) : (
-                          <Badge colorScheme="red">Thất bại</Badge>
-                        )}
-                      </Td>
+        <GridItem colSpan={2}>
+          <Card>
+            <CardBody>
+              <Heading className={style.title}>Lịch sử giao dịch</Heading>
+              <Box maxHeight="300px" overflowY="auto">
+                <Table className={style.tablePaymentHistory}>
+                  <Thead>
+                    <Tr>
+                      <Th className={style.subtitle}>Người dùng</Th>
+                      <Th className={style.subtitle}>Ngày & Giờ</Th>
+                      <Th className={style.subtitle}>Tổng tiền</Th>
+                      <Th className={style.subtitle}>Trạng thái</Th>
                     </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </Box>
-          </CardBody>
-        </Card>
+                  </Thead>
+                  <Tbody>
+                    {orders.map((order, index) => (
+                      <Tr key={index}>
+                        <Td className={style.textDescription}>
+                          <Badge
+                            colorScheme="white"
+                            maxW="250px"
+                            whiteSpace="normal"
+                            textOverflow="clip"
+                            fontSize="14px"
+                          >
+                            Thanh toán từ {order.userFullName}
+                          </Badge>
+                        </Td>
+                        <Td className={style.textDescription}>
+                          {order.orderDate}
+                        </Td>
+                        <Td className={style.textDescription}>
+                          {formatCurrency(order.totalPrice.toString())}
+                        </Td>
+                        <Td className={style.textDescription}>
+                          {order.status === 1 ? (
+                            <Badge colorScheme="green">Thành công</Badge>
+                          ) : (
+                            <Badge colorScheme="red">Thất bại</Badge>
+                          )}
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
+            </CardBody>
+          </Card>
+        </GridItem>
       </SimpleGrid>
     </Box>
   );

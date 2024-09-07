@@ -1,6 +1,53 @@
 .container {
   width: 100%;
   padding: 20px;
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    text-align: start;
+    font-size: 14px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .tableNewUser {
+    .userInfo {
+      display: flex;
+      text-align: start;
+      padding-left: 0;
+
+      .avatar {
+        margin-right: 20px;
+        width: 40px; 
+        height: 40px;
+        border-radius: 50%;
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+      }
+
+      .userDetails {
+        font-size: 18px;
+        font-weight: 600;
+        padding-bottom: 10px;
+      }
+
+      .userName {
+        display: block;
+        font-style: italic;
+      }
+    }
+  }
+
+  .tablePaymentHistory {
+    .textDescription {
+      text-align: start;
+      font-size: 18px;
+    }
+  }
 }
 
 .Dashboard {
