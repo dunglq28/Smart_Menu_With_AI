@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\FSU.SmartMenuWithAI.API.props" />
+</Project>

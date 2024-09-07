@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj": {}
+    "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj": {}
   },
   "projects": {
-    "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj": {
+    "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj",
+        "projectUniqueName": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj",
         "projectName": "FSU.SmartMenuWithAI.Repository",
-        "projectPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj",
-        "packagesPath": "C:\\Users\\hj\\.nuget\\packages\\",
-        "outputPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\obj\\",
+        "projectPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\hj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -95,17 +95,17 @@
         }
       }
     },
-    "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj": {
+    "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj",
+        "projectUniqueName": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj",
         "projectName": "FSU.SmartMenuWithAI.Service",
-        "projectPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj",
-        "packagesPath": "C:\\Users\\hj\\.nuget\\packages\\",
-        "outputPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\obj\\",
+        "projectPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\hj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -120,8 +120,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj": {
-                "projectPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj"
+              "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj": {
+                "projectPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj"
               }
             }
           }
