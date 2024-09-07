@@ -1,26 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\SWD392-SmartMenu_With_AI\\Backend\\",
+  "WorkspaceRootPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|d:\\swd392-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.repository\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|solutionrelative:fsu.smartmenuwithai.repository\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.service\\services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\swd392-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.service\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.service\\models\\viewdashboard\\dashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\models\\viewdashboard\\dashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\swd392-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.api\\controllers\\menucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\controllers\\menucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.repository\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|solutionrelative:fsu.smartmenuwithai.repository\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\swd392-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.repository\\unitofwork\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|solutionrelative:fsu.smartmenuwithai.repository\\unitofwork\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\swd392-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.api\\payloads\\apiroutes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\payloads\\apiroutes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.service\\models\\viewdashboard\\listrevenue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\models\\viewdashboard\\listrevenue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.service\\models\\paymentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\models\\paymentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.repository\\repositories\\productlistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|solutionrelative:fsu.smartmenuwithai.repository\\repositories\\productlistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,70 +38,120 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MappingProfile.cs",
-              "DocumentMoniker": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Mappings\\MappingProfile.cs",
-              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Mappings\\MappingProfile.cs",
-              "ToolTip": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Mappings\\MappingProfile.cs",
-              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Mappings\\MappingProfile.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Title": "DashboardDTO.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\DashboardDTO.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\DashboardDTO.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\DashboardDTO.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\DashboardDTO.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAiwBgAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-04T00:27:12.704Z",
+              "WhenOpened": "2024-09-07T15:20:21.722Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "GenericRepository.cs",
-              "DocumentMoniker": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\GenericRepository.cs",
-              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Repository\\Repositories\\GenericRepository.cs",
-              "ToolTip": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\GenericRepository.cs",
-              "RelativeToolTip": "FSU.SmartMenuWithAI.Repository\\Repositories\\GenericRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAwAAAA",
+              "Title": "DashboardService.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\DashboardService.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Services\\DashboardService.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\DashboardService.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Services\\DashboardService.cs",
+              "ViewState": "AQIAAFYAAAAAAAAAAAAqwGIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-04T00:25:00.455Z",
+              "WhenOpened": "2024-09-07T15:19:24.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ListRevenue.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\ListRevenue.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\ListRevenue.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\ListRevenue.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Models\\ViewDashboard\\ListRevenue.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAoAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-07T14:33:38.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Payment.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Entities\\Payment.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Repository\\Entities\\Payment.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Entities\\Payment.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Repository\\Entities\\Payment.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAA9wB0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-07T14:31:22.759Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Program.cs",
-              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Program.cs",
-              "ToolTip": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Program.cs",
-              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Program.cs",
-              "ViewState": "AQIAAHcAAAAAAAAAAAAAAHwAAAAgAAAA",
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\UnitOfWork\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Repository\\UnitOfWork\\IUnitOfWork.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\UnitOfWork\\IUnitOfWork.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Repository\\UnitOfWork\\IUnitOfWork.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAmwBsAAABOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-15T13:39:18.483Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "APIRoutes.cs",
-              "DocumentMoniker": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Payloads\\APIRoutes.cs",
-              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Payloads\\APIRoutes.cs",
-              "ToolTip": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Payloads\\APIRoutes.cs",
-              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Payloads\\APIRoutes.cs",
-              "ViewState": "AQIAAFgAAAAAAAAAAAAAAG0AAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-15T04:49:39.253Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MenuController.cs",
-              "DocumentMoniker": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\MenuController.cs",
-              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Controllers\\MenuController.cs",
-              "ToolTip": "D:\\SWD392-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\MenuController.cs",
-              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Controllers\\MenuController.cs",
-              "ViewState": "AQIAAAgBAAAAAAAAAAAAwBMBAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-15T04:48:58.248Z",
+              "WhenOpened": "2024-09-07T12:01:07.49Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PaymentDTO.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Models\\PaymentDTO.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Models\\PaymentDTO.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Models\\PaymentDTO.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Models\\PaymentDTO.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAowBoAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-07T14:31:05.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProductListRepository.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\ProductListRepository.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Repository\\Repositories\\ProductListRepository.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\ProductListRepository.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Repository\\Repositories\\ProductListRepository.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABIAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-07T13:48:54.115Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 227,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             }
           ]
         }

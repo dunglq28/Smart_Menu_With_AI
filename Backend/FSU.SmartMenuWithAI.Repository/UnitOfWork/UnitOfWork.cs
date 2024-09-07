@@ -27,7 +27,7 @@ namespace FSU.SmartMenuWithAI.Repository.UnitOfWork
         private MenuSegmentRepository _menuSegmentRepo;
         private GenericRepository<SegmentAttribute> _segmentAttributeRepo;
         private SegmentAttributeRepository _segmentAttributeRepo1;
-
+        private PaymentRepository _paymentRepository;
 
 
         public UnitOfWork(SmartMenuContext context, IConfiguration configuration)
@@ -257,6 +257,17 @@ namespace FSU.SmartMenuWithAI.Repository.UnitOfWork
                     this._segmentAttributeRepo1 = new SegmentAttributeRepository(_context);
                 }
                 return _segmentAttributeRepo1;
+            }
+        }
+        PaymentRepository IUnitOfWork.PaymentRepository
+        {
+            get
+            {
+                if (_paymentRepository == null)
+                {
+                    this._paymentRepository = new PaymentRepository(_context);
+                }
+                return _paymentRepository;
             }
         }
     }
