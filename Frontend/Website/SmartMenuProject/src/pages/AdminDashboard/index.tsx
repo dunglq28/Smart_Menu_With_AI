@@ -1,6 +1,6 @@
 import style from "./AdminDashboard.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -19,14 +19,22 @@ import {
   Thead,
   Th,
   GridItem,
+  Grid,
 } from "@chakra-ui/react";
 import { FaUserCheck, FaLuggageCart, FaTrademark } from "react-icons/fa";
 import { Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { GlobalStyles, themeColors } from "../../constants/GlobalStyles";
 import { formatCurrency } from "../../utils/functionHelper";
+import { ChartOptions } from "chart.js/auto";
+import { getDashboardAdmin } from "../../services/DashbroadService";
+import { DashboardData } from "../../payloads/responses/DashboarData.model";
+import { getInitialDashboardData } from "../../utils/initialData";
 
 function AdminDashboard() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [data, setData] = useState<DashboardData>(getInitialDashboardData());
+
   const location = useLocation();
   const navigate = useNavigate();
   const flag = useRef(false);
@@ -166,6 +174,23 @@ function AdminDashboard() {
     ],
   };
 
+  const lineChartOptions: ChartOptions<"line"> = {
+    scales: {
+      y: {
+        ticks: {
+          callback: function (value: number | string) {
+            return value.toLocaleString("vi-VN");
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+  };
+
   const barChartData = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
     datasets: [
@@ -178,6 +203,35 @@ function AdminDashboard() {
     ],
   };
 
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      let result;
+
+      const loadData = async () => {
+        result = await getDashboardAdmin();
+        if (result.isSuccess) {
+          setData(result.data);
+          setIsLoading(false);
+        }
+      };
+
+      setTimeout(loadData, 500);
+    } catch (err) {
+      toast.error("Lỗi khi lấy dữ liệu");
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!flag.current) {
+      fetchData();
+      flag.current = true;
+    } else {
+      fetchData();
+    }
+  }, [fetchData]);
+
   return (
     <Box className={style.container}>
       {/* <Heading as="h3" size="lg" mb={3} fontWeight="bold">
@@ -186,41 +240,72 @@ function AdminDashboard() {
       <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4}>
         <Card>
           <CardBody>
-            <Icon as={FaUserCheck} boxSize={12} color="#55AD9B" />
-            <Text>Người dùng</Text>
-            <Heading size="md" id="userCount">
-              10
-            </Heading>
+            <Grid templateColumns="auto 1fr" alignItems="center" gap={4}>
+              <Box
+                bg="#55AD9B"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius={4}
+                p={6}
+              >
+                <Icon as={FaUserCheck} boxSize={10} color="#fff" />
+              </Box>
+              <Box>
+                <Text paddingBottom={2}>Người dùng</Text>
+                <Heading size="md" id="userCount">
+                  {data.numberOfUsers}
+                </Heading>
+              </Box>
+            </Grid>
           </CardBody>
         </Card>
 
         <Card>
           <CardBody>
-            <Icon
-              as={FaLuggageCart}
-              boxSize={12}
-              color={themeColors.revenueDarkenColor}
-            />
-            <Text>Doanh thu</Text>
-            <Heading size="md" id="totalRevenue">
-              {formatCurrency("10000000")}
-            </Heading>
+            <Grid templateColumns="auto 1fr" alignItems="center" gap={4}>
+              <Box
+                bg={themeColors.revenueDarkenColor}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius={4}
+                p={6}
+              >
+                <Icon as={FaLuggageCart} boxSize={10} color="#fff" />
+              </Box>
+              <Box>
+                <Text paddingBottom={2}>Doanh thu</Text>
+                <Heading size="md" id="totalRevenue">
+                  {formatCurrency("10000000")}
+                </Heading>
+              </Box>
+            </Grid>
           </CardBody>
         </Card>
 
         <Card>
           <CardBody>
-            <Icon
-              as={FaTrademark}
-              boxSize={12}
-              color={themeColors.tradeMarkDarkenColor}
-            />
-            <Text>Thương hiệu</Text>
-            <Heading size="md" id="brandCount">
-              15
-            </Heading>
+            <Grid templateColumns="auto 1fr" alignItems="center" gap={4}>
+              <Box
+                bg={themeColors.tradeMarkDarkenColor}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius={4}
+                p={6}
+              >
+                <Icon  as={FaTrademark} boxSize={10} color="#fff" />
+              </Box>
+              <Box>
+                <Text paddingBottom={2}>Thương hiệu</Text>
+                <Heading size="md" id="brandCount">
+                  15
+                </Heading>
+              </Box>
+            </Grid>
           </CardBody>
-        </Card>
+        </Card>  
       </SimpleGrid>
 
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
@@ -229,7 +314,7 @@ function AdminDashboard() {
             <Heading className={style.title}>
               Thống kê doanh thu theo tháng
             </Heading>
-            <Line data={lineChartData} />
+            <Line data={lineChartData} options={lineChartOptions} />
           </CardBody>
         </Card>
 
