@@ -1,6 +1,7 @@
 import { BranchForm } from "../models/BranchForm.model";
 import { BrandForm } from "../models/BrandForm.model";
 import { UserForm } from "../models/UserForm.model";
+import { DashboardData } from "../payloads/responses/DashboarData.model";
 
 export const getInitialUserData = (): UserForm => ({
   fullName: {
@@ -40,4 +41,8 @@ export const getInitialBranchData = (): BranchForm => ({
   district: { id: "", name: "", errorMessage: "" },
   ward: { id: "", name: "", errorMessage: "" },
   address: { value: "", errorMessage: "" },
+});
+
+export const getInitialDashboardData = (): DashboardData => ({
+  numberOfUsers: 0, 
 });

@@ -1,17 +1,17 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
+import React, { ReactNode, useEffect } from "react";
+
+import { Flex } from "@chakra-ui/react";
+import style from "./GuestLayout.module.scss";
+import { useNavigate } from "react-router-dom";
 
 import Footer from "../../components/Footer/Footer";
-import { Flex } from "@chakra-ui/react";
-import style from "./DefaultLayout.module.scss";
-import { useNavigate } from "react-router-dom";
-import Sidebar from "../../components/Administration/Sidebar/Sidebar";
-import Header from "../../components/Administration/Header/Header";
+import Header from "../../components/Guest/Header";
 
-interface DefaultLayoutProps {
+interface GuestLayoutProps {
   children: ReactNode;
 }
 
-const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
+const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
   const isLoggedIn =
     localStorage.getItem("AccessToken") !== null &&
     localStorage.getItem("RefreshToken") !== null;
@@ -33,7 +33,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     <Flex className={style.Wrapper}>
       {/* container */}
       <Flex w="100%">
-        <Sidebar />
         <Flex className={style.Container} overflow="hidden">
           <Header />
           <Flex className={style.Container} overflow="auto">
@@ -46,4 +45,4 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   );
 };
 
-export default DefaultLayout;
+export default GuestLayout;
