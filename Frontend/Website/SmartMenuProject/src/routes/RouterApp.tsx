@@ -14,6 +14,8 @@ import CreateMenu from "../pages/Menu/CreateMenu";
 import AdminDashboard from "../pages/AdminDashboard";
 import BrandDashboard from "../pages/BrandDashboard";
 import PagmentHistory from "../pages/PaymentHistory";
+import Home from "../pages/Home";
+import GuestLayout from "../layouts/GuestLayout";
 
 interface RouteItem {
   path: string;
@@ -22,7 +24,7 @@ interface RouteItem {
 }
 
 export const publicRoutes: RouteItem[] = [
-  { path: "/", component: Login, layout: null },
+  { path: "/", component: Home, layout: GuestLayout },
   { path: "/login", component: Login, layout: null },
   { path: "/admin-dashboard", component: AdminDashboard },
   { path: "/brand-dashboard", component: BrandDashboard },

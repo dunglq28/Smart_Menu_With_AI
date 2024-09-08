@@ -24,8 +24,9 @@ import { useTranslation } from "react-i18next";
 import { FaRegBell } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import i18n from "../../i18n/i18n";
-import { getRoleName } from "../../utils/functionHelper";
+import i18n from "../../../i18n/i18n";
+import { getRoleName } from "../../../utils/functionHelper";
+
 
 function Header() {
   const location = useLocation();

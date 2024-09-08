@@ -17,8 +17,8 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import Logo from "../../assets/images/Logo.jpeg";
-import { AiOutlineCreditCard, AiOutlineProduct } from "react-icons/ai";
+import Logo from "../../../assets/images/Logo.jpeg";
+import { AiOutlineCreditCard, AiOutlineCustomerService, AiOutlineProduct } from "react-icons/ai";
 import { MdOutlineCategory } from "react-icons/md";
 import { GoHome } from "react-icons/go";
 import { AiOutlineUser } from "react-icons/ai";
@@ -29,25 +29,22 @@ import { MdOutlineBrandingWatermark } from "react-icons/md";
 import { MdOutlineDashboard } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
-import ModalForm from "../Modals/ModalForm/ModalForm";
-import ModalFormBrand from "../Modals/ModalFormBrand/ModalFormBrand";
-import { AiOutlineCustomerService } from "react-icons/ai";
-import ModalFormUser from "../Modals/ModalFormUser/ModalFormUser";
-import ModalFormBranch from "../Modals/ModalFormBranch/ModalFormBranch";
-import { CurrentForm, UserRole } from "../../constants/Enum";
-import { BrandForm } from "../../models/BrandForm.model";
-import { UserForm } from "../../models/UserForm.model";
-import { createUser } from "../../services/UserService";
+import { BrandForm } from "../../../models/BrandForm.model";
+import { BranchForm } from "../../../models/BranchForm.model";
+import { UserForm } from "../../../models/UserForm.model";
+import { CurrentForm, UserRole } from "../../../constants/Enum";
+import { getInitialBranchData, getInitialBrandData, getInitialUserData } from "../../../utils/initialData";
 import { toast } from "react-toastify";
-import { createBrand } from "../../services/BrandService";
-import {
-  getInitialBranchData,
-  getInitialBrandData,
-  getInitialUserData,
-} from "../../utils/initialData";
-import { BranchForm } from "../../models/BranchForm.model";
-import { createBranch } from "../../services/BranchService";
-import { capitalizeWords } from "../../utils/functionHelper";
+import { capitalizeWords } from "../../../utils/functionHelper";
+import { createUser } from "../../../services/UserService";
+import { createBrand } from "../../../services/BrandService";
+import { createBranch } from "../../../services/BranchService";
+import ModalForm from "../../Modals/ModalForm/ModalForm";
+import ModalFormBrand from "../../Modals/ModalFormBrand/ModalFormBrand";
+import ModalFormBranch from "../../Modals/ModalFormBranch/ModalFormBranch";
+import ModalFormUser from "../../Modals/ModalFormUser/ModalFormUser";
+
+
 
 function Sidebar() {
   const { t } = useTranslation();
