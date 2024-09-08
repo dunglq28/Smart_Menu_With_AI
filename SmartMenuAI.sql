@@ -42,6 +42,46 @@ ALTER COLUMN UserName VARCHAR(50) COLLATE SQL_Latin1_General_CP1_CS_AS;
 ALTER TABLE AppUser
 ALTER COLUMN Password VARCHAR(255) COLLATE SQL_Latin1_General_CP1_CS_AS;
 
+CREATE TABLE Plans
+(
+	PlanID INT NOT NULL IDENTITY(1,1),
+	PlanName VARCHAR(50) NOT NULL,
+	Description  NVARCHAR(MAX) NULL,
+	Price DECIMAL(18, 2),
+	PRIMARY KEY (PlanID),
+);
+
+CREATE TABLE Payments
+(
+	PaymentID INT NOT NULL IDENTITY(1,1),
+	Amount DECIMAL(18, 2),
+	Status INT NOT NULL,
+	PaymentDate DATETIME NOT NULL,
+	TransactionID VARCHAR(255),
+	CreatedAt DATETIME NOT NULL,
+	UpdatedAt DATETIME NOT NULL,
+	UserID INT NOT NULL,
+	Email VARCHAR(255) NOT NULL,
+	PRIMARY KEY (PaymentID),
+	FOREIGN KEY (UserID) REFERENCES AppUser(UserID)
+);
+
+CREATE TABLE Subscriptions
+(
+	SubscriptionID INT NOT NULL IDENTITY(1,1),
+	SubscriptionCode NVARCHAR(36) NOT NULL UNIQUE,
+	StartDate DATETIME NOT NULL,
+	EndDate DATETIME NOT NULL,
+	Status INT NOT NULL,
+	UserID INT NOT NULL,
+	Email VARCHAR(255) NOT NULL,
+	PaymentID INT NOT NULL UNIQUE,
+	PlanID INT NOT NULL,
+	PRIMARY KEY (SubscriptionID),
+	FOREIGN KEY (PlanID) REFERENCES Plans(PlanID),
+	FOREIGN KEY (PaymentID) REFERENCES Payments(PaymentID)
+);
+
 CREATE TABLE RefreshToken
 (
   RefreshTokenID INT NOT NULL IDENTITY(1,1),
@@ -805,3 +845,17 @@ VALUES
 (21, 1, 37 ,4 ),
 (21, 2, 38 ,1 ),
 (21, 2, 39 ,2 );
+
+-- Thêm dữ liệu mẫu vào bảng Payment
+INSERT INTO Payments(Amount, Status, PaymentDate, TransactionId, CreatedAt, UpdatedAt, UserId, Email)
+VALUES
+    (5000.00, 1, '2024-03-15', 'TRX123456789', '2024-03-15', '2024-03-15', 1, 'user1@example.com'),
+    (7000.00, 1, '2024-03-20', 'TRX987654321', '2024-03-20', '2024-03-20', 2, 'user2@example.com'),
+    (6000.00, 1, '2024-04-05', 'TRX112233445', '2024-04-05', '2024-04-05', 1, 'user1@example.com'),
+    (8000.00, 1, '2024-04-12', 'TRX556677889', '2024-04-12', '2024-04-12', 3, 'user3@example.com'),
+    (9000.00, 1, '2024-05-01', 'TRX998877665', '2024-05-01', '2024-05-01', 4, 'user4@example.com'),
+    (10000.00, 1, '2024-05-15', 'TRX554433221', '2024-05-15', '2024-05-15', 5, 'user5@example.com'),
+    (11000.00, 1, '2024-06-10', 'TRX667788990', '2024-06-10', '2024-06-10', 6, 'user6@example.com'),
+    (12000.00, 1, '2024-06-20', 'TRX445566778', '2024-06-20', '2024-06-20', 7, 'user7@example.com'),
+    (13000.00, 1, '2024-07-05', 'TRX889900112', '2024-07-05', '2024-07-05', 8, 'user8@example.com'),
+    (14000.00, 1, '2024-07-15', 'TRX223344556', '2024-07-15', '2024-07-15', 9, 'user9@example.com');
