@@ -4,12 +4,7 @@ using FSU.SmartMenuWithAI.Repository.UnitOfWork;
 using FSU.SmartMenuWithAI.Service.Common.Enums;
 using FSU.SmartMenuWithAI.Service.ISerivice;
 using FSU.SmartMenuWithAI.Service.Models.ViewDashboard;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FSU.SmartMenuWithAI.Service.Services
 {
@@ -28,6 +23,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             Expression<Func<AppUser, bool>> filter = x => x.Status != (int)Status.Deleted;
             dashboardDTO.NumberOfUsers = await _unitOfWork.AppUserRepository.Count(filter: filter); ;
             dashboardDTO.NumberOfMenus = await _unitOfWork.MenuRepository.Count();
+            dashboardDTO.TotalRevenue = 0;
 
             // Lấy thanh toán từ 6 tháng gần nhất
             var today = DateTime.Now;
@@ -36,7 +32,6 @@ namespace FSU.SmartMenuWithAI.Service.Services
             // Lấy tất cả các payment trong 6 tháng gần nhất
             var allPayments = await _unitOfWork.PaymentRepository
                 .Get(p => p.PaymentDate >= sixMonthsAgo && p.Status == 1);  // Chỉ lấy thanh toán hợp lệ
-
             // Tính tổng doanh thu cho từng tháng bằng cách lọc trong C#
             var monthlyRevenueList = new List<ListRevenue>();
             for (int i = 0; i < 6; i++)
@@ -61,6 +56,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     Month = startDate.Month,
                     TotalRevenue = totalRevenueForMonth
                 });
+                //Cộng vào tổng doanh thu của tất cả các tháng
+                dashboardDTO.TotalRevenue += totalRevenueForMonth;
             }
 
             // Sắp xếp danh sách doanh thu theo thứ tự từ tháng gần nhất
@@ -88,10 +85,33 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     PaymentId = p.PaymentId,
                     Amount = p.Amount,
                     PaymentDate = p.PaymentDate,
-                    TransactionId = p.TransactionId
+                    TransactionId = p.TransactionId,
+                    Email = p.Email,
+                    Status = p.Status
                 })
                 .ToList();
 
+            var sixMonthsAgo2 = DateOnly.FromDateTime(new DateTime(today.Year, today.Month, 1).AddMonths(-5));
+
+            // Retrieve all brands created in the last 6 months
+            var brands = await _unitOfWork.BrandRepository
+                .Get(b => b.CreateDate >= sixMonthsAgo2 && b.Status != (int)Status.Deleted);
+
+            // Calculate the number of brands created each month
+            var brandCounts = brands
+                .GroupBy(b => new { b.CreateDate.Year, b.CreateDate.Month })
+                .Select(g => new ListBrand
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    TotalBrands = g.Count()
+                })
+                .OrderByDescending(b => b.Year)
+                .ThenByDescending(b => b.Month)
+                .ToList();
+
+            // Assign the brand counts to the DTO
+            dashboardDTO.ListBrandCounts = brandCounts;
             return dashboardDTO;
         }
     }
