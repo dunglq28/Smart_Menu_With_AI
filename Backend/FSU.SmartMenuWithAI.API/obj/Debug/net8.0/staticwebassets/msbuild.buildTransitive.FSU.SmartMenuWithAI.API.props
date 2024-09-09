@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\FSU.SmartMenuWithAI.API.props" />
-</Project>
