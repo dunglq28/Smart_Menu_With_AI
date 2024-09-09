@@ -1,5 +1,9 @@
 // shared.scss
 
+html {
+  scroll-behavior: smooth;
+}
+
 // Container styles
 .container {
   width: 100%;

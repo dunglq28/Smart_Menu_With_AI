@@ -111,7 +111,7 @@ function Sidebar() {
       icon: AiOutlineCreditCard, 
       label: t("paymentHistory"), 
       to: "/payment-history",
-      permissionRole: [UserRole.BrandManager, UserRole.Admin], 
+      permissionRole: [UserRole.Admin], 
     },
     {
       icon: MdOutlineBrandingWatermark,

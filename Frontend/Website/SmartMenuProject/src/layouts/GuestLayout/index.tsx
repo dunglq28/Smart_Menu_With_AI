@@ -35,7 +35,7 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
       <Flex w="100%">
         <Flex className={style.Container} overflow="hidden">
           <Header />
-          <Flex className={style.Container} overflow="auto">
+          <Flex className={style.Container} overflow="hidden">
             <Flex className={style.Children}>{children}</Flex>
           </Flex>
           <Footer />
