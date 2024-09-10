@@ -45,20 +45,6 @@ function Login() {
     }
   }, [location.state]);
 
-  useEffect(() => {
-    const roleId = localStorage.getItem("RoleId");
-    const isLoggedIn =
-      localStorage.getItem("AccessToken") !== null &&
-      localStorage.getItem("RefreshToken") !== null;
-    if (isLoggedIn && roleId !== null) {
-      if (roleId.toString() === UserRole.Admin.toString()) {
-        navigate("/admin-dashboard");
-      } else if (roleId.toString() === UserRole.BrandManager.toString()) {
-        navigate("/brand-dashboard");
-      }
-    }
-  });
-
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

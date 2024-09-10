@@ -1,12 +1,34 @@
 import React from "react";
-import { Box, Flex, Heading, Button, Link, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Button,
+  Link,
+  Text,
+  Image,
+} from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { themeColors } from "../../../constants/GlobalStyles";
+import logo from "../../../assets/images/logoNoBg.png";
 import style from "./Header.module.scss";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+
+  const handleNavigateAndScroll = (hash: string) => {
+    if (window.location.pathname !== "/") {
+      navigate("/");
+    }
+
+    setTimeout(() => {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 200);
+  };
 
   return (
     <Box
@@ -20,23 +42,19 @@ const Header: React.FC = () => {
       zIndex="9999"
       boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
     >
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" align="center" wrap="wrap">
         {/* Logo và tên */}
-        <Flex align="center">
+        <Flex align="center" cursor="pointer" onClick={() => navigate("/")}>
           <Box
-            bg={themeColors.primaryButton}
             color="white"
             rounded="full"
-            p={3}
             mr={4}
-            boxSize="50px"
+            w="70px"
             display="flex"
             alignItems="center"
             justifyContent="center"
           >
-            <Text fontSize="2xl" fontWeight="bold">
-              S
-            </Text>
+            <Image src={logo} alt="Logo" w="100%" h="auto" />
           </Box>
           <Heading size="lg" color={themeColors.primaryButton}>
             Smart Menu
@@ -46,16 +64,32 @@ const Header: React.FC = () => {
         {/* Liên kết và nút */}
         <Flex justify="flex-start" align="center">
           <Flex align="flex-end" fontSize="lg">
-            <Link href="#about" mx={5} fontWeight="bold">
+            <Link
+              mx={5}
+              fontWeight="bold"
+              onClick={() => handleNavigateAndScroll("about")}
+            >
               Giới thiệu
             </Link>
-            <Link href="#features" mx={5} fontWeight="bold">
+            <Link
+              mx={5}
+              fontWeight="bold"
+              onClick={() => handleNavigateAndScroll("features")}
+            >
               Tính năng
             </Link>
-            <Link href="#benefits" mx={5} fontWeight="bold">
+            <Link
+              mx={5}
+              fontWeight="bold"
+              onClick={() => handleNavigateAndScroll("benefits")}
+            >
               Lợi ích
             </Link>
-            <Link href="#pricing" mx={5} fontWeight="bold">
+            <Link
+              mx={5}
+              fontWeight="bold"
+              onClick={() => handleNavigateAndScroll("pricing")}
+            >
               Bảng giá
             </Link>
           </Flex>

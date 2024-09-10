@@ -18,7 +18,11 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Logo from "../../../assets/images/Logo.jpeg";
-import { AiOutlineCreditCard, AiOutlineCustomerService, AiOutlineProduct } from "react-icons/ai";
+import {
+  AiOutlineCreditCard,
+  AiOutlineCustomerService,
+  AiOutlineProduct,
+} from "react-icons/ai";
 import { MdOutlineCategory } from "react-icons/md";
 import { GoHome } from "react-icons/go";
 import { AiOutlineUser } from "react-icons/ai";
@@ -33,7 +37,11 @@ import { BrandForm } from "../../../models/BrandForm.model";
 import { BranchForm } from "../../../models/BranchForm.model";
 import { UserForm } from "../../../models/UserForm.model";
 import { CurrentForm, UserRole } from "../../../constants/Enum";
-import { getInitialBranchData, getInitialBrandData, getInitialUserData } from "../../../utils/initialData";
+import {
+  getInitialBranchData,
+  getInitialBrandData,
+  getInitialUserData,
+} from "../../../utils/initialData";
 import { toast } from "react-toastify";
 import { capitalizeWords } from "../../../utils/functionHelper";
 import { createUser } from "../../../services/UserService";
@@ -43,8 +51,6 @@ import ModalForm from "../../Modals/ModalForm/ModalForm";
 import ModalFormBrand from "../../Modals/ModalFormBrand/ModalFormBrand";
 import ModalFormBranch from "../../Modals/ModalFormBranch/ModalFormBranch";
 import ModalFormUser from "../../Modals/ModalFormUser/ModalFormUser";
-
-
 
 function Sidebar() {
   const { t } = useTranslation();
@@ -85,6 +91,11 @@ function Sidebar() {
     setItem(label);
   };
 
+  const getMenuPartFromPathname = (pathname: string) => {
+    const match = pathname.match(/^\/([^\/]+)/);
+    return match ? match[1] : "";
+  };
+
   const toggleSidebar = () => setIsExpanded(!isExpanded);
   const roleIdString = localStorage.getItem("RoleId");
   const roleId = roleIdString ? roleIdString : "";
@@ -108,10 +119,10 @@ function Sidebar() {
       permissionRole: UserRole.Admin,
     },
     {
-      icon: AiOutlineCreditCard, 
-      label: t("paymentHistory"), 
+      icon: AiOutlineCreditCard,
+      label: t("paymentHistory"),
       to: "/payment-history",
-      permissionRole: [UserRole.Admin], 
+      permissionRole: [UserRole.Admin],
     },
     {
       icon: MdOutlineBrandingWatermark,
@@ -279,6 +290,7 @@ function Sidebar() {
           if (formattedPathname === `branches/${brandName}`) {
             window.location.reload();
           } else {
+            changeItem("brands");
             navigate(`/branches/${brandName}`, { state: { id } });
           }
         }
@@ -295,6 +307,8 @@ function Sidebar() {
     }
     return menuItem.permissionRole.toString() === roleId;
   });
+
+  const currentPathPart = getMenuPartFromPathname(location.pathname);
 
   return (
     <Flex
@@ -330,8 +344,22 @@ function Sidebar() {
                   ? () => changeItem(menuItem.label)
                   : menuItem.onclick
               }
-              backgroundColor={item === menuItem.label ? "#55AD9B" : "#fff"}
-              color={item === menuItem.label ? "#F1F8E8" : "black"}
+              backgroundColor={
+                item === menuItem.label ||
+                (menuItem.label === t("brands") &&
+                  currentPathPart === "branches") ||
+                (menuItem.label === t("brands") && currentPathPart === "brands")
+                  ? "#55AD9B"
+                  : "#fff"
+              }
+              color={
+                item === menuItem.label ||
+                (menuItem.label === t("brands") &&
+                  currentPathPart === "branches") ||
+                (menuItem.label === t("brands") && currentPathPart === "brands")
+                  ? "#F1F8E8"
+                  : "black"
+              }
             >
               <Flex>
                 <Icon as={menuItem.icon} className={style.MenuIcon} />
