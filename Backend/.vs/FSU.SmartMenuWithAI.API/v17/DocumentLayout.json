@@ -62,8 +62,7 @@
               "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Services\\PlanService.cs",
               "ViewState": "AQIAAGEAAAAAAAAAAAAmwGAAAABnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T19:59:42.287Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T19:59:42.287Z"
             },
             {
               "$type": "Document",
@@ -88,8 +87,7 @@
               "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Services\\BrandService.cs",
               "ViewState": "AQIAAJEAAAAAAAAAAADwv2MAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T19:52:48.362Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T19:52:48.362Z"
             },
             {
               "$type": "Document",
@@ -101,8 +99,7 @@
               "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\ISerivice\\IPlanService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAABfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T19:51:55.622Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T19:51:55.622Z"
             },
             {
               "$type": "Document",
@@ -114,8 +111,7 @@
               "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\ISerivice\\IBrandService.cs",
               "ViewState": "AQIAAA4AAAAAAAAAAAAAwBIAAABbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T19:51:47.707Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T19:51:47.707Z"
             },
             {
               "$type": "Document",
@@ -127,8 +123,7 @@
               "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Payloads\\Request\\Plan\\CreateRequest.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwBMAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T19:51:14.563Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T19:51:14.563Z"
             },
             {
               "$type": "Document",
@@ -140,8 +135,7 @@
               "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Controllers\\BrandController.cs",
               "ViewState": "AQIAAMwAAAAAAAAAAAAowEgAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T19:48:56.646Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T19:48:56.646Z"
             },
             {
               "$type": "Document",
@@ -153,8 +147,7 @@
               "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Controllers\\PlanController.cs",
               "ViewState": "AQIAAI8AAAAAAAAAAAAiwJMAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T19:48:55.606Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-10T19:48:55.606Z"
             }
           ]
         },
