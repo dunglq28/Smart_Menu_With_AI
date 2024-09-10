@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Guest/Header";
+import { UserRole } from "../../constants/Enum";
 
 interface GuestLayoutProps {
   children: ReactNode;
@@ -18,15 +19,18 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (
-      !isLoggedIn &&
-      location.pathname !== "/login" &&
-      location.pathname !== "/"
-    ) {
-      const toastMessage = "Vui lòng đăng nhập để truy cập trang.";
-      navigate("/login", { state: { toastMessage } });
+    const roleId = localStorage.getItem("RoleId");
+    const isLoggedIn =
+      localStorage.getItem("AccessToken") !== null &&
+      localStorage.getItem("RefreshToken") !== null;
+    if (isLoggedIn && roleId !== null) {
+      if (roleId.toString() === UserRole.Admin.toString()) {
+        navigate("/admin-dashboard");
+      } else if (roleId.toString() === UserRole.BrandManager.toString()) {
+        navigate("/brand-dashboard");
+      }
     }
-  }, [isLoggedIn, navigate, location.pathname]);
+  });
 
   return (
     // wrapper
@@ -35,7 +39,7 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
       <Flex w="100%">
         <Flex className={style.Container} overflow="hidden">
           <Header />
-          <Flex className={style.Container} overflow="auto">
+          <Flex className={style.Container} overflow="hidden">
             <Flex className={style.Children}>{children}</Flex>
           </Flex>
           <Footer />

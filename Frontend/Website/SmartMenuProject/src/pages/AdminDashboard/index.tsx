@@ -30,6 +30,7 @@ import { ChartOptions } from "chart.js/auto";
 import { getDashboardAdmin } from "../../services/DashbroadService";
 import { DashboardData } from "../../payloads/responses/DashboarData.model";
 import { getInitialDashboardData } from "../../utils/initialData";
+import moment from "moment";
 
 function AdminDashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,124 +50,14 @@ function AdminDashboard() {
     }
   }, [location.state, navigate, location.pathname]);
 
-  const users = [
-    {
-      fullName: "Nguyễn Văn A",
-      createDate: "01/09/2024",
-      userName: "plhcmgv6225SmartMenu",
-    },
-    {
-      fullName: "Nguyễn Văn A",
-      createDate: "01/09/2024",
-      userName: "HighlandsSmartMenu",
-    },
-  ];
-
-  const orders = [
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 2,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-    {
-      userFullName: "lequangdung232@gmail.com",
-      orderDate: "Sep 5, 2024, 2.15PM",
-      totalPrice: 100000,
-      status: 1,
-    },
-  ];
-
   const lineChartData = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
     datasets: [
       {
         label: "Doanh thu",
-        data: [500000, 1000000, 1500000, 2000000, 2000000, 4000000],
+        data: data.listRevenue
+          .sort((a, b) => a.month - b.month)
+          .map((rev) => rev.totalRevenue),
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: themeColors.revenueLightenColor,
         fill: true,
@@ -196,7 +87,9 @@ function AdminDashboard() {
     datasets: [
       {
         label: "Thương hiệu",
-        data: [10, 20, 15, 30, 25, 25, 25, 25, 25, 25, 0, 0],
+        data: data.listBrandCounts
+          .sort((a, b) => a.month - b.month)
+          .map((brand) => brand.totalBrands),
         backgroundColor: themeColors.tradeMarkLightenColor,
         borderColor: "rgba(153, 102, 255, 1)",
       },
@@ -211,6 +104,8 @@ function AdminDashboard() {
       const loadData = async () => {
         result = await getDashboardAdmin();
         if (result.isSuccess) {
+          console.log(result.data.totalRevenue);
+
           setData(result.data);
           setIsLoading(false);
         }
@@ -240,7 +135,7 @@ function AdminDashboard() {
       <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4}>
         <Card>
           <CardBody>
-            <Grid templateColumns="auto 1fr" alignItems="center" gap={4}>
+            <Grid templateColumns="auto 1fr" alignItems="center" gap={6}>
               <Box
                 bg="#55AD9B"
                 display="flex"
@@ -263,7 +158,7 @@ function AdminDashboard() {
 
         <Card>
           <CardBody>
-            <Grid templateColumns="auto 1fr" alignItems="center" gap={4}>
+            <Grid templateColumns="auto 1fr" alignItems="center" gap={6}>
               <Box
                 bg={themeColors.revenueDarkenColor}
                 display="flex"
@@ -277,7 +172,7 @@ function AdminDashboard() {
               <Box>
                 <Text paddingBottom={2}>Doanh thu</Text>
                 <Heading size="md" id="totalRevenue">
-                  {formatCurrency("10000000")}
+                  {formatCurrency(data.totalRevenue.toString())}
                 </Heading>
               </Box>
             </Grid>
@@ -286,7 +181,7 @@ function AdminDashboard() {
 
         <Card>
           <CardBody>
-            <Grid templateColumns="auto 1fr" alignItems="center" gap={4}>
+            <Grid templateColumns="auto 1fr" alignItems="center" gap={6}>
               <Box
                 bg={themeColors.tradeMarkDarkenColor}
                 display="flex"
@@ -295,7 +190,7 @@ function AdminDashboard() {
                 borderRadius={4}
                 p={6}
               >
-                <Icon  as={FaTrademark} boxSize={10} color="#fff" />
+                <Icon as={FaTrademark} boxSize={10} color="#fff" />
               </Box>
               <Box>
                 <Text paddingBottom={2}>Thương hiệu</Text>
@@ -305,7 +200,7 @@ function AdminDashboard() {
               </Box>
             </Grid>
           </CardBody>
-        </Card>  
+        </Card>
       </SimpleGrid>
 
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
@@ -333,10 +228,10 @@ function AdminDashboard() {
           <Card>
             <CardBody>
               <Heading className={style.title}>Người dùng mới</Heading>
-              <Box maxHeight="300px" maxW="350px" overflowY="auto">
+              <Box maxHeight="300px" maxW="380px" overflowY="auto">
                 <Table className={style.tableNewUser}>
                   <Tbody>
-                    {users.map((user, index) => (
+                    {data.latestUsers.map((user, index) => (
                       <Tr key={index}>
                         <Td className={style.userInfo}>
                           <Box
@@ -347,11 +242,12 @@ function AdminDashboard() {
                             display="inline-block"
                             p={2}
                           >
-                            {user.fullName.charAt(0)}
+                            {user.fullname.charAt(0)}
                           </Box>
                           <Box>
                             <Text className={style.userDetails}>
-                              {user.fullName} - {user.createDate}
+                              {user.fullname} -{" "}
+                              {moment(user.createDate).format("DD/MM/YYYY")}
                             </Text>
                             <Text className={style.userName}>
                               {user.userName}
@@ -382,7 +278,7 @@ function AdminDashboard() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {orders.map((order, index) => (
+                    {data.recentTransactions.map((transaction, index) => (
                       <Tr key={index}>
                         <Td className={style.textDescription}>
                           <Badge
@@ -392,17 +288,19 @@ function AdminDashboard() {
                             textOverflow="clip"
                             fontSize="14px"
                           >
-                            Thanh toán từ {order.userFullName}
+                            Thanh toán từ {transaction.email}
                           </Badge>
                         </Td>
                         <Td className={style.textDescription}>
-                          {order.orderDate}
+                          {moment(transaction.paymentDate).format(
+                            "DD/MM/YYYY HH:mm:ss"
+                          )}
                         </Td>
                         <Td className={style.textDescription}>
-                          {formatCurrency(order.totalPrice.toString())}
+                          {formatCurrency(transaction.amount.toString())}
                         </Td>
                         <Td className={style.textDescription}>
-                          {order.status === 1 ? (
+                          {transaction.status === 1 ? (
                             <Badge colorScheme="green">Thành công</Badge>
                           ) : (
                             <Badge colorScheme="red">Thất bại</Badge>
