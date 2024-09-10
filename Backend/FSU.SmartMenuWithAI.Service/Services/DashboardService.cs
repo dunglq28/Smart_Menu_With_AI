@@ -21,7 +21,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
         {
             var dashboardDTO = new DashboardDTO();
             Expression<Func<AppUser, bool>> filter = x => x.Status != (int)Status.Deleted;
-            dashboardDTO.NumberOfUsers = await _unitOfWork.AppUserRepository.Count(filter: filter); ;
+            dashboardDTO.NumberOfUsers = await _unitOfWork.AppUserRepository.Count(filter: filter); 
             dashboardDTO.NumberOfMenus = await _unitOfWork.MenuRepository.Count();
             dashboardDTO.TotalRevenue = 0;
 
