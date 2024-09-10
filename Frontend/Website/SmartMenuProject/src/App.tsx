@@ -5,12 +5,14 @@ import { DefaultLayout } from "./layouts";
 import { ToastContainer } from "react-toastify";
 import "../node_modules/react-toastify/dist/ReactToastify.css";
 import { DataProvider } from "./store/DataContext";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App(): JSX.Element {
   return (
     <>
       <DataProvider>
         <Router>
+          <ScrollToTop />
           <div className="App">
             <Routes>
               {publicRoutes.map((route, index) => {
