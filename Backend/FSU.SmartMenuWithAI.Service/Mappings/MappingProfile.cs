@@ -69,6 +69,8 @@ namespace FSU.SmartMenuWithAI.Service.Mappings
                 .ReverseMap();
             CreateMap<Plan, PlanDTO>().ReverseMap();
             CreateMap<Payment, PaymentDTO>().ReverseMap();
+            CreateMap<Subscription, SubscriptionDTO>().ReverseMap();
+
         }
     }
 }

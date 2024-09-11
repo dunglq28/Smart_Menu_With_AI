@@ -16,6 +16,7 @@ using FSU.SmartMenuWithAI.API.Payloads.Responses;
 using FSU.SmartMenuWithAI.Service.Mappings;
 using FSU.SmartMenuWithAI.Repository.Entities;
 using System.Text.Json.Serialization;
+using SharpDX.Direct3D11;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,6 +90,7 @@ builder.Services.AddScoped<IMenuSegmentRepository, MenuSegmentRepository>();
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptioRepository>();
 
 
 
@@ -112,6 +114,7 @@ builder.Services.AddScoped<IMenuSegmentService, MenuSegmentService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
 
 
