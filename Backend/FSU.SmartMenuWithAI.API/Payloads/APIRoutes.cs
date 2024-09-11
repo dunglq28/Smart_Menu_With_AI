@@ -247,5 +247,10 @@
             public const string Get = Base + "/payments/";
 
         }
+        public static class Subscription
+        {
+            public const string Get = Base + "/subscriptions/";
+
+        }
     }
 }

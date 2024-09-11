@@ -29,6 +29,7 @@ namespace FSU.SmartMenuWithAI.Repository.UnitOfWork
         private SegmentAttributeRepository _segmentAttributeRepo1;
         private PaymentRepository _paymentRepository;
         private PlanRepository _planRepository;
+        private SubscriptioRepository _subscriptioRepository;
 
 
         public UnitOfWork(SmartMenuContext context, IConfiguration configuration)
@@ -280,6 +281,17 @@ namespace FSU.SmartMenuWithAI.Repository.UnitOfWork
                     this._planRepository = new PlanRepository(_context);
                 }
                 return _planRepository;
+            }
+        }
+        SubscriptioRepository IUnitOfWork.SubscriptioRepository
+        {
+            get
+            {
+                if (_subscriptioRepository == null)
+                {
+                    this._subscriptioRepository = new SubscriptioRepository(_context);
+                }
+                return _subscriptioRepository;
             }
         }
     }
