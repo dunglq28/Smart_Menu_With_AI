@@ -9,6 +9,7 @@ import {
   HStack,
   Grid,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import style from "./LandingPage.module.scss";
@@ -32,6 +33,8 @@ import menuRecommend from "../../assets/images/menuRecommend.png";
 import menuManage from "../../assets/images/menuManage.png";
 import database from "../../assets/images/database.png";
 import twoLaptop from "../../assets/images/2laptop.png";
+import ModalForm from "../../components/Modals/ModalForm/ModalForm";
+import { t } from "i18next";
 
 type BusinessType = {
   icon: string;
@@ -115,6 +118,11 @@ const pricingPackages: PricingPackageType[] = [
 
 function LandingPage() {
   const navigate = useNavigate();
+  const {
+    isOpen: isOpenRegisterPackage,
+    onOpen: onOpenRegisterPackage,
+    onClose: onCloseRegisterPackage,
+  } = useDisclosure();
 
   return (
     <>
@@ -124,7 +132,6 @@ function LandingPage() {
         justify="center"
         w="100%"
         h="auto"
-        marginTop="72px"
       >
         <Box id="about" py={24} px={24} bg="#F5F7FA" w="100%">
           <Flex align="center" justify="space-around">
@@ -395,7 +402,7 @@ function LandingPage() {
                     bg={themeColors.primaryButton}
                     colorScheme="white"
                     size="lg"
-                    onClick={() => navigate("/register")}
+                    onClick={() => navigate("/payment/payment-info")}
                   >
                     Đăng ký ngay
                   </Button>
@@ -405,6 +412,15 @@ function LandingPage() {
           </Flex>
         </Box>
       </Flex>
+
+      {/* <ModalForm
+        formBody={
+     
+        }
+        onClose={onCloseRegisterPackage}
+        isOpen={isOpenRegisterPackage}
+        title={t("Tạo thương hiệu mới")}
+      /> */}
     </>
   );
 }
