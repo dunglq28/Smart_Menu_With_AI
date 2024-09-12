@@ -13,9 +13,12 @@ import CustomerSegment from "../pages/CustomerSegment";
 import CreateMenu from "../pages/Menu/CreateMenu";
 import AdminDashboard from "../pages/AdminDashboard";
 import BrandDashboard from "../pages/BrandDashboard";
-import PagmentHistory from "../pages/PaymentHistory";
+import PaymentHistory from "../pages/Payment/PaymentHistory"; 
 import GuestLayout from "../layouts/GuestLayout";
 import LandingPage from "../pages/LandingPage";
+import BuyingGuide from "../pages/Payment/BuyingGuide"; 
+import PaymentInfor from "../pages/Payment/PaymentInfor";
+import PaymentStepperLayout from "../layouts/PaymentStepperLayout";
 
 interface RouteItem {
   path: string;
@@ -26,10 +29,12 @@ interface RouteItem {
 export const publicRoutes: RouteItem[] = [
   { path: "/", component: LandingPage, layout: GuestLayout },
   { path: "/login", component: Login, layout: GuestLayout },
+  { path: "/payment/payment-info", component: PaymentInfor, layout: PaymentStepperLayout },
+  { path: "/payment/payment-guide", component: BuyingGuide, layout: PaymentStepperLayout },
   { path: "/admin-dashboard", component: AdminDashboard },
   { path: "/brand-dashboard", component: BrandDashboard },
   { path: "/users", component: User },
-  { path: "/payment-history", component: PagmentHistory },
+  { path: "/payment-history", component: PaymentHistory },
   { path: "/brands", component: Brand },
   { path: "/branches", component: Branch },
   { path: "/branches/:brandName", component: Branch },

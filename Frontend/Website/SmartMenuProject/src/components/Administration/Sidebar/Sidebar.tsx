@@ -116,7 +116,7 @@ function Sidebar() {
       icon: AiOutlineUser,
       label: t("users"),
       to: "/users",
-      permissionRole: UserRole.Admin,
+      permissionRole: [UserRole.Admin, UserRole.BrandManager]
     },
     {
       icon: AiOutlineCreditCard,
@@ -168,7 +168,6 @@ function Sidebar() {
       divider: true,
       to: "/settings",
     },
-    // { icon: CgAddR, label: t("new product"), to: "/new" ,permissionRole: UserRole.Admin,},
     {
       icon: CgAddR,
       label: t("new brand"),
@@ -179,7 +178,7 @@ function Sidebar() {
       icon: CgAddR,
       label: t("new branch"),
       onclick: onOpenBranch,
-      permissionRole: UserRole.Admin,
+      permissionRole: [UserRole.Admin, UserRole.BrandManager],
     },
   ];
 
