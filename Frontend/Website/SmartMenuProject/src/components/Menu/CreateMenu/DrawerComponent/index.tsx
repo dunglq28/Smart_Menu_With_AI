@@ -22,11 +22,7 @@ import { toast } from "react-toastify";
 interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddToMenu: (
-    selectedProducts: ProductData[],
-    Index: number,
-    maxProduct: number
-  ) => void;
+  onAddToMenu: (selectedProducts: ProductData[], Index: number, maxProduct: number) => void;
   products: ProductData[];
   allSelectedProducts: ProductData[];
   currentListProducts: ProductData[];
@@ -50,12 +46,8 @@ const DrawerComponent: React.FC<DrawerProps> = ({
   categoryOptions,
   currentCategory,
 }) => {
-  const [selectedProductsOfMenu, setSelectedProductsOfMenu] = useState<
-    ProductData[]
-  >([]);
-  const [selectedProductsOfList, setSelectedProductsOfList] = useState<
-    ProductData[]
-  >([]);
+  const [selectedProductsOfMenu, setSelectedProductsOfMenu] = useState<ProductData[]>([]);
+  const [selectedProductsOfList, setSelectedProductsOfList] = useState<ProductData[]>([]);
 
   useEffect(() => {
     setSelectedProductsOfMenu(allSelectedProducts);
@@ -81,10 +73,10 @@ const DrawerComponent: React.FC<DrawerProps> = ({
   // Function để loại bỏ sản phẩm đã chọn khỏi danh sách
   const handleRemoveFromSelectedProducts = (productId: number) => {
     const updatedProducts = selectedProductsOfList.filter(
-      (product) => product.productId !== productId
+      (product) => product.productId !== productId,
     );
     const updatedProductsOfMenu = selectedProductsOfMenu.filter(
-      (product) => product.productId !== productId
+      (product) => product.productId !== productId,
     );
     setSelectedProductsOfMenu(updatedProductsOfMenu);
     setSelectedProductsOfList(updatedProducts);
@@ -118,28 +110,13 @@ const DrawerComponent: React.FC<DrawerProps> = ({
               marginTop="20px"
               borderRight="1px solid #ccc"
             >
-              <Flex
-                height="10%"
-                width="80%"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Text
-                  position="absolute"
-                  fontSize="1.5vw"
-                  fontWeight="bold"
-                  color="#7DD7F3"
-                >
+              <Flex height="10%" width="80%" justifyContent="center" alignItems="center">
+                <Text position="absolute" fontSize="1.5vw" fontWeight="bold" color="#7DD7F3">
                   Loại đồ uống
                 </Text>
                 <Image src={HeaderImg} />
               </Flex>
-              <Flex
-                height="90%"
-                width="80%"
-                flexDirection="column"
-                rowGap="5px"
-              >
+              <Flex height="90%" width="80%" flexDirection="column" rowGap="5px">
                 {/* Replace with your actual category buttons */}
                 {categoryOptions.map((cate) => (
                   <Button
@@ -148,12 +125,8 @@ const DrawerComponent: React.FC<DrawerProps> = ({
                     marginBottom="10px"
                     w="100%"
                     border="1px solid #ccc"
-                    bg={
-                      currentCategory === cate.categoryId ? "#466d6b" : "white"
-                    }
-                    color={
-                      currentCategory === cate.categoryId ? "white" : "black"
-                    }
+                    bg={currentCategory === cate.categoryId ? "#466d6b" : "white"}
+                    color={currentCategory === cate.categoryId ? "white" : "black"}
                     _hover={{
                       bg: "#466d6b",
                       color: "#fff",
@@ -179,12 +152,7 @@ const DrawerComponent: React.FC<DrawerProps> = ({
                 alignItems="center"
                 marginTop="20px"
               >
-                <Text
-                  position="absolute"
-                  fontSize="2vw"
-                  fontWeight="bold"
-                  color="#7DD7F3"
-                >
+                <Text position="absolute" fontSize="2vw" fontWeight="bold" color="#7DD7F3">
                   Sản phẩm
                 </Text>
                 <Image src={HeaderImg} />
@@ -205,7 +173,7 @@ const DrawerComponent: React.FC<DrawerProps> = ({
                     key={product.productId}
                     product={product}
                     isSelected={selectedProductsOfMenu.some(
-                      (p) => p.productId === product.productId
+                      (p) => p.productId === product.productId,
                     )}
                     onClick={() => handleAddToSelectedProducts(product)}
                   />
@@ -214,12 +182,7 @@ const DrawerComponent: React.FC<DrawerProps> = ({
               </Flex>
             </Flex>
             {/* Right panel for selected products */}
-            <Flex
-              height="100%"
-              width="20%"
-              alignItems="center"
-              flexDirection="column"
-            >
+            <Flex height="100%" width="20%" alignItems="center" flexDirection="column">
               <Flex
                 height="10%"
                 width="80%"
@@ -227,27 +190,13 @@ const DrawerComponent: React.FC<DrawerProps> = ({
                 alignItems="center"
                 marginTop="20px"
               >
-                <Text
-                  position="absolute"
-                  fontSize="1.7vw"
-                  fontWeight="bold"
-                  color="#7DD7F3"
-                >
+                <Text position="absolute" fontSize="1.7vw" fontWeight="bold" color="#7DD7F3">
                   ĐÃ CHỌN
                 </Text>
                 <Image src={HeaderImg} />
               </Flex>
-              <Flex
-                height="83%"
-                width="100%"
-                flexDirection="column"
-                rowGap="1vw"
-              >
-                <Flex
-                  justifyContent="space-between"
-                  padding="0 1.3vw"
-                  userSelect="none"
-                >
+              <Flex height="83%" width="100%" flexDirection="column" rowGap="1vw">
+                <Flex justifyContent="space-between" padding="0 1.3vw" userSelect="none">
                   <Text fontWeight="bold" color="#1b4754">
                     Tối đa: {MaxProduct}
                   </Text>
@@ -255,11 +204,7 @@ const DrawerComponent: React.FC<DrawerProps> = ({
                     Đã chọn: {selectedProductsOfList.length}
                   </Text>
                 </Flex>
-                <Flex
-                  justifyContent="space-between"
-                  padding="0 1.3vw"
-                  userSelect="none"
-                >
+                <Flex justifyContent="space-between" padding="0 1.3vw" userSelect="none">
                   <Text fontWeight="bold" color="#1b4754">
                     Nhấn vào sản phẩm để bỏ chọn
                   </Text>
@@ -296,34 +241,19 @@ const DrawerComponent: React.FC<DrawerProps> = ({
                         transition: "0.1s",
                         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px;",
                       }}
-                      onClick={() =>
-                        handleRemoveFromSelectedProducts(product.productId)
-                      }
+                      onClick={() => handleRemoveFromSelectedProducts(product.productId)}
                     >
                       <Image src={product.imageUrl} height="80%" />
                       <Flex flexDirection="column" w="80%">
                         <Flex justifyContent="space-between">
-                          <Text
-                            fontSize="0.7vw"
-                            fontWeight="bold"
-                            color="#5A3D41"
-                          >
+                          <Text fontSize="0.7vw" fontWeight="bold" color="#5A3D41">
                             {product.productName}
                           </Text>
-                          <Text
-                            fontSize="0.7vw"
-                            fontWeight="bold"
-                            color="#5A3D41"
-                          >
+                          <Text fontSize="0.7vw" fontWeight="bold" color="#5A3D41">
                             Giá {formatCurrency(product.price.toString())}
                           </Text>
                         </Flex>
-                        <Text
-                          fontSize="0.5vw"
-                          color="#5A3D41"
-                          textAlign="justify"
-                          marginTop="3px"
-                        >
+                        <Text fontSize="0.5vw" color="#5A3D41" textAlign="justify" marginTop="3px">
                           {product.description}
                         </Text>
                       </Flex>

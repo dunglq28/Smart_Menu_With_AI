@@ -118,11 +118,19 @@ const pricingPackages: PricingPackageType[] = [
 
 function LandingPage() {
   const navigate = useNavigate();
-  const {
-    isOpen: isOpenRegisterPackage,
-    onOpen: onOpenRegisterPackage,
-    onClose: onCloseRegisterPackage,
-  } = useDisclosure();
+
+  const handleNavigateAndScroll = (hash: string) => {
+    if (window.location.pathname !== "/") {
+      navigate("/");
+    }
+
+    setTimeout(() => {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 200);
+  };
 
   return (
     <>
@@ -166,7 +174,12 @@ function LandingPage() {
                 bg={themeColors.primaryButton}
                 colorScheme="white"
                 size="lg"
-                onClick={() => navigate("/register")}
+                _hover={{
+                  borderColor: "transparent",
+                  bg: `${themeColors.primaryButton}`, 
+                  opacity: 0.9,
+                }}
+                onClick={() => handleNavigateAndScroll("pricing")}
               >
                 Đăng ký ngay
               </Button>
@@ -402,6 +415,11 @@ function LandingPage() {
                     bg={themeColors.primaryButton}
                     colorScheme="white"
                     size="lg"
+                    _hover={{
+                      borderColor: "transparent",
+                      bg: `${themeColors.primaryButton}`, 
+                      opacity: 0.9,
+                    }}
                     onClick={() => navigate("/payment/payment-info")}
                   >
                     Đăng ký ngay
@@ -412,15 +430,6 @@ function LandingPage() {
           </Flex>
         </Box>
       </Flex>
-
-      {/* <ModalForm
-        formBody={
-     
-        }
-        onClose={onCloseRegisterPackage}
-        isOpen={isOpenRegisterPackage}
-        title={t("Tạo thương hiệu mới")}
-      /> */}
     </>
   );
 }

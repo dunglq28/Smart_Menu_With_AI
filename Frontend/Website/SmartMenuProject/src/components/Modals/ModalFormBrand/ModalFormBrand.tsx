@@ -47,7 +47,7 @@ const ModalFormBrand: React.FC<ModalFormBrandProps> = ({
       if (!isImage) {
         setFormData((prevData) => ({
           ...prevData,
-          image: { value: null, errorMessage: "File must be an image" },
+          image: { value: null, errorMessage: "Tệp phải là hình ảnh" },
         }));
         return;
       }
