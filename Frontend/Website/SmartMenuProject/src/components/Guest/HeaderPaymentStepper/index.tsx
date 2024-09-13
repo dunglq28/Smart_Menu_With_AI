@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -14,7 +14,7 @@ import {
   StepTitle,
   StepSeparator,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { themeColors } from "../../../constants/GlobalStyles";
 import logo from "../../../assets/images/logoNoBg.png";
 
@@ -26,11 +26,17 @@ const steps = [
 
 const HeaderPaymentStepper: React.FC = () => {
   const navigate = useNavigate();
+  const pathname = location.pathname;
+  const index = pathname === "/payment/payment-guide" ? 2 : 1;
 
-  const { activeStep } = useSteps({
-    index: 2,
+  const { activeStep, setActiveStep } = useSteps({
+    index: index,
     count: steps.length,
   });
+
+  useEffect(() => {
+    setActiveStep(index);
+  }, [pathname, index, setActiveStep]);
 
   const handleNavigateAndScroll = (hash: string) => {
     if (window.location.pathname !== "/") {

@@ -37,7 +37,7 @@ import circleSpotlight from "../../../assets/images/menu/CreateMenu/circle.svg";
 import circleStar from "../../../assets/images/menu/CreateMenu/circleStar.svg";
 
 import { MdPhoneInTalk } from "react-icons/md";
-import html2canvas from 'html2canvas-pro';
+import html2canvas from "html2canvas-pro";
 import {
   formatCurrencyMenu,
   translateDemographics,
@@ -122,7 +122,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
           const options = segments.data.map((segment) => ({
             value: segment.customerSegmentId,
             label: `${segment.customerSegmentName}, ${translateDemographics(
-              segment.demographic
+              segment.demographic,
             )}, ${segment.age} tuổi`,
           }));
           setCustomerSegmentOptions(options);
@@ -193,7 +193,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
     return menu.segmentId.value
       .map((segmentId) => {
         const segmentOption = customerSegmentOptions.find(
-          (option) => option.value === segmentId
+          (option) => option.value === segmentId,
         );
         return segmentOption ? segmentOption : null;
       })
@@ -201,16 +201,16 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
   };
 
   const handleNextTab = () => {
-    // if (
-    //   selectedProducts1.productData.length == 0 ||
-    //   selectedProducts2.productData.length == 0 ||
-    //   selectedProducts3.productData.length == 0 ||
-    //   selectedProducts4.productData.length == 0 ||
-    //   selectedProductspotLight.productData.length == 0
-    // ) {
-    //   toast.error("Vui lòng chọn đầy đủ các danh sách");
-    //   return;
-    // }
+    if (
+      selectedProducts1.productData.length == 0 ||
+      selectedProducts2.productData.length == 0 ||
+      selectedProducts3.productData.length == 0 ||
+      selectedProducts4.productData.length == 0 ||
+      selectedProductspotLight.productData.length == 0
+    ) {
+      toast.error("Vui lòng chọn đầy đủ các danh sách");
+      return;
+    }
     if (!checkListNamesNotEmpty()) {
       toast.error("Vui lòng điền đẩy đủ tiêu đề");
       return;
@@ -224,7 +224,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
   };
 
   const [capturedImage, setCapturedImage] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const handleCaptureAndDisplay = async () => {
@@ -504,7 +504,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
                                           color="#B1292D"
                                         >
                                           {formatCurrencyMenu(
-                                            product.price.toString()
+                                            product.price.toString(),
                                           )}
                                         </Text>
                                       </Flex>
@@ -615,7 +615,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
                                           color="#B1292D"
                                         >
                                           {formatCurrencyMenu(
-                                            product.price.toString()
+                                            product.price.toString(),
                                           )}
                                         </Text>
                                       </Flex>
@@ -732,7 +732,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
                                           color="#B1292D"
                                         >
                                           {formatCurrencyMenu(
-                                            product.price.toString()
+                                            product.price.toString(),
                                           )}
                                         </Text>
                                       </Flex>
@@ -842,7 +842,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
                                           color="#B1292D"
                                         >
                                           {formatCurrencyMenu(
-                                            product.price.toString()
+                                            product.price.toString(),
                                           )}
                                         </Text>
                                       </Flex>
@@ -1042,7 +1042,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
                                   {selectedProductspotLight.productData
                                     .length !== 0
                                     ? formatCurrencyMenu(
-                                        selectedProductspotLight.productData[0].price.toString()
+                                        selectedProductspotLight.productData[0].price.toString(),
                                       )
                                     : "0"}
                                 </Text>
