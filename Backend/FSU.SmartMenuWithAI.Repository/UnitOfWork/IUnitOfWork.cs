@@ -27,6 +27,7 @@ namespace FSU.SmartMenuWithAI.Repository.UnitOfWork
         public ProductListRepository ProductListRepository { get; }
         public SegmentAttributeRepository SegmentAttributeRepository1 { get; }
         public PaymentRepository PaymentRepository { get; }
-
+        public PlanRepository PlanRepository { get; }
+        public SubscriptioRepository SubscriptioRepository { get; }
     }
 }

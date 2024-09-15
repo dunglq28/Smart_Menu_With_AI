@@ -67,6 +67,9 @@ namespace FSU.SmartMenuWithAI.Service.Mappings
             CreateMap<MenuSegment, MenuSegmentDTO>()
                 .ForMember(dest => dest.brandId, opt => opt.MapFrom(src => src.Menu.BrandId))
                 .ReverseMap();
+            CreateMap<Plan, PlanDTO>().ReverseMap();
+            CreateMap<Payment, PaymentDTO>().ReverseMap();
+            CreateMap<Subscription, SubscriptionDTO>().ReverseMap();
 
         }
     }

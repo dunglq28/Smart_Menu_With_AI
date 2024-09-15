@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSU.SmartMenuWithAI.Repository.Interfaces
+namespace FSU.SmartMenuWithAI.Service.ISerivice
 {
-    public interface ISubscriptionRepository
+    public interface ISubscriptionService
     {
     }
 }

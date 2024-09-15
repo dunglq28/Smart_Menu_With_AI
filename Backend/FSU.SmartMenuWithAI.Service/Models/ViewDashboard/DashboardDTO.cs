@@ -10,7 +10,7 @@ namespace FSU.SmartMenuWithAI.Service.Models.ViewDashboard
     public class DashboardDTO
     {
         public int NumberOfUsers { get; set; }
-        public int NumberOfMenus { get; set; }
+        public int NumberOfBrands { get; set; }
         public decimal TotalRevenue { get; set; }
 
         public List<ListRevenue>? ListRevenue { get; set; }

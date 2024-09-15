@@ -17,26 +17,23 @@ namespace FSU.SmartMenuWithAI.Service.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
+        //return data for 2024 year
         public async Task<DashboardDTO> GetDashboard()
         {
             var dashboardDTO = new DashboardDTO();
-            Expression<Func<AppUser, bool>> filter = x => x.Status != (int)Status.Deleted;
-            dashboardDTO.NumberOfUsers = await _unitOfWork.AppUserRepository.Count(filter: filter); ;
-            dashboardDTO.NumberOfMenus = await _unitOfWork.MenuRepository.Count();
+            Expression<Func<AppUser, bool>> filter = x => x.Status != (int)Status.Deleted && x.CreateDate.Year == 2024;
+            dashboardDTO.NumberOfUsers = await _unitOfWork.AppUserRepository.Count(filter: filter); 
+            dashboardDTO.NumberOfBrands = await _unitOfWork.BrandRepository.Count(x => x.CreateDate.Year == 2024 && x.Status != (int)Status.Deleted);
             dashboardDTO.TotalRevenue = 0;
 
-            // Lấy thanh toán từ 6 tháng gần nhất
-            var today = DateTime.Now;
-            var sixMonthsAgo = new DateTime(today.Year, today.Month, 1).AddMonths(-5);
-
-            // Lấy tất cả các payment trong 6 tháng gần nhất
             var allPayments = await _unitOfWork.PaymentRepository
-                .Get(p => p.PaymentDate >= sixMonthsAgo && p.Status == 1);  // Chỉ lấy thanh toán hợp lệ
+                .Get(p => p.PaymentDate.Year == 2024 && p.Status == 1);  // Chỉ lấy thanh toán hợp lệ
             // Tính tổng doanh thu cho từng tháng bằng cách lọc trong C#
             var monthlyRevenueList = new List<ListRevenue>();
-            for (int i = 0; i < 6; i++)
+            for (int i = 1; i <= 12; i++)
             {
-                var startDate = sixMonthsAgo.AddMonths(i);
+                var startDate = new DateTime(2024, i, 1);
                 var endDate = startDate.AddMonths(1);
 
                 // Tính toán doanh thu cho từng tháng trong C#
@@ -68,7 +65,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
 
             // Lấy 30 người dùng mới nhất
             var LatestUsers = await _unitOfWork.AppUserRepository
-                .Get(orderBy: q => q.OrderByDescending(u => u.CreateDate), filter: u => u.Status != (int)Status.Deleted);  // Ví dụ filter, điều chỉnh theo yêu cầu thực tế
+                .Get(orderBy: q => q.OrderByDescending(u => u.CreateDate), filter: u => u.Status != (int)Status.Deleted && u.CreateDate.Year == 2024);  // Ví dụ filter, điều chỉnh theo yêu cầu thực tế
                                                                                                                            // Lấy 30 người dùng đầu tiên
             dashboardDTO.LatestUsers = LatestUsers
                 .Take(30)  // Lấy 30 người dùng đầu tiên
@@ -91,13 +88,20 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 })
                 .ToList();
 
-            var sixMonthsAgo2 = DateOnly.FromDateTime(new DateTime(today.Year, today.Month, 1).AddMonths(-5));
+            // Define the start and end of the year 2024
+            var startOf2024 = new DateOnly(2024, 1, 1);
+            var endOf2024 = new DateOnly(2024, 12, 31);
 
-            // Retrieve all brands created in the last 6 months
+            // Retrieve all brands created in the year 2024
             var brands = await _unitOfWork.BrandRepository
-                .Get(b => b.CreateDate >= sixMonthsAgo2 && b.Status != (int)Status.Deleted);
+                .Get(b => b.CreateDate >= startOf2024 && b.CreateDate <= endOf2024 && b.Status != (int)Status.Deleted);
 
-            // Calculate the number of brands created each month
+            // Create a list of all months in 2024
+            var allMonths2024 = Enumerable.Range(1, 12)
+                .Select(month => new { Year = 2024, Month = month })
+                .ToList();
+
+            // Calculate the number of brands created each month in 2024
             var brandCounts = brands
                 .GroupBy(b => new { b.CreateDate.Year, b.CreateDate.Month })
                 .Select(g => new ListBrand
@@ -106,12 +110,23 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     Month = g.Key.Month,
                     TotalBrands = g.Count()
                 })
+                .ToList();
+
+            // Merge with all months to ensure all months are included
+            var monthlyBrandCounts = allMonths2024
+                .Select(month => new ListBrand
+                {
+                    Year = month.Year,
+                    Month = month.Month,
+                    TotalBrands = brandCounts
+                        .FirstOrDefault(b => b.Year == month.Year && b.Month == month.Month)?.TotalBrands ?? 0
+                })
                 .OrderByDescending(b => b.Year)
                 .ThenByDescending(b => b.Month)
                 .ToList();
 
             // Assign the brand counts to the DTO
-            dashboardDTO.ListBrandCounts = brandCounts;
+            dashboardDTO.ListBrandCounts = monthlyBrandCounts;
             return dashboardDTO;
         }
     }

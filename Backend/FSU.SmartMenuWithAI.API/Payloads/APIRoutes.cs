@@ -234,5 +234,27 @@
             public const string GetAll = Base + "/dashboard/";
 
         }
+        public static class Plan
+        {
+            public const string GetAll = Base + "/plans/";
+
+            public const string GetByID = Base + "/plans/get-by-id";
+
+            public const string Add = Base + "/plans/";
+
+            public const string Delete = Base + "/plans/";
+
+            public const string Update = Base + "/plans/";
+        }
+        public static class Payment
+        {
+            public const string Get = Base + "/payments/";
+
+        }
+        public static class Subscription
+        {
+            public const string Get = Base + "/subscriptions/";
+
+        }
     }
 }
