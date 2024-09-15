@@ -24,6 +24,7 @@ import {
 } from "../../../utils/validation";
 import { UserForm } from "../../../models/UserForm.model";
 import { generateUsernameFromBrand } from "../../../utils/createUserName";
+import { createPaymentLink } from "../../../services/CheckoutService";
 
 const FormInput = ({
   label,
@@ -255,8 +256,18 @@ const PaymentInfoPage = () => {
     }
   };
 
+  async function handleCreatePaymentLink() {
+    try {
+      const result = await createPaymentLink();
+      if (result.isSuccess) {
+        window.location.href = result.data;
+      }
+    } finally {
+    }
+  }
+
   return (
-    <Box p={8} w="100%">
+    <Box p={8} w="100%" mb="2rem" mt="1rem">
       {/* Cột chứa Thông tin cá nhân và Thông tin chi tiết gói */}
       <Grid templateColumns="2fr 1fr" gap={6}>
         {/* Cột bên trái - Thông tin cá nhân */}
@@ -383,7 +394,8 @@ const PaymentInfoPage = () => {
                 bg: `${themeColors.primaryButton}`,
                 opacity: 0.9,
               }}
-              onClick={handleNextForm}
+              // onClick={handleNextForm}
+              onClick={handleCreatePaymentLink}
             >
               Xác nhận
             </Button>

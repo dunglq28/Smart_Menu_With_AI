@@ -29,7 +29,7 @@ interface RouteItem {
 export const publicRoutes: RouteItem[] = [
   { path: "/", component: LandingPage, layout: GuestLayout },
   { path: "/login", component: Login, layout: GuestLayout },
-  { path: "/payment/payment-info", component: PaymentInfor, layout: PaymentStepperLayout },
+  { path: "/payment/payment-infor", component: PaymentInfor, layout: PaymentStepperLayout },
   { path: "/payment/payment-guide", component: BuyingGuide, layout: PaymentStepperLayout },
   { path: "/admin-dashboard", component: AdminDashboard },
   { path: "/brand-dashboard", component: BrandDashboard },
