@@ -25,6 +25,7 @@ import {
 import { UserForm } from "../../../models/UserForm.model";
 import { generateUsernameFromBrand } from "../../../utils/createUserName";
 import { createPaymentLink } from "../../../services/CheckoutService";
+import { sendVerificationCode } from "../../../services/EmailService";
 
 const FormInput = ({
   label,
@@ -88,10 +89,15 @@ const PaymentInfoPage = () => {
     errorMessage: "",
   });
   const [verificationCode, setVerificationCode] = useState("");
+  const [verificationCodeUser, setVerificationCodeUser] = useState({
+    value: "",
+    errorMessage: "",
+  });
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendVerificationCode = () => {
+  async function handleSendVerificationCode() {
     if (!isValidEmail(email.value)) {
       setEmail((prev) => ({
         ...prev,
@@ -102,12 +108,13 @@ const PaymentInfoPage = () => {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setVerificationCode(code);
+    // const result = await sendVerificationCode(email.value, code);
+    // if (result.isSuccess) {
+    console.log(code);
     setIsCodeSent(true);
     setCountdown(300);
-    console.log(isCodeSent);
-
-    console.log(`Mã xác thực: ${code}`);
-  };
+    // }
+  }
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -192,117 +199,139 @@ const PaymentInfoPage = () => {
     ? URL.createObjectURL(brandData.image.value)
     : brandData.imageUrl?.value;
 
-  const handleNextForm = () => {
-    let hasError = false;
-
-    if (brandData.brandName.value.length < 1) {
-      setBrandData((prevData) => ({
-        ...prevData,
-        brandName: {
-          ...prevData.brandName,
-          errorMessage: "Tên thương hiệu là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (
-      !brandData.image.value &&
-      !brandData.imageUrl?.value &&
-      !brandData.image.errorMessage
-    ) {
-      setBrandData((prevData) => ({
-        ...prevData,
-        image: {
-          ...prevData.image,
-          errorMessage: "Logo là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (userData.fullName.value.trim() === "") {
-      setUserData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (userData.fullName.value.trim().length < 6) {
-      setUserData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (userData.phoneNumber.value.trim() === "") {
-      setUserData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (!isValidPhoneNumber(userData.phoneNumber.value.trim())) {
-      setUserData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại không hợp lệ",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (!userData.DOB.value) {
-      setUserData((prevData) => ({
-        ...prevData,
-        DOB: {
-          ...prevData.DOB,
-          errorMessage: "Ngày sinh là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (email.value.trim() === "") {
-      setEmail((prev) => ({
-        ...prev,
-        errorMessage: "Email là bắt buộc",
-      }));
-      hasError = true;
-    } else if (!isValidEmail(email.value.trim())) {
-      setEmail((prev) => ({
-        ...prev,
-        errorMessage: "Email không hợp lệ",
-      }));
-      hasError = true;
-    }
-
-    if (!hasError) {
-      console.log(brandData);
-      console.log(userData);
-      console.log(email);
-      //   navigate("/payment/payment-guide");
-    }
-  };
-
   async function handleCreatePaymentLink() {
     try {
-      const result = await createPaymentLink();
-      if (result.isSuccess) {
-        window.location.href = result.data;
+      let hasError = false;
+
+      if (brandData.brandName.value.length < 1) {
+        setBrandData((prevData) => ({
+          ...prevData,
+          brandName: {
+            ...prevData.brandName,
+            errorMessage: "Tên thương hiệu là bắt buộc",
+          },
+        }));
+        hasError = true;
+      }
+
+      if (
+        !brandData.image.value &&
+        !brandData.imageUrl?.value &&
+        !brandData.image.errorMessage
+      ) {
+        setBrandData((prevData) => ({
+          ...prevData,
+          image: {
+            ...prevData.image,
+            errorMessage: "Logo là bắt buộc",
+          },
+        }));
+        hasError = true;
+      }
+
+      if (userData.fullName.value.trim() === "") {
+        setUserData((prevData) => ({
+          ...prevData,
+          fullName: {
+            ...prevData.fullName,
+            errorMessage: "Họ và tên là bắt buộc",
+          },
+        }));
+        hasError = true;
+      } else if (userData.fullName.value.trim().length < 6) {
+        setUserData((prevData) => ({
+          ...prevData,
+          fullName: {
+            ...prevData.fullName,
+            errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
+          },
+        }));
+        hasError = true;
+      }
+
+      if (userData.phoneNumber.value.trim() === "") {
+        setUserData((prevData) => ({
+          ...prevData,
+          phoneNumber: {
+            ...prevData.phoneNumber,
+            errorMessage: "Số điện thoại là bắt buộc",
+          },
+        }));
+        hasError = true;
+      } else if (!isValidPhoneNumber(userData.phoneNumber.value.trim())) {
+        setUserData((prevData) => ({
+          ...prevData,
+          phoneNumber: {
+            ...prevData.phoneNumber,
+            errorMessage: "Số điện thoại không hợp lệ",
+          },
+        }));
+        hasError = true;
+      }
+
+      // if (!userData.DOB.value) {
+      //   setUserData((prevData) => ({
+      //     ...prevData,
+      //     DOB: {
+      //       ...prevData.DOB,
+      //       errorMessage: "Ngày sinh là bắt buộc",
+      //     },
+      //   }));
+      //   hasError = true;
+      // }
+
+      if (email.value.trim() === "") {
+        setEmail((prev) => ({
+          ...prev,
+          errorMessage: "Email là bắt buộc",
+        }));
+        hasError = true;
+      } else if (!isValidEmail(email.value.trim())) {
+        setEmail((prev) => ({
+          ...prev,
+          errorMessage: "Email không hợp lệ",
+        }));
+        hasError = true;
+      }
+
+      if (verificationCodeUser.value.trim() === "") {
+        setVerificationCodeUser((prev) => ({
+          ...prev,
+          errorMessage: "Mã xác nhận là bắt buộc",
+        }));
+        hasError = true;
+      } else if (verificationCodeUser.value.trim() != verificationCode) {
+        setVerificationCodeUser((prev) => ({
+          ...prev,
+          errorMessage: "Mã xác nhận không chính xác",
+        }));
+        hasError = true;
+      }
+
+      if (!hasError) {
+        console.log("Thanh toán");
+        setIsLoading(true);
+        console.log(brandData);
+        console.log(userData);
+
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 5000);
+        // const result = await createPaymentLink();
+        // if (result.isSuccess) {
+        //   window.location.href = result.data;
+        // }
       }
     } finally {
     }
   }
+  
+  const formatDateToYYYYMMDD = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng từ 0-11
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <Box p={8} w="100%" mb="2rem" mt="1rem">
@@ -362,10 +391,13 @@ const PaymentInfoPage = () => {
               <FormInput
                 label="Mã xác thực"
                 placeholder="Nhập mã 6 chữ số"
-                value={verificationCode}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setVerificationCode(e.target.value)
+                  setVerificationCodeUser({
+                    value: e.target.value,
+                    errorMessage: "",
+                  })
                 }
+                errorMessage={verificationCodeUser.errorMessage}
               />
               <Button
                 mt={9}
@@ -384,7 +416,7 @@ const PaymentInfoPage = () => {
             <FormInput
               label="Ngày sinh"
               placeholder=""
-              type="date"
+              type="Date"
               value={userData.DOB.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleDateChange("DOB", e.target.value)
@@ -455,10 +487,13 @@ const PaymentInfoPage = () => {
                 bg: `${themeColors.primaryButton}`,
                 opacity: 0.9,
               }}
-              // isLoading
-              // loadingText="Thanh toán"
-              // onClick={handleNextForm}
-              // onClick={handleCreatePaymentLink}
+              isLoading={isLoading}
+              loadingText="Thanh toán"
+              onClick={handleCreatePaymentLink}
+              _disabled={{
+                opacity: 0.6,
+                cursor: "not-allowed",
+              }}
             >
               Thanh toán
             </Button>
