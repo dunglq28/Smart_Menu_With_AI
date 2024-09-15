@@ -18,6 +18,7 @@ using FSU.SmartMenuWithAI.Repository.Entities;
 using System.Text.Json.Serialization;
 using SharpDX;
 using FSU.SmartMenuWithAI.Service.Models.PayOS;
+using FSU.SmartMenuWithAI.Service.Models.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +77,10 @@ var mapper = new MapperConfiguration(mc =>
 {
     mc.AddProfile<MappingProfile>();
 });
+
+// Config send email
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 builder.Services.AddSingleton(mapper.CreateMapper());
 

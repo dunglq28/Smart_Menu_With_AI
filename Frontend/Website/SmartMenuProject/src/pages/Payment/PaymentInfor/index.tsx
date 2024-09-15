@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -87,6 +87,44 @@ const PaymentInfoPage = () => {
     value: "",
     errorMessage: "",
   });
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+
+  const handleSendVerificationCode = () => {
+    if (!isValidEmail(email.value)) {
+      setEmail((prev) => ({
+        ...prev,
+        errorMessage: "Email không hợp lệ",
+      }));
+      return;
+    }
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setVerificationCode(code);
+    setIsCodeSent(true);
+    setCountdown(300);
+    console.log(isCodeSent);
+
+    console.log(`Mã xác thực: ${code}`);
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    } else {
+      setIsCodeSent(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [countdown]);
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
   const handleBrandNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newBrandName = e.target.value;
@@ -301,15 +339,6 @@ const PaymentInfoPage = () => {
               }
               errorMessage={userData.phoneNumber.errorMessage}
             />
-            <FormInput
-              label="Email"
-              placeholder="Nhập email"
-              value={email.value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail({ value: e.target.value, errorMessage: "" })
-              }
-              errorMessage={email.errorMessage}
-            />
             <FormControl>
               <FormLabel className={style.formLabel}>Giới tính</FormLabel>
               <Select
@@ -321,6 +350,38 @@ const PaymentInfoPage = () => {
               </Select>
             </FormControl>
             <FormInput
+              label="Email"
+              placeholder="Nhập email"
+              value={email.value}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setEmail({ value: e.target.value, errorMessage: "" })
+              }
+              errorMessage={email.errorMessage}
+            />
+            <Grid templateColumns="2fr auto" gap={4}>
+              <FormInput
+                label="Mã xác thực"
+                placeholder="Nhập mã 6 chữ số"
+                value={verificationCode}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setVerificationCode(e.target.value)
+                }
+              />
+              <Button
+                mt={9}
+                onClick={handleSendVerificationCode}
+                isDisabled={isCodeSent || countdown > 0}
+                colorScheme={isCodeSent ? "gray" : "teal"}
+                sx={{
+                  color: isCodeSent ? "black" : "white",
+                  fontWeight: isCodeSent ? "bold" : "500",
+                  cursor: isCodeSent ? "not-allowed" : "pointer",
+                }}
+              >
+                {isCodeSent ? `Gửi lại sau ${formatTime(countdown)}` : "Gửi mã"}
+              </Button>
+            </Grid>
+            <FormInput
               label="Ngày sinh"
               placeholder=""
               type="date"
@@ -331,7 +392,7 @@ const PaymentInfoPage = () => {
               errorMessage={userData.DOB.errorMessage}
             />
             <FormControl className={style.formImage}>
-              <FormLabel className={style.formLabel}>
+              <FormLabel className={style.formLabel} w="36%">
                 Logo thương hiệu
               </FormLabel>
               <Flex align="center">
@@ -394,10 +455,12 @@ const PaymentInfoPage = () => {
                 bg: `${themeColors.primaryButton}`,
                 opacity: 0.9,
               }}
+              // isLoading
+              // loadingText="Thanh toán"
               // onClick={handleNextForm}
-              onClick={handleCreatePaymentLink}
+              // onClick={handleCreatePaymentLink}
             >
-              Xác nhận
+              Thanh toán
             </Button>
           </Flex>
         </Box>
