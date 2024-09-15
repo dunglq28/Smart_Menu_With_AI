@@ -11,6 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using FSU.SmartMenuWithAI.Service.Utils.Common.Enums;
 
 namespace FSU.SmartMenuWithAI.Service.Services
 {
@@ -50,6 +51,13 @@ namespace FSU.SmartMenuWithAI.Service.Services
             pagin.TotalPage = PaginHelper.PageCount(pagin.TotalRecord, pageSize!.Value);
 
             return pagin;
+        }
+
+        public async Task<PaymentDTO> GetByEmail(string email)
+        {
+            Expression<Func<Payment, bool>> condition = x => x.Email == email && (x.Status != (int)PaymentStatus.Failed);
+            var entity = await _unitOfWork.PaymentRepository.GetByCondition(condition);
+            return _mapper?.Map<PaymentDTO>(entity)!;
         }
     }
 }
