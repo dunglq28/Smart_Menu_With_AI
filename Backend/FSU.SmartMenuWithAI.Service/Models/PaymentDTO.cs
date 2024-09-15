@@ -25,5 +25,7 @@ namespace FSU.SmartMenuWithAI.Service.Models
         public int UserId { get; set; }
 
         public string Email { get; set; } = null!;
+        //public int PlanId { get; set; }
+        //public string PlanName { get; set; } = null!;
     }
 }

@@ -256,6 +256,7 @@
 
             public const string Add = Base + "/payments/";
 
+            public const string Update = Base + "/payments/";
         }
         public static class Subscription
         {

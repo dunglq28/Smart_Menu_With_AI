@@ -14,11 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FSU.SmartMenuWithAI.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a61b68de8070b718ea7f4c1be81d69467033efb")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+38d1caacf1312f7f00e3be1ec9c961393a4b3e6b")]
->>>>>>> bc4921325180e8ec4c657e4d1ee42975362b463a
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2f0901af053fd05862bb7605e05e0782b566c85")]
 [assembly: System.Reflection.AssemblyProductAttribute("FSU.SmartMenuWithAI.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FSU.SmartMenuWithAI.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -11,11 +11,11 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
     public interface IPaymentService
     {
         Task<PageEntity<PaymentDTO>?> GetAsync(string? searchKey, int? pageIndex, int? pageSize);
-<<<<<<< HEAD
         Task<PaymentDTO> Insert(int userID, decimal? amount, string email);
-=======
         Task<PaymentDTO> GetByEmail(string email);
+        Task<PaymentDTO> Checkout(int userID, decimal? amount, string email, int transactionId);
 
->>>>>>> bc4921325180e8ec4c657e4d1ee42975362b463a
+        //tạo subscription nhưng ở paymentservice
+        Task<SubscriptionDTO> AddSubscription(int userID, string email, int planId, int paymentId);
     }
 }
