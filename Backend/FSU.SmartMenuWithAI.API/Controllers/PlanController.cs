@@ -89,7 +89,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
         {
             try
             {
-                var planAdd = await _planService.Insert(reqObj.PlanName, reqObj.Description, reqObj.Price);
+                var planAdd = await _planService.Insert(reqObj.PlanName, reqObj.MaxMenu, reqObj.MaxAccount, reqObj.Price);
                 return Ok(new BaseResponse
                 {
                     StatusCode = StatusCodes.Status201Created,
@@ -150,7 +150,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
         {
             try
             {
-                var updatedPlan = await _planService.UpdateAsync(planId, reqObj.PlanName, reqObj.Description, reqObj.Price);
+                var updatedPlan = await _planService.UpdateAsync(planId, reqObj.PlanName, reqObj.MaxMenu, reqObj.MaxAccount, reqObj.Price);
                 if (updatedPlan != null)
                 {
                     return Ok(new BaseResponse

@@ -36,7 +36,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
 
-            var email = _paymentService.GetByEmail(request.Email);
+            var email = await _paymentService.GetByEmail(request.Email);
             if (email != null)
             {
                 return BadRequest(new BaseResponse

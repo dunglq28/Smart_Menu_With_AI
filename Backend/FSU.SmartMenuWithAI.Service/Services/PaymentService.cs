@@ -34,9 +34,11 @@ namespace FSU.SmartMenuWithAI.Service.Services
             // Sắp xếp theo CreatedAt giảm dần
             Func<IQueryable<Payment>, IOrderedQueryable<Payment>> orderBy = q => q.OrderByDescending(x => x.CreatedAt);
 
+            string includeProperties = "Subscription";
+
             // Lấy danh sách thực thể với bộ lọc và phân trang
             var entities = await _unitOfWork.PaymentRepository
-                .Get(filter: filter, orderBy: orderBy, pageIndex: pageIndex, pageSize: pageSize);
+                .Get(filter: filter, orderBy: orderBy, includeProperties: includeProperties, pageIndex: pageIndex, pageSize: pageSize);
 
             // Tạo đối tượng phân trang
             var pagin = new PageEntity<PaymentDTO>
@@ -53,6 +55,52 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return pagin;
         }
 
+        public async Task<PaymentDTO> Insert(int userID, decimal? amount, string email)
+        {
+
+            var payment = new Payment();
+            payment.Amount = amount;
+            payment.Email = email;
+            payment.UserId = userID;
+            payment.Status = (int)PaymentStatus.Pending;
+            payment.PaymentDate = DateTime.Now;
+            payment.CreatedAt = DateTime.Now;
+            payment.UpdatedAt = DateTime.Now;
+            payment.TransactionId = Guid.NewGuid().ToString();
+
+            await _unitOfWork.PaymentRepository.Insert(payment);
+
+
+
+            var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
+            if (result)
+            {
+                return _mapper?.Map<PaymentDTO>(payment)!;
+            }
+            return null!;
+        }
+        public async Task<PaymentDTO> Checkout(int userID, decimal? amount, string email, int transactionId)
+        {
+            var payment = new Payment();
+            payment.Amount = amount;
+            payment.Email = email;
+            payment.UserId = userID;
+            payment.Status = (int)PaymentStatus.Pending;
+            payment.PaymentDate = DateTime.Now;
+            payment.CreatedAt = DateTime.Now;
+            payment.UpdatedAt = DateTime.Now;
+            payment.TransactionId = transactionId.ToString();
+
+            await _unitOfWork.PaymentRepository.Insert(payment);
+
+            var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
+            if (result)
+            {
+                return _mapper?.Map<PaymentDTO>(payment)!;
+            }
+            return null!;
+        }
+
         public async Task<PaymentDTO> GetByEmail(string email)
         {
             Expression<Func<Payment, bool>> condition = x => x.Email == email && (x.Status != (int)PaymentStatus.Failed);
@@ -63,6 +111,29 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return null!;
             }
             return _mapper?.Map<PaymentDTO>(entity)!;
+        }
+        public async Task<SubscriptionDTO> AddSubscription(int userID, string email, int planId, int paymentId)
+        {
+            var subscription = new Subscription();
+            subscription.SubscriptionCode = Guid.NewGuid().ToString();
+            subscription.Status = (int)PaymentStatus.Pending; // set the status accordingly
+            subscription.StartDate = DateTime.Now; // set the start date accordingly
+            subscription.EndDate = DateTime.Now.AddMonths(1); // set the end date accordingly
+            subscription.UserId = userID;
+            subscription.Email = email;
+            subscription.PlanId = planId; // assuming planId is an integer
+            subscription.PaymentId = paymentId; // set the PaymentId foreign key
+
+            await _unitOfWork.SubscriptioRepository.Insert(subscription);
+
+            var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
+            if (result)
+            {
+                return _mapper?.Map<SubscriptionDTO>(subscription)!;
+            }
+            return null!;
+
+            
         }
     }
 }
