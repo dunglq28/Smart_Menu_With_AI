@@ -102,6 +102,11 @@ const Header: React.FC = () => {
             variant="solid"
             ml={6}
             size="lg"
+            _hover={{
+              borderColor: "transparent",
+              bg: `${themeColors.primaryButton}`, 
+              opacity: 0.9,
+            }}
             onClick={() => navigate("/login")}
           >
             Đăng nhập

@@ -21,6 +21,11 @@ export const isValidPhoneNumber = (phoneNumber: string): boolean => {
   return phoneRegex.test(phoneNumber);
 };
 
+export const isValidEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export const isInteger = (value: string) => {
   return /^\d+$/.test(value);
 };

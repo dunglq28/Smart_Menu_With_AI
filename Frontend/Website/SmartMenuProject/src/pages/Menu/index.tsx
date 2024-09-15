@@ -1,17 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Card,
-  Flex,
-  Image,
-  Text,
-  Link as ChakraLink,
-} from "@chakra-ui/react";
-import {
-  Link as ReactRouterLink,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Button, Card, Flex, Image, Text, Link as ChakraLink } from "@chakra-ui/react";
+import { Link as ReactRouterLink, useLocation, useNavigate } from "react-router-dom";
 import style from "./Menu.module.scss";
 import MenuCard from "../../components/Menu/MenuCard";
 import { MenuData } from "../../payloads/responses/MenuData.model";
@@ -49,11 +38,7 @@ function Menu() {
       try {
         setIsLoading(true);
         const loadData = async () => {
-          var result = await getAllMenu(
-            Number(brandId),
-            currentPage,
-            rowsPerPage
-          );
+          var result = await getAllMenu(Number(brandId), currentPage, rowsPerPage);
 
           setData(result.list);
           setTotalPages(result.totalPage);
@@ -68,7 +53,7 @@ function Menu() {
         setIsLoading(false);
       }
     },
-    [currentPage, rowsPerPage]
+    [currentPage, rowsPerPage],
   );
 
   useEffect(() => {
@@ -79,7 +64,7 @@ function Menu() {
     (page: number) => {
       setCurrentPage(page);
     },
-    [setCurrentPage]
+    [setCurrentPage],
   );
 
   const handleRowsPerPageChange = useCallback(
@@ -87,7 +72,7 @@ function Menu() {
       setCurrentPage(1);
       setRowsPerPage(newRowsPerPage);
     },
-    [setCurrentPage, setRowsPerPage]
+    [setCurrentPage, setRowsPerPage],
   );
 
   if (isLoading) {
@@ -106,11 +91,7 @@ function Menu() {
     <>
       <Flex className={style.Container}>
         <Flex>
-          <ChakraLink
-            as={ReactRouterLink}
-            to="/menu/create-menu"
-            className={style.MenuItem}
-          >
+          <ChakraLink as={ReactRouterLink} to="/menu/create-menu" className={style.MenuItem}>
             <Button className={style.AddMenuBtn}>Tạo menu</Button>
           </ChakraLink>
         </Flex>
@@ -119,11 +100,7 @@ function Menu() {
             <div>Không có menu để hiển thị</div>
           ) : (
             data.map((menu, index) => (
-              <MenuCard
-                key={index}
-                menu={menu}
-                handleClickMenu={handleClickMenu}
-              />
+              <MenuCard key={index} menu={menu} handleClickMenu={handleClickMenu} />
             ))
           )}
         </Flex>

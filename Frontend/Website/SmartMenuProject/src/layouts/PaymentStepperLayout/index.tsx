@@ -1,18 +1,18 @@
 import React, { ReactNode, useEffect } from "react";
 
 import { Divider, Flex } from "@chakra-ui/react";
-import style from "./GuestLayout.module.scss";
+import style from "./PaymentStepperLayout.module.scss";
 import { useNavigate } from "react-router-dom";
 
 import Footer from "../../components/Footer/Footer";
-import Header from "../../components/Guest/Header";
 import { UserRole } from "../../constants/Enum";
+import HeaderPaymentStepper from "../../components/Guest/HeaderPaymentStepper";
 
-interface GuestLayoutProps {
+interface PaymentStepperLayoutProps {
   children: ReactNode;
 }
 
-const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
+const PaymentStepperLayout: React.FC<PaymentStepperLayoutProps> = ({ children }) => {
   const isLoggedIn =
     localStorage.getItem("AccessToken") !== null &&
     localStorage.getItem("RefreshToken") !== null;
@@ -38,7 +38,7 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
       {/* container */}
       <Flex w="100%">
         <Flex className={style.Container} overflow="hidden">
-          <Header />
+          <HeaderPaymentStepper />
           <Flex className={style.Container} overflow="hidden">
             <Flex className={style.Children}>{children}</Flex>
           </Flex>
@@ -50,4 +50,4 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
   );
 };
 
-export default GuestLayout;
+export default PaymentStepperLayout;

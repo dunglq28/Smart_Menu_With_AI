@@ -9,6 +9,7 @@ import {
   HStack,
   Grid,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import style from "./LandingPage.module.scss";
@@ -32,6 +33,8 @@ import menuRecommend from "../../assets/images/menuRecommend.png";
 import menuManage from "../../assets/images/menuManage.png";
 import database from "../../assets/images/database.png";
 import twoLaptop from "../../assets/images/2laptop.png";
+import ModalForm from "../../components/Modals/ModalForm/ModalForm";
+import { t } from "i18next";
 
 type BusinessType = {
   icon: string;
@@ -116,6 +119,19 @@ const pricingPackages: PricingPackageType[] = [
 function LandingPage() {
   const navigate = useNavigate();
 
+  const handleNavigateAndScroll = (hash: string) => {
+    if (window.location.pathname !== "/") {
+      navigate("/");
+    }
+
+    setTimeout(() => {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 200);
+  };
+
   return (
     <>
       <Flex
@@ -124,7 +140,6 @@ function LandingPage() {
         justify="center"
         w="100%"
         h="auto"
-        marginTop="72px"
       >
         <Box id="about" py={24} px={24} bg="#F5F7FA" w="100%">
           <Flex align="center" justify="space-around">
@@ -159,7 +174,12 @@ function LandingPage() {
                 bg={themeColors.primaryButton}
                 colorScheme="white"
                 size="lg"
-                onClick={() => navigate("/register")}
+                _hover={{
+                  borderColor: "transparent",
+                  bg: `${themeColors.primaryButton}`, 
+                  opacity: 0.9,
+                }}
+                onClick={() => handleNavigateAndScroll("pricing")}
               >
                 Đăng ký ngay
               </Button>
@@ -395,7 +415,12 @@ function LandingPage() {
                     bg={themeColors.primaryButton}
                     colorScheme="white"
                     size="lg"
-                    onClick={() => navigate("/register")}
+                    _hover={{
+                      borderColor: "transparent",
+                      bg: `${themeColors.primaryButton}`, 
+                      opacity: 0.9,
+                    }}
+                    onClick={() => navigate("/payment/payment-info")}
                   >
                     Đăng ký ngay
                   </Button>

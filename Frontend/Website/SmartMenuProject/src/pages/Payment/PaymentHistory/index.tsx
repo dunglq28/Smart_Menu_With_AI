@@ -11,11 +11,11 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import Searchbar from "../../components/Searchbar";
-import Loading from "../../components/Loading";
-import NavigationDot from "../../components/NavigationDot/NavigationDot";
+import Searchbar from "../../../components/Searchbar"; 
+import Loading from "../../../components/Loading";
+import NavigationDot from "../../../components/NavigationDot/NavigationDot";
 import style from "./PaymentHistory.module.scss";
-import { formatCurrency } from "../../utils/functionHelper";
+import { formatCurrency } from "../../../utils/functionHelper"; 
 
 const PagmentHistory = () => {
   return (
