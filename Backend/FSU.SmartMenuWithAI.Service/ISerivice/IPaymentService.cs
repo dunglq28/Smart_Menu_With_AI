@@ -11,5 +11,6 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
     public interface IPaymentService
     {
         Task<PageEntity<PaymentDTO>?> GetAsync(string? searchKey, int? pageIndex, int? pageSize);
+        Task<PaymentDTO> Insert(int userID, decimal? amount, string email);
     }
 }

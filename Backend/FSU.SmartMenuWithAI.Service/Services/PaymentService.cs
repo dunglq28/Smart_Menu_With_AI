@@ -11,6 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using FSU.SmartMenuWithAI.Service.Utils.Common.Enums;
 
 namespace FSU.SmartMenuWithAI.Service.Services
 {
@@ -50,6 +51,31 @@ namespace FSU.SmartMenuWithAI.Service.Services
             pagin.TotalPage = PaginHelper.PageCount(pagin.TotalRecord, pageSize!.Value);
 
             return pagin;
+        }
+
+        public async Task<PaymentDTO> Insert(int userID, decimal? amount , string email)
+        {
+
+            var payment = new Payment();
+            payment.Amount = amount;
+            payment.Email = email;
+            payment.UserId = userID;
+            payment.Status = (int)PaymentStatus.Waiting;
+            payment.PaymentDate = DateTime.Now;
+            payment.CreatedAt = DateTime.Now;
+            payment.UpdatedAt = DateTime.Now;
+            payment.TransactionId = Guid.NewGuid().ToString();
+
+            await _unitOfWork.PaymentRepository.Insert(payment);
+
+
+
+            var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
+            if (result)
+            {
+                return _mapper?.Map<PaymentDTO>(payment)!;
+            }
+            return null!;
         }
     }
 }

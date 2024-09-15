@@ -5,6 +5,8 @@ using FSU.SmartMenuWithAI.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FSU.SmartMenuWithAI.API.Common.Constants;
+using FSU.SmartMenuWithAI.API.Payloads.Request.ListPosition;
+using FSU.SmartMenuWithAI.API.Payloads.Request.Payment;
 
 namespace FSU.SmartMenuWithAI.API.Controllers
 {
@@ -42,6 +44,32 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     StatusCode = StatusCodes.Status400BadRequest,
                     Message = ex.Message,
                     Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
+
+        //[Authorize(Roles = UserRoles.BrandManager)]
+        [HttpPost(APIRoutes.Payment.Add, Name = "add-payment")]
+        public async Task<IActionResult> CreateAsync([FromBody] CreatePaymentRequest request)
+        {
+            try
+            {
+                var createdListPosition = await _paymentService.Insert(request.UserId, request.Amount, request.Email);
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Tạo thanh toan thành công",
+                    Data = createdListPosition,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Lỗi khi tạo!" + ex.Message,
                     IsSuccess = false
                 });
             }

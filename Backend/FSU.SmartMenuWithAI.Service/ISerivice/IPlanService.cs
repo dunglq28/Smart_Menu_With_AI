@@ -11,9 +11,9 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
     {
         Task<PlanDTO?> GetByIdAsync(int id);
         Task<List<PlanDTO>?> GetAll();
-        Task<PlanDTO> Insert(string planName, string description, decimal price);
+        Task<PlanDTO> Insert(string planName, int maxMenu, int maxAccount, decimal price);
         Task<bool> DeleteAsync(int id);
-        Task<PlanDTO?> UpdateAsync(int id, string planName, string description, decimal price);
+        Task<PlanDTO?> UpdateAsync(int id, string planName, int maxMenu, int maxAccount, decimal price);
 
 
     }

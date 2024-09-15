@@ -46,7 +46,8 @@ CREATE TABLE Plans
 (
 	PlanID INT NOT NULL IDENTITY(1,1),
 	PlanName VARCHAR(50) NOT NULL,
-	Description  NVARCHAR(MAX) NULL,
+	MaxMenu INT NOT NULL,
+	MaxAccount INT NOT NULL,
 	Price DECIMAL(18, 2),
 	PRIMARY KEY (PlanID),
 );

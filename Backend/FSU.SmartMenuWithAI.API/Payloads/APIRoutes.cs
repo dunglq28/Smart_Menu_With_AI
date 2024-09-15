@@ -246,6 +246,8 @@
         {
             public const string Get = Base + "/payments/";
 
+            public const string Add = Base + "/payments/";
+
         }
         public static class Subscription
         {
