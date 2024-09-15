@@ -56,7 +56,12 @@ namespace FSU.SmartMenuWithAI.Service.Services
         public async Task<PaymentDTO> GetByEmail(string email)
         {
             Expression<Func<Payment, bool>> condition = x => x.Email == email && (x.Status != (int)PaymentStatus.Failed);
+
             var entity = await _unitOfWork.PaymentRepository.GetByCondition(condition);
+            if (entity == null)
+            {
+                return null!;
+            }
             return _mapper?.Map<PaymentDTO>(entity)!;
         }
     }

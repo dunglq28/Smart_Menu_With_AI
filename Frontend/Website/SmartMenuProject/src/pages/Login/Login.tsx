@@ -105,7 +105,17 @@ function Login() {
 
   if (isLoading) {
     return (
-      <Flex height="50.5vw" width="100%" justifyContent="center" bg="#E1C278">
+      <Flex
+        position="fixed"
+        top="0"
+        left="0"
+        height="100vh"
+        width="100%"
+        justifyContent="center"
+        alignItems="center"
+        bg="#E1C278"
+        zIndex="9999"
+      >
         <Image src={Loading} />
       </Flex>
     );
