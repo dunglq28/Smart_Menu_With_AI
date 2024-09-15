@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -24,6 +24,8 @@ import {
 } from "../../../utils/validation";
 import { UserForm } from "../../../models/UserForm.model";
 import { generateUsernameFromBrand } from "../../../utils/createUserName";
+import { createPaymentLink } from "../../../services/CheckoutService";
+import { sendVerificationCode } from "../../../services/EmailService";
 
 const FormInput = ({
   label,
@@ -86,6 +88,50 @@ const PaymentInfoPage = () => {
     value: "",
     errorMessage: "",
   });
+  const [verificationCode, setVerificationCode] = useState("");
+  const [verificationCodeUser, setVerificationCodeUser] = useState({
+    value: "",
+    errorMessage: "",
+  });
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSendVerificationCode() {
+    if (!isValidEmail(email.value)) {
+      setEmail((prev) => ({
+        ...prev,
+        errorMessage: "Email không hợp lệ",
+      }));
+      return;
+    }
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setVerificationCode(code);
+    // const result = await sendVerificationCode(email.value, code);
+    // if (result.isSuccess) {
+    console.log(code);
+    setIsCodeSent(true);
+    setCountdown(300);
+    // }
+  }
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    } else {
+      setIsCodeSent(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [countdown]);
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
   const handleBrandNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newBrandName = e.target.value;
@@ -153,110 +199,142 @@ const PaymentInfoPage = () => {
     ? URL.createObjectURL(brandData.image.value)
     : brandData.imageUrl?.value;
 
-  const handleNextForm = () => {
-    let hasError = false;
+  async function handleCreatePaymentLink() {
+    try {
+      let hasError = false;
 
-    if (brandData.brandName.value.length < 1) {
-      setBrandData((prevData) => ({
-        ...prevData,
-        brandName: {
-          ...prevData.brandName,
-          errorMessage: "Tên thương hiệu là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+      if (brandData.brandName.value.length < 1) {
+        setBrandData((prevData) => ({
+          ...prevData,
+          brandName: {
+            ...prevData.brandName,
+            errorMessage: "Tên thương hiệu là bắt buộc",
+          },
+        }));
+        hasError = true;
+      }
 
-    if (
-      !brandData.image.value &&
-      !brandData.imageUrl?.value &&
-      !brandData.image.errorMessage
-    ) {
-      setBrandData((prevData) => ({
-        ...prevData,
-        image: {
-          ...prevData.image,
-          errorMessage: "Logo là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+      if (
+        !brandData.image.value &&
+        !brandData.imageUrl?.value &&
+        !brandData.image.errorMessage
+      ) {
+        setBrandData((prevData) => ({
+          ...prevData,
+          image: {
+            ...prevData.image,
+            errorMessage: "Logo là bắt buộc",
+          },
+        }));
+        hasError = true;
+      }
 
-    if (userData.fullName.value.trim() === "") {
-      setUserData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (userData.fullName.value.trim().length < 6) {
-      setUserData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
-        },
-      }));
-      hasError = true;
-    }
+      if (userData.fullName.value.trim() === "") {
+        setUserData((prevData) => ({
+          ...prevData,
+          fullName: {
+            ...prevData.fullName,
+            errorMessage: "Họ và tên là bắt buộc",
+          },
+        }));
+        hasError = true;
+      } else if (userData.fullName.value.trim().length < 6) {
+        setUserData((prevData) => ({
+          ...prevData,
+          fullName: {
+            ...prevData.fullName,
+            errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
+          },
+        }));
+        hasError = true;
+      }
 
-    if (userData.phoneNumber.value.trim() === "") {
-      setUserData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (!isValidPhoneNumber(userData.phoneNumber.value.trim())) {
-      setUserData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại không hợp lệ",
-        },
-      }));
-      hasError = true;
-    }
+      if (userData.phoneNumber.value.trim() === "") {
+        setUserData((prevData) => ({
+          ...prevData,
+          phoneNumber: {
+            ...prevData.phoneNumber,
+            errorMessage: "Số điện thoại là bắt buộc",
+          },
+        }));
+        hasError = true;
+      } else if (!isValidPhoneNumber(userData.phoneNumber.value.trim())) {
+        setUserData((prevData) => ({
+          ...prevData,
+          phoneNumber: {
+            ...prevData.phoneNumber,
+            errorMessage: "Số điện thoại không hợp lệ",
+          },
+        }));
+        hasError = true;
+      }
 
-    if (!userData.DOB.value) {
-      setUserData((prevData) => ({
-        ...prevData,
-        DOB: {
-          ...prevData.DOB,
-          errorMessage: "Ngày sinh là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+      // if (!userData.DOB.value) {
+      //   setUserData((prevData) => ({
+      //     ...prevData,
+      //     DOB: {
+      //       ...prevData.DOB,
+      //       errorMessage: "Ngày sinh là bắt buộc",
+      //     },
+      //   }));
+      //   hasError = true;
+      // }
 
-    if (email.value.trim() === "") {
-      setEmail((prev) => ({
-        ...prev,
-        errorMessage: "Email là bắt buộc",
-      }));
-      hasError = true;
-    } else if (!isValidEmail(email.value.trim())) {
-      setEmail((prev) => ({
-        ...prev,
-        errorMessage: "Email không hợp lệ",
-      }));
-      hasError = true;
-    }
+      if (email.value.trim() === "") {
+        setEmail((prev) => ({
+          ...prev,
+          errorMessage: "Email là bắt buộc",
+        }));
+        hasError = true;
+      } else if (!isValidEmail(email.value.trim())) {
+        setEmail((prev) => ({
+          ...prev,
+          errorMessage: "Email không hợp lệ",
+        }));
+        hasError = true;
+      }
 
-    if (!hasError) {
-      console.log(brandData);
-      console.log(userData);
-      console.log(email);
-      //   navigate("/payment/payment-guide");
+      if (verificationCodeUser.value.trim() === "") {
+        setVerificationCodeUser((prev) => ({
+          ...prev,
+          errorMessage: "Mã xác nhận là bắt buộc",
+        }));
+        hasError = true;
+      } else if (verificationCodeUser.value.trim() != verificationCode) {
+        setVerificationCodeUser((prev) => ({
+          ...prev,
+          errorMessage: "Mã xác nhận không chính xác",
+        }));
+        hasError = true;
+      }
+
+      if (!hasError) {
+        console.log("Thanh toán");
+        setIsLoading(true);
+        console.log(brandData);
+        console.log(userData);
+
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 5000);
+        // const result = await createPaymentLink();
+        // if (result.isSuccess) {
+        //   window.location.href = result.data;
+        // }
+      }
+    } finally {
     }
+  }
+  
+  const formatDateToYYYYMMDD = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng từ 0-11
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   return (
-    <Box p={8} w="100%">
+    <Box p={8} w="100%" mb="2rem" mt="1rem">
       {/* Cột chứa Thông tin cá nhân và Thông tin chi tiết gói */}
       <Grid templateColumns="2fr 1fr" gap={6}>
         {/* Cột bên trái - Thông tin cá nhân */}
@@ -290,15 +368,6 @@ const PaymentInfoPage = () => {
               }
               errorMessage={userData.phoneNumber.errorMessage}
             />
-            <FormInput
-              label="Email"
-              placeholder="Nhập email"
-              value={email.value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail({ value: e.target.value, errorMessage: "" })
-              }
-              errorMessage={email.errorMessage}
-            />
             <FormControl>
               <FormLabel className={style.formLabel}>Giới tính</FormLabel>
               <Select
@@ -310,9 +379,44 @@ const PaymentInfoPage = () => {
               </Select>
             </FormControl>
             <FormInput
+              label="Email"
+              placeholder="Nhập email"
+              value={email.value}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setEmail({ value: e.target.value, errorMessage: "" })
+              }
+              errorMessage={email.errorMessage}
+            />
+            <Grid templateColumns="2fr auto" gap={4}>
+              <FormInput
+                label="Mã xác thực"
+                placeholder="Nhập mã 6 chữ số"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setVerificationCodeUser({
+                    value: e.target.value,
+                    errorMessage: "",
+                  })
+                }
+                errorMessage={verificationCodeUser.errorMessage}
+              />
+              <Button
+                mt={9}
+                onClick={handleSendVerificationCode}
+                isDisabled={isCodeSent || countdown > 0}
+                colorScheme={isCodeSent ? "gray" : "teal"}
+                sx={{
+                  color: isCodeSent ? "black" : "white",
+                  fontWeight: isCodeSent ? "bold" : "500",
+                  cursor: isCodeSent ? "not-allowed" : "pointer",
+                }}
+              >
+                {isCodeSent ? `Gửi lại sau ${formatTime(countdown)}` : "Gửi mã"}
+              </Button>
+            </Grid>
+            <FormInput
               label="Ngày sinh"
               placeholder=""
-              type="date"
+              type="Date"
               value={userData.DOB.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleDateChange("DOB", e.target.value)
@@ -320,7 +424,7 @@ const PaymentInfoPage = () => {
               errorMessage={userData.DOB.errorMessage}
             />
             <FormControl className={style.formImage}>
-              <FormLabel className={style.formLabel}>
+              <FormLabel className={style.formLabel} w="36%">
                 Logo thương hiệu
               </FormLabel>
               <Flex align="center">
@@ -383,9 +487,15 @@ const PaymentInfoPage = () => {
                 bg: `${themeColors.primaryButton}`,
                 opacity: 0.9,
               }}
-              onClick={handleNextForm}
+              isLoading={isLoading}
+              loadingText="Thanh toán"
+              onClick={handleCreatePaymentLink}
+              _disabled={{
+                opacity: 0.6,
+                cursor: "not-allowed",
+              }}
             >
-              Xác nhận
+              Thanh toán
             </Button>
           </Flex>
         </Box>

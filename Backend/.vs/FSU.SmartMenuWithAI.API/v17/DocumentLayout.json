@@ -1,7 +1,33 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "WorkspaceRootPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\",
   "Documents": [],
+=======
+  "WorkspaceRootPath": "D:\\EXE201-SmartMenu_With_AI\\Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe201-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.service\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe201-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.service\\services\\brandservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\services\\brandservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\exe201-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.api\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|d:\\exe201-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.repository\\repositories\\paymentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|solutionrelative:fsu.smartmenuwithai.repository\\repositories\\paymentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|d:\\exe201-smartmenu_with_ai\\backend\\fsu.smartmenuwithai.repository\\repositories\\brandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B4EC070-3B6E-48AD-9A7C-04EE3E6DEC27}|FSU.SmartMenuWithAI.Repository\\FSU.SmartMenuWithAI.Repository.csproj|solutionrelative:fsu.smartmenuwithai.repository\\repositories\\brandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+>>>>>>> bc4921325180e8ec4c657e4d1ee42975362b463a
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,6 +35,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": -1,
           "Children": [
             {
@@ -28,10 +55,73 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+=======
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EmailController.cs",
+              "DocumentMoniker": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\EmailController.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Controllers\\EmailController.cs",
+              "ToolTip": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\EmailController.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Controllers\\EmailController.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAQwCcAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-15T11:56:48.78Z",
+              "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PaymentRepository.cs",
+              "DocumentMoniker": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\PaymentRepository.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Repository\\Repositories\\PaymentRepository.cs",
+              "ToolTip": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\PaymentRepository.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Repository\\Repositories\\PaymentRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-15T10:31:09.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BrandRepository.cs",
+              "DocumentMoniker": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\BrandRepository.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Repository\\Repositories\\BrandRepository.cs",
+              "ToolTip": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Repository\\Repositories\\BrandRepository.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Repository\\Repositories\\BrandRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-15T10:31:02.276Z"
+>>>>>>> bc4921325180e8ec4c657e4d1ee42975362b463a
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BrandService.cs",
+              "DocumentMoniker": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\BrandService.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Services\\BrandService.cs",
+              "ToolTip": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\BrandService.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Services\\BrandService.cs",
+              "ViewState": "AQIAADcAAAAAAAAAAAAkwEoAAABTAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-15T10:29:42.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PaymentService.cs",
+              "DocumentMoniker": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "ToolTip": "D:\\EXE201-SmartMenu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAYwD8AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-15T05:12:17.357Z",
+              "EditorCaption": ""
             }
           ]
         }

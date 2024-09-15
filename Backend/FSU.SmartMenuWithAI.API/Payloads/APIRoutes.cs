@@ -23,6 +23,14 @@
 
             public const string BanAccount = Base + "/account/ban-account";
         }
+        public static class Checkout
+        {
+            public const string CheckoutPayOs = Base + "/PayOS/create-payment-link";
+        }
+        public static class Email
+        {
+            public const string SendVerificationCode = Base + "/send-verification-code";
+        }
         public static class AppUser
         {
             public const string GetAll = Base + "/app-users/";

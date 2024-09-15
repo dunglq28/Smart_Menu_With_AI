@@ -53,6 +53,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return pagin;
         }
 
+<<<<<<< HEAD
         public async Task<PaymentDTO> Insert(int userID, decimal? amount , string email)
         {
 
@@ -76,6 +77,18 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return _mapper?.Map<PaymentDTO>(payment)!;
             }
             return null!;
+=======
+        public async Task<PaymentDTO> GetByEmail(string email)
+        {
+            Expression<Func<Payment, bool>> condition = x => x.Email == email && (x.Status != (int)PaymentStatus.Failed);
+
+            var entity = await _unitOfWork.PaymentRepository.GetByCondition(condition);
+            if (entity == null)
+            {
+                return null!;
+            }
+            return _mapper?.Map<PaymentDTO>(entity)!;
+>>>>>>> bc4921325180e8ec4c657e4d1ee42975362b463a
         }
     }
 }

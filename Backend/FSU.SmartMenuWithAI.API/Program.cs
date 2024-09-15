@@ -16,7 +16,9 @@ using FSU.SmartMenuWithAI.API.Payloads.Responses;
 using FSU.SmartMenuWithAI.Service.Mappings;
 using FSU.SmartMenuWithAI.Repository.Entities;
 using System.Text.Json.Serialization;
-using SharpDX.Direct3D11;
+using SharpDX;
+using FSU.SmartMenuWithAI.Service.Models.PayOS;
+using FSU.SmartMenuWithAI.Service.Models.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,11 +68,19 @@ builder.Services.AddSingleton<IAmazonS3, AmazonS3Client>();
 builder.Services.AddScoped<IS3Service, S3Service>();
 AWSConfigs.AWSRegion = "ap-southeast-1";
 
+//Config PayOS
+builder.Services.Configure<PayOSSetting>(builder.Configuration.GetSection("PayOS"));
+//builder.Services.AddScoped<IPayOSService, PayOSService>();
+
 // Add Mapping profiles
 var mapper = new MapperConfiguration(mc =>
 {
     mc.AddProfile<MappingProfile>();
 });
+
+// Config send email
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 builder.Services.AddSingleton(mapper.CreateMapper());
 
@@ -78,9 +88,9 @@ builder.Services.AddSingleton(mapper.CreateMapper());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<IAppUserRepository,AppUserRepository>();
-builder.Services.AddScoped<IBrandRepository,  BrandRepository>();
-builder.Services.AddScoped<IMenuListRepository,  MenuListRepository>();
+builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<IMenuListRepository, MenuListRepository>();
 builder.Services.AddScoped<IGroupAttributeRepository, GroupAttributeRepository>();
 builder.Services.AddScoped<IAttributeRepository, AttributeRepository>();
 builder.Services.AddScoped<IListPositionRepository, ListPositionRepository>();
