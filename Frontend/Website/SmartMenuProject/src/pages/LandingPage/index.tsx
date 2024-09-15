@@ -420,7 +420,7 @@ function LandingPage() {
                       bg: `${themeColors.primaryButton}`, 
                       opacity: 0.9,
                     }}
-                    onClick={() => navigate("/payment/payment-info")}
+                    onClick={() => navigate("/payment/payment-infor")}
                   >
                     Đăng ký ngay
                   </Button>

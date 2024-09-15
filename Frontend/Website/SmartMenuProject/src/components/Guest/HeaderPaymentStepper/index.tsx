@@ -20,8 +20,8 @@ import logo from "../../../assets/images/logoNoBg.png";
 
 const steps = [
   { title: "Chọn gói" },
-  { title: "Thông tin đăng ký" },
-  { title: "Thanh toán" },
+  { title: "Điền thông tin đăng ký & Thanh toán" },
+  { title: "Kết quả" },
 ];
 
 const HeaderPaymentStepper: React.FC = () => {
@@ -94,7 +94,7 @@ const HeaderPaymentStepper: React.FC = () => {
           </Heading>
         </Flex>
         {/* Stepper */}
-        <Flex justify="flex-start" align="center" w="50%" pr="14px" mt={4}>
+        <Flex justify="flex-start" align="center" w="60%" pr="14px" mt={4}>
           <Stepper size="lg" index={activeStep} w="100%">
             {steps.map((step, index) => (
               <Step key={index}>
@@ -127,22 +127,34 @@ const HeaderPaymentStepper: React.FC = () => {
                 {/* Title color based on step status */}
                 <StepStatus
                   complete={
-                    <Box flexShrink="0" ml={2}>
-                      <StepTitle style={{ color: themeColors.primaryButton }}>
+                    <Box flexShrink="0" ml={2} maxW="180px">
+                      <StepTitle
+                        style={{
+                          color: themeColors.primaryButton,
+                          width: "100%",
+                        }}
+                      >
                         {step.title}
                       </StepTitle>
                     </Box>
                   }
                   active={
-                    <Box flexShrink="0" ml={2}>
-                      <StepTitle style={{ color: themeColors.primaryButton }}>
+                    <Box flexShrink="0" ml={2} maxW="180px">
+                      <StepTitle
+                        style={{
+                          color: themeColors.primaryButton,
+                          width: "100%",
+                        }}
+                      >
                         {step.title}
                       </StepTitle>
                     </Box>
                   }
                   incomplete={
-                    <Box flexShrink="0" ml={2}>
-                      <StepTitle style={{ color: "rgb(118 113 113)" }}>
+                    <Box flexShrink="0" ml={2} maxW="180px">
+                      <StepTitle
+                        style={{ color: "rgb(118 113 113)", width: "100%" }}
+                      >
                         {step.title}
                       </StepTitle>
                     </Box>
@@ -156,7 +168,7 @@ const HeaderPaymentStepper: React.FC = () => {
                         ? "active"
                         : index < activeStep
                         ? "complete"
-                        : "incomplete"
+                        : "incomplete",
                     )}
                   />
                 )}
