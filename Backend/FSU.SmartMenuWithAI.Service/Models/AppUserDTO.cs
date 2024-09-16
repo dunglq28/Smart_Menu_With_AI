@@ -35,5 +35,7 @@ namespace FSU.SmartMenuWithAI.Service.Models
         public int? UpdateBy { get; set; }
 
         public DateOnly? UpdateDate { get; set; }
+        public string? BrandName { get; set; }
+
     }
 }

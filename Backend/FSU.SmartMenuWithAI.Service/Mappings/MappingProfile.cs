@@ -16,7 +16,10 @@ namespace FSU.SmartMenuWithAI.Service.Mappings
         {
             // Mapping classes
             // user
-            CreateMap<AppUser, AppUserDTO>().ReverseMap();
+            CreateMap<AppUser, AppUserDTO>()
+                .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.RoleName))
+                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brands.Select(b => b.BrandName).FirstOrDefault()))
+                .ReverseMap(); // Lấy tên của Brand đầu tiên.ReverseMap(); // Mapping BrandName từ Store và Brand.ReverseMap();
             CreateMap<Token, TokenDto>().ReverseMap();
             CreateMap<RefreshToken, RefreshTokenDTO>().ReverseMap();
             // store
