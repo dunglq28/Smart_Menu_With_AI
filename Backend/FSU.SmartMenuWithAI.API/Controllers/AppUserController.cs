@@ -151,16 +151,17 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin + "," + UserRoles.BrandManager)]
         [HttpGet(APIRoutes.AppUser.GetAll, Name = "GetUsersAsync")]
         public async Task<IActionResult> GetAllAsync([FromQuery(Name = "curr-id-login")] int currIdLoginID
             , [FromQuery(Name = "search-key")] string? searchKey
+            , [FromQuery(Name = "brand-id")] int? brandID
             , [FromQuery(Name = "page-number")] int pageNumber = Page.DefaultPageIndex
             , [FromQuery(Name = "page-size")] int PageSize = Page.DefaultPageSize)
         {
             try
             {
-                var allAccount = await _appUserService.Get(currIdLoginID, searchKey! ,pageIndex: pageNumber, pageSize: PageSize);
+                var allAccount = await _appUserService.Get(currIdLoginID, searchKey!, brandID,pageIndex: pageNumber, pageSize: PageSize);
 
                 return Ok(new BaseResponse
                 {

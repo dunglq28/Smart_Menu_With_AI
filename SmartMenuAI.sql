@@ -45,8 +45,9 @@ ALTER COLUMN Password VARCHAR(255) COLLATE SQL_Latin1_General_CP1_CS_AS;
 CREATE TABLE Plans
 (
 	PlanID INT NOT NULL IDENTITY(1,1),
-	PlanName VARCHAR(50) NOT NULL,
-	Description  NVARCHAR(MAX) NULL,
+	PlanName NVARCHAR(50) NOT NULL,
+	MaxMenu INT NOT NULL,
+	MaxAccount INT NOT NULL,
 	Price DECIMAL(18, 2),
 	PRIMARY KEY (PlanID),
 );
@@ -859,3 +860,16 @@ VALUES
     (12000.00, 1, '2024-06-20', 'TRX445566778', '2024-06-20', '2024-06-20', 7, 'user7@example.com'),
     (13000.00, 1, '2024-07-05', 'TRX889900112', '2024-07-05', '2024-07-05', 8, 'user8@example.com'),
     (14000.00, 1, '2024-07-15', 'TRX223344556', '2024-07-15', '2024-07-15', 9, 'user9@example.com');
+
+-- Insert dữ liệu giả vào bảng Plans
+INSERT INTO Plans (PlanName, MaxMenu, MaxAccount, Price)
+VALUES 
+('Basic Plan', 10, 5, 500000),
+('Standard Plan', 50, 25, 1000000),
+('Premium Plan', 100, 50, 1200000);
+
+INSERT INTO Subscriptions (SubscriptionCode, StartDate, EndDate, Status, UserID, Email, PaymentID, PlanID)
+VALUES
+('SUBS001', GETDATE(), DATEADD(month, 1, GETDATE()), 1, 1, 'user1@example.com', 1, 1),
+('SUBS002', GETDATE(), DATEADD(month, 1, GETDATE()), 1, 2, 'user2@example.com', 2, 2),
+('SUBS003', GETDATE(), DATEADD(month, 1, GETDATE()), 1, 3, 'user3@example.com', 3, 3);

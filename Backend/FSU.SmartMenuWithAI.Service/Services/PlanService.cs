@@ -35,7 +35,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             var entity = await _unitOfWork.PlanRepository.Get();
             return _mapper?.Map<List<PlanDTO>?>(entity)!;
         }
-        public async Task<PlanDTO> Insert(string planName, string description, decimal price)
+        public async Task<PlanDTO> Insert(string planName, int maxMenu, int maxAccount, decimal price)
         {
             // Kiểm tra nếu giá trị của price không dương
             if (price <= 0)
@@ -44,7 +44,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
             }
             var plan = new Plan();
             plan.PlanName = planName;
-            plan.Description = description; 
+            plan.MaxMenu = maxMenu;
+            plan.MaxAccount = maxAccount; 
             plan.Price = price;
 
             Expression<Func<Plan, bool>> condition = x => x.PlanName == plan.PlanName;
@@ -80,7 +81,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return result;
         }
 
-        public async Task<PlanDTO?> UpdateAsync(int id, string planName, string description, decimal price)
+        public async Task<PlanDTO?> UpdateAsync(int id, string planName, int maxMenu, int maxAccount, decimal price)
         {
             // Tìm kế hoạch theo id
             var plan = await _unitOfWork.PlanRepository.GetByCondition(x => x.PlanId == id);
@@ -102,7 +103,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
             }
             // Cập nhật các thuộc tính của kế hoạch
             plan.PlanName = planName;
-            plan.Description = description;
+            plan.MaxAccount = maxAccount;
+            plan.MaxMenu = maxMenu;
             plan.Price = price;
 
             // Lưu thay đổi

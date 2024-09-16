@@ -31,7 +31,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 .Get(p => p.PaymentDate.Year == 2024 && p.Status == 1);  // Chỉ lấy thanh toán hợp lệ
             // Tính tổng doanh thu cho từng tháng bằng cách lọc trong C#
             var monthlyRevenueList = new List<ListRevenue>();
-            for (int i = 1; i <= 12; i++)
+            for (int i = 1; i <= DateTime.Now.Month ; i++)
             {
                 var startDate = new DateTime(2024, i, 1);
                 var endDate = startDate.AddMonths(1);
@@ -58,7 +58,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             }
 
             // Sắp xếp danh sách doanh thu theo thứ tự từ tháng gần nhất
-            monthlyRevenueList = monthlyRevenueList.OrderByDescending(r => r.Year).ThenByDescending(r => r.Month).ToList();
+            //monthlyRevenueList = monthlyRevenueList.OrderByDescending(r => r.Year).ThenByDescending(r => r.Month).ToList();
 
             // Gán danh sách vào dashboardDTO
             dashboardDTO.ListRevenue = monthlyRevenueList;
@@ -88,20 +88,20 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 })
                 .ToList();
 
-            // Define the start and end of the year 2024
+            // Define the start of the year 2024 and the current date
             var startOf2024 = new DateOnly(2024, 1, 1);
-            var endOf2024 = new DateOnly(2024, 12, 31);
+            var today = DateOnly.FromDateTime(DateTime.Today); // Current date
 
-            // Retrieve all brands created in the year 2024
+            // Retrieve all brands created from the start of 2024 to today
             var brands = await _unitOfWork.BrandRepository
-                .Get(b => b.CreateDate >= startOf2024 && b.CreateDate <= endOf2024 && b.Status != (int)Status.Deleted);
+                .Get(b => b.CreateDate >= startOf2024 && b.CreateDate <= today && b.Status != (int)Status.Deleted);
 
-            // Create a list of all months in 2024
-            var allMonths2024 = Enumerable.Range(1, 12)
+            // Create a list of all months from January to the current month in 2024
+            var allMonths2024 = Enumerable.Range(1, today.Month)
                 .Select(month => new { Year = 2024, Month = month })
                 .ToList();
 
-            // Calculate the number of brands created each month in 2024
+            // Calculate the number of brands created each month from January to the current month in 2024
             var brandCounts = brands
                 .GroupBy(b => new { b.CreateDate.Year, b.CreateDate.Month })
                 .Select(g => new ListBrand
@@ -112,7 +112,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 })
                 .ToList();
 
-            // Merge with all months to ensure all months are included
+            // Merge with all months to ensure each month is included, even if no brands were created
             var monthlyBrandCounts = allMonths2024
                 .Select(month => new ListBrand
                 {
@@ -121,8 +121,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     TotalBrands = brandCounts
                         .FirstOrDefault(b => b.Year == month.Year && b.Month == month.Month)?.TotalBrands ?? 0
                 })
-                .OrderByDescending(b => b.Year)
-                .ThenByDescending(b => b.Month)
+                .OrderBy(b => b.Month) // Order from January to the current month
                 .ToList();
 
             // Assign the brand counts to the DTO

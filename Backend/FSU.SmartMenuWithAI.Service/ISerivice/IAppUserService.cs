@@ -16,6 +16,7 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
         Task<PageEntity<AppUserDTO>> Get(
             int currentIDLogin,
             string searchKye,
+            int? brandID = null,
             int? pageIndex = null, // Optional parameter for pagination (page number)
             int? pageSize = null); // Optional parameter for pagination (number of records per page)
 

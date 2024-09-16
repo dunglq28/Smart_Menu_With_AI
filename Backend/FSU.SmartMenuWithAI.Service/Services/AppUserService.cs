@@ -48,14 +48,40 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return result;
         }
 
-        public async Task<PageEntity<AppUserDTO>> Get(int currentIDLogin, string? searchKey, int? pageIndex = null, int? pageSize = null)
+        public async Task<PageEntity<AppUserDTO>> Get(int currentIDLogin, string? searchKey, int? brandID, int? pageIndex = null, int? pageSize = null)
         {
-
-            Expression<Func<AppUser, bool>> filter = searchKey != null
-                ? x => x.UserName.Contains(searchKey) && x.RoleId != (int)UserRole.Admin && !(x.Status == (int)Status.Deleted)
-                : x => x.RoleId != (int)UserRole.Admin && !(x.Status == (int)Status.Deleted);
+            //Expression<Func<AppUser, bool>> filter = searchKey != null
+            //    ? x => x.UserName.Contains(searchKey) && x.RoleId != (int)UserRole.Admin && !(x.Status == (int)Status.Deleted)
+            //    : x => x.RoleId != (int)UserRole.Admin && !(x.Status == (int)Status.Deleted);
             //Expression<Func<AppUser, bool>> filterRecord = x => (x.Status != (int)Status.Deleted && x.RoleId != (int)UserRole.Admin);
 
+            // Bước 1: Lấy danh sách storeUserIds nếu brandID không null
+            List<int> storeUserIds = new List<int>();
+            if (brandID != null)
+            {
+
+                var stores = await _unitOfWork.StoreRepository
+                    .Get(s => s.BrandId == brandID); // Đợi để lấy kết quả
+
+                storeUserIds = stores
+                    .Select(s => s.UserId) // Sau khi đợi, xử lý kết quả
+                    .Distinct()
+                    .ToList();
+            }
+            Expression<Func<AppUser, bool>> filter;
+
+            if (brandID != null)
+            {
+                filter = searchKey != null
+                    ? x => x.UserName.Contains(searchKey) && storeUserIds.Contains(x.UserId) && x.RoleId == (int)UserRole.Store && !(x.Status == (int)Status.Deleted)
+                    : x => storeUserIds.Contains(x.UserId) && x.RoleId == (int)UserRole.Store && !(x.Status == (int)Status.Deleted);
+            }
+            else
+            {
+                filter = searchKey != null
+                    ? x => x.UserName.Contains(searchKey) && x.RoleId != (int)UserRole.Admin && !(x.Status == (int)Status.Deleted)
+                    : x => x.RoleId != (int)UserRole.Admin && !(x.Status == (int)Status.Deleted);
+            }
 
             Func<IQueryable<AppUser>, IOrderedQueryable<AppUser>> orderBy = q => q.OrderByDescending(x => x.UserId);
             string includeProperties = "Role";
@@ -86,6 +112,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             user.Status = (int)Status.Exist;
             user.CreateDate = DateOnly.FromDateTime(DateTime.Now);
             user.Password = PasswordHelper.ConvertToEncrypt("123456");
+            //user.IsActive = false;
 
             Expression<Func<AppUser, bool>> duplicateName = x => x.UserName.Equals(user.UserName) && (x.Status != (int)Status.Deleted);
             var exist = await _unitOfWork.AppUserRepository.GetByCondition(duplicateName);

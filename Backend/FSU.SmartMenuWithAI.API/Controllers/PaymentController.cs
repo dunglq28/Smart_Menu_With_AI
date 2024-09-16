@@ -5,6 +5,10 @@ using FSU.SmartMenuWithAI.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FSU.SmartMenuWithAI.API.Common.Constants;
+using FSU.SmartMenuWithAI.API.Payloads.Request.ListPosition;
+using FSU.SmartMenuWithAI.API.Payloads.Request.Payment;
+using FSU.SmartMenuWithAI.API.Payloads.Request.MenuList;
+using FSU.SmartMenuWithAI.Service.Models.MenuList;
 
 namespace FSU.SmartMenuWithAI.API.Controllers
 {
@@ -41,6 +45,93 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 {
                     StatusCode = StatusCodes.Status400BadRequest,
                     Message = ex.Message,
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
+
+        //[Authorize(Roles = UserRoles.BrandManager)]
+        //[HttpPost(APIRoutes.Payment.Add, Name = "add-payment")]
+        //public async Task<IActionResult> CreateAsync([FromBody] CreatePaymentRequest request)
+        //{
+        //    try
+        //    {
+        //        var createdListPosition = await _paymentService.Insert(request.UserId, request.Amount, request.Email);
+        //        return Ok(new BaseResponse
+        //        {
+        //            StatusCode = StatusCodes.Status200OK,
+        //            Message = "Tạo thanh toan thành công",
+        //            Data = createdListPosition,
+        //            IsSuccess = true
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new BaseResponse
+        //        {
+        //            StatusCode = StatusCodes.Status400BadRequest,
+        //            Message = "Lỗi khi tạo!" + ex.Message,
+        //            IsSuccess = false
+        //        });
+        //    }
+        //}
+
+        //[Authorize(Roles = UserRoles.Admin)]
+        [HttpPut(APIRoutes.Payment.Update, Name = "update-status-payment")]
+        public async Task<IActionResult> ConfirmPayment([FromBody] ConfirmRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Dữ liệu yêu cầu không hợp lệ.",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+
+            if (request.Status != 1 && request.Status != 2)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Trạng thái không hợp lệ. Sử dụng 1 cho thành công hoặc 2 cho thất bại.",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+
+            try
+            {
+                var result = await _paymentService.ConfirmPaymentAsync(request.PaymentId, request.SubscriptionId, request.UserId, request.Status);
+
+                if (!result)
+                {
+                    return NotFound(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "Không tìm thấy thanh toán hoặc đăng ký, hoặc dữ liệu không hợp lệ.",
+                        Data = null,
+                        IsSuccess = false
+                    });
+                }
+
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Cập nhật trạng thái thanh toán thành công.",
+                    Data = null,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Message = $"Lỗi xảy ra: {ex.Message}",
                     Data = null,
                     IsSuccess = false
                 });

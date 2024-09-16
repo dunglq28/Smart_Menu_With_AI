@@ -254,7 +254,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager + "," +UserRoles.Store)]
+        //[Authorize(Roles = UserRoles.BrandManager + "," +UserRoles.Store)]
         [HttpPost(APIRoutes.Menu.RecommendMenu, Name = "recommend-menu-async")]
         public async Task<IActionResult> RecommendMenuAsync([FromForm] RecomentMenuRequest reqobj)
         {
