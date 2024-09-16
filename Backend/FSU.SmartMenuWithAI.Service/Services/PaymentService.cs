@@ -134,7 +134,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return null!;
         }
 
-        public async Task<bool> ConfirmPaymentAsync(int paymentId, int subscriptionId, int userId, int status)
+        public async Task<bool> ConfirmPaymentAsync(int paymentId, int userId, int status)
         {
             // Lấy payment từ PaymentRepository dựa vào paymentId và userId
             var payment = await _unitOfWork.PaymentRepository.GetByID(paymentId);
@@ -144,8 +144,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return false;
             }
 
-            // Lấy subscription từ SubscriptionRepository dựa vào subscriptionId
-            var subscription = await _unitOfWork.SubscriptioRepository.GetByID(subscriptionId);
+            // Lấy subscription từ SubscriptionRepository dựa vào paymentId
+            var subscription = await _unitOfWork.SubscriptioRepository.GetByCondition(s => s.PaymentId == paymentId);
             if (subscription == null || subscription.PaymentId != paymentId || subscription.UserId != userId)
             {
                 // Subscription không tồn tại hoặc không khớp với paymentId hoặc userId
