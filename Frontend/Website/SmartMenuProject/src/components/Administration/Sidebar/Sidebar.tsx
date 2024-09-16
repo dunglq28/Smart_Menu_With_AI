@@ -268,6 +268,8 @@ function Sidebar() {
 
   async function saveBranchHandle(data: UserForm) {
     try {
+      console.log(data);
+
       const userResult = await createUser(data, 3);
 
       if (userResult.statusCode === 200) {
@@ -294,7 +296,8 @@ function Sidebar() {
           }
         }
       }
-    } catch {
+    } catch (err) {
+      console.log(err);
       toast.error("Thêm chi nhánh mới thất bại");
     }
   }

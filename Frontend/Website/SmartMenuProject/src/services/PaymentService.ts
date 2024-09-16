@@ -5,14 +5,12 @@ import { PaymentStatus } from "../constants/Enum";
 
 export const updatePaymentStatus = async (
   paymentId: number,
-  subscriptionId: number,
-  userId: string,
+  userId: number,
   status: PaymentStatus,
 ): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosAuth.put("payments", {
       paymentId: paymentId,
-      subscriptionId: subscriptionId,
       userId: userId,
       status: status,
     });

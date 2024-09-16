@@ -44,7 +44,7 @@ import { createBrand } from "../../../services/BrandService";
 
 interface AddBrandResult {
   isSuccess: boolean;
-  userId?: string; //
+  userId?: string;
 }
 
 const FormInput = ({
@@ -103,22 +103,18 @@ const PaymentInfoPage = () => {
 
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [isLoadingSendMail, setIsLoadingSendMail] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPlan = async () => {
       const queryParams = new URLSearchParams(location.search);
-      const planIdParam = queryParams.get("planId");
-
+      const planIdParam = queryParams.get("plan-id");
       if (planIdParam) {
         const id = parseInt(planIdParam);
-
         try {
           const result = await getPlan(id);
-
           if (result.isSuccess) {
-            console.log(result);
-
             setPlan(result.data);
           } else {
             toast.error("Không có dữ liệu kế hoạch");
@@ -146,7 +142,9 @@ const PaymentInfoPage = () => {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setVerificationCode(code);
     const result = await sendVerificationCode(email.value, code);
+    setIsLoadingSendMail(true);
     if (result.isSuccess) {
+      setIsLoadingSendMail(false);
       setIsCodeSent(true);
       setCountdown(300);
     } else {
@@ -252,6 +250,7 @@ const PaymentInfoPage = () => {
         brandForm.append("Image", brandData.image.value);
 
         const userResult = await createUser(userData, 2);
+        console.log(userResult);
 
         if (userResult.statusCode === 200) {
           brandForm.append("UserId", userResult.data.toString());
@@ -391,24 +390,23 @@ const PaymentInfoPage = () => {
 
     if (!hasError) {
       try {
-        setIsLoading(true);
         console.log(userData);
-        
-        // const addBrandResult = await addNewBrand();
-        // if (addBrandResult.isSuccess) {
-          // console.log(addBrandResult.userId);
 
-          // const result = await createPaymentLink(
-          //   plan.price,
-          //   addBrandResult.userId,
-          //   email.value,
-          //   plan.planId,
-          //   plan.planName,
-          // );
-          // if (result.isSuccess) {
-          //   window.location.href = result.data;
-          // }
-        // }
+        setIsLoading(true);
+        const addBrandResult = await addNewBrand();
+        if (addBrandResult.isSuccess) {
+          const result = await createPaymentLink(
+            // plan.price,
+            "2000",
+            addBrandResult.userId,
+            email.value,
+            plan.planId,
+            plan.planName,
+          );
+          if (result.isSuccess) {
+            window.location.href = result.data;
+          }
+        }
       } catch (err) {
         console.error("Error during payment process:", err);
       } finally {
@@ -493,6 +491,8 @@ const PaymentInfoPage = () => {
               <Button
                 mt={9}
                 onClick={handleSendVerificationCode}
+                isLoading={isLoadingSendMail}
+                loadingText="Gửi mã"
                 isDisabled={isCodeSent || countdown > 0}
                 colorScheme={isCodeSent ? "gray" : "teal"}
                 sx={{

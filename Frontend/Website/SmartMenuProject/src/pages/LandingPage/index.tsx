@@ -440,7 +440,7 @@ function LandingPage() {
                       opacity: 0.9,
                     }}
                     onClick={() =>
-                      navigate(`/payment/payment-infor?planId=${pricing.id}`)
+                      navigate(`/payment/payment-infor?plan-id=${pricing.id}`)
                     }
                   >
                     Đăng ký ngay

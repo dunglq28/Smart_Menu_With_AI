@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Heading,
@@ -10,10 +10,39 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { AiOutlineCloseCircle } from "react-icons/ai"; // Import biểu tượng thất bại
+import { updatePaymentStatus } from "../../../services/PaymentService";
+import { PaymentStatus } from "../../../constants/Enum";
 
 function PaymentFailure() {
   const headingSize = useBreakpointValue({ base: "lg", md: "xl" });
   const textSize = useBreakpointValue({ base: "md", md: "xl" });
+
+  useEffect(() => {
+    const fetchChangePaymentStatus = async () => {
+      const queryParams = new URLSearchParams(location.search);
+      const paymentIdParam = queryParams.get("payment-id");
+      const userIdParam = queryParams.get("user-id");
+
+      if (paymentIdParam && userIdParam) {
+        const paymentId = parseInt(paymentIdParam);
+        const userId = parseInt(userIdParam);
+
+        try {
+          const result = await updatePaymentStatus(
+            paymentId,
+            userId,
+            PaymentStatus.Failed,
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("Thông tin ID thanh toán hoặc người dùng không hợp lệ.");
+      }
+    };
+
+    fetchChangePaymentStatus();
+  }, []);
 
   return (
     <Box height="100vh" bg="gray.100" w="100%" p={4}>

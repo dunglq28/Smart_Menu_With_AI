@@ -16,8 +16,16 @@
 # Mono auto generated files
 mono_crash.*
 
+# Ignore build output
 /bin/
 /obj/
+
+# Ignore build results
+*.dll
+*.exe
+*.pdb
+*.apphost
+*.dll.config
 
 # Build results
 [Dd]ebug/

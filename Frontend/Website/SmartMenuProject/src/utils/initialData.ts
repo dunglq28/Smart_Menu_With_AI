@@ -50,6 +50,7 @@ export const getInitialBranchData = (): BranchForm => ({
 
 export const getInitialDashboardData = (): DashboardData => ({
   numberOfUsers: 0,
+  numberOfBrands: 0,
   totalRevenue: "0",
   listRevenue: [],
   listBrandCounts: [],

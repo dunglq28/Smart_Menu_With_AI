@@ -25,7 +25,7 @@ import { FaUserCheck, FaLuggageCart, FaTrademark } from "react-icons/fa";
 import { Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { GlobalStyles, themeColors } from "../../constants/GlobalStyles";
-import { formatCurrency } from "../../utils/functionHelper";
+import { formatCurrency, formatCurrencyVND } from "../../utils/functionHelper";
 import { ChartOptions } from "chart.js/auto";
 import { getDashboardAdmin } from "../../services/DashbroadService";
 import { DashboardData } from "../../payloads/responses/DashboarData.model";
@@ -104,7 +104,7 @@ function AdminDashboard() {
       const loadData = async () => {
         result = await getDashboardAdmin();
         if (result.isSuccess) {
-          console.log(result.data.totalRevenue);
+          console.log(result);
 
           setData(result.data);
           setIsLoading(false);
@@ -129,9 +129,6 @@ function AdminDashboard() {
 
   return (
     <Box className={style.container}>
-      {/* <Heading as="h3" size="lg" mb={3} fontWeight="bold">
-        Báo cáo
-      </Heading> */}
       <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4}>
         <Card>
           <CardBody>
@@ -172,7 +169,7 @@ function AdminDashboard() {
               <Box>
                 <Text paddingBottom={2}>Doanh thu</Text>
                 <Heading size="md" id="totalRevenue">
-                  {formatCurrency(data.totalRevenue.toString())}
+                  {formatCurrencyVND(data.totalRevenue.toString())}
                 </Heading>
               </Box>
             </Grid>
@@ -195,7 +192,7 @@ function AdminDashboard() {
               <Box>
                 <Text paddingBottom={2}>Thương hiệu</Text>
                 <Heading size="md" id="brandCount">
-                  15
+                  {data.numberOfBrands}
                 </Heading>
               </Box>
             </Grid>
@@ -293,7 +290,7 @@ function AdminDashboard() {
                         </Td>
                         <Td className={style.textDescription}>
                           {moment(transaction.paymentDate).format(
-                            "DD/MM/YYYY HH:mm:ss"
+                            "DD/MM/YYYY HH:mm:ss",
                           )}
                         </Td>
                         <Td className={style.textDescription}>
