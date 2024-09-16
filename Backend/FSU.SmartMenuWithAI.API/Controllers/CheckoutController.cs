@@ -61,8 +61,8 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     amount: (int)request.Amount!,
                     description: "Thanh toán đơn hàng",
                     items: [new(request.PlanName, 1, (int)request.Amount!)],
-                    returnUrl: domain + "/success.html",
-                    cancelUrl: domain + "/payment/payment-infor?is-success=false"
+                    returnUrl: $"{domain}/payment/payment-success?payment-id={payment.PaymentId}",
+                    cancelUrl: $"{domain}/payment/payment-failure?payment-id={payment.PaymentId}"
                 );
                 var response = await payOS.createPaymentLink(paymentLinkRequest);
 

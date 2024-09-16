@@ -65,7 +65,7 @@ function Sidebar() {
 
   //BRANCH DATA
   const [branchData, setBranchData] = useState<BranchForm>(
-    getInitialBranchData()
+    getInitialBranchData(),
   );
 
   // USER DATA
@@ -116,7 +116,7 @@ function Sidebar() {
       icon: AiOutlineUser,
       label: t("users"),
       to: "/users",
-      permissionRole: [UserRole.Admin, UserRole.BrandManager]
+      permissionRole: [UserRole.Admin, UserRole.BrandManager],
     },
     {
       icon: AiOutlineCreditCard,
@@ -184,7 +184,7 @@ function Sidebar() {
 
   useEffect(() => {
     const currentItem = menuItems.find(
-      (menuItem) => menuItem.to === location.pathname
+      (menuItem) => menuItem.to === location.pathname,
     );
     if (currentItem) {
       setItem(currentItem.label);
@@ -236,7 +236,7 @@ function Sidebar() {
       if (brandData.image.value && brandData.brandName.value) {
         brandForm.append(
           "BrandName",
-          capitalizeWords(brandData.brandName.value)
+          capitalizeWords(brandData.brandName.value),
         );
         brandForm.append("Image", brandData.image.value);
       }
@@ -273,7 +273,7 @@ function Sidebar() {
       if (userResult.statusCode === 200) {
         const branchResult = await createBranch(
           branchData,
-          userResult.data.toString()
+          userResult.data.toString(),
         );
 
         if (branchResult.statusCode === 200) {

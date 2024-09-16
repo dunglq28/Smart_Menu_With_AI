@@ -77,7 +77,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
     phoneNumber: { value: userData.phoneNumber.value, errorMessage: "" },
     DOB: { value: userData.DOB.value, errorMessage: "" },
     gender: { value: userData.gender.value || "Nam", errorMessage: "" },
-    isActive: { value: userData.isActive.value || 1, errorMessage: "" },
+    isActive: { value: userData.isActive.value || 0, errorMessage: "" },
   });
 
   const handleInputChange = (field: keyof UserForm, value: string) => {

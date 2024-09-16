@@ -2,6 +2,7 @@ import { BranchForm } from "../models/BranchForm.model";
 import { BrandForm } from "../models/BrandForm.model";
 import { UserForm } from "../models/UserForm.model";
 import { DashboardData } from "../payloads/responses/DashboarData.model";
+import { PlanData } from "../payloads/responses/PlanResponse.model";
 
 export const getInitialUserData = (): UserForm => ({
   fullName: {
@@ -21,7 +22,7 @@ export const getInitialUserData = (): UserForm => ({
     errorMessage: "",
   },
   gender: {
-    value: "",
+    value: "Nam",
     errorMessage: "",
   },
   isActive: {
@@ -33,6 +34,10 @@ export const getInitialUserData = (): UserForm => ({
 export const getInitialBrandData = (): BrandForm => ({
   brandName: { value: "", errorMessage: "" },
   image: { value: null, errorMessage: "" },
+  imageUrl: {
+    value: "",
+    errorMessage: "",
+  },
 });
 
 export const getInitialBranchData = (): BranchForm => ({
@@ -50,4 +55,12 @@ export const getInitialDashboardData = (): DashboardData => ({
   listBrandCounts: [],
   latestUsers: [],
   recentTransactions: [],
+});
+
+export const getInitialPlanData = (): PlanData => ({
+  planId: 0,
+  planName: "",
+  maxMenu: 0,
+  maxAccount: 0,
+  price: "",
 });

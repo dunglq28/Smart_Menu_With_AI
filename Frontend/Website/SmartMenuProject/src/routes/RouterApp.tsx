@@ -19,7 +19,8 @@ import LandingPage from "../pages/LandingPage";
 import BuyingGuide from "../pages/Payment/BuyingGuide"; 
 import PaymentInfor from "../pages/Payment/PaymentInfor";
 import PaymentStepperLayout from "../layouts/PaymentStepperLayout";
-import PaymentStatus from "../pages/Payment/PaymentStatus";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import PaymentFailure from "../pages/Payment/PaymentFail";
 
 interface RouteItem {
   path: string;
@@ -32,7 +33,8 @@ export const publicRoutes: RouteItem[] = [
   { path: "/login", component: Login, layout: GuestLayout },
   { path: "/payment/payment-infor", component: PaymentInfor, layout: PaymentStepperLayout },
   { path: "/payment/payment-guide", component: BuyingGuide, layout: PaymentStepperLayout },
-  { path: "/payment/payment-success", component: PaymentStatus, layout: PaymentStepperLayout },
+  { path: "/payment/payment-success", component: PaymentSuccess, layout: PaymentStepperLayout },
+  { path: "/payment/payment-failure", component: PaymentFailure, layout: PaymentStepperLayout },
   { path: "/admin-dashboard", component: AdminDashboard },
   { path: "/brand-dashboard", component: BrandDashboard },
   { path: "/users", component: User },

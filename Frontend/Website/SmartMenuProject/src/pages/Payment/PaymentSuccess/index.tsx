@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 
-function PaymentStatus() {
+function PaymentSuccess() {
   const headingSize = useBreakpointValue({ base: "lg", md: "xl" });
   const textSize = useBreakpointValue({ base: "md", md: "xl" });
 
@@ -75,4 +75,4 @@ function PaymentStatus() {
   );
 }
 
-export default PaymentStatus;
+export default PaymentSuccess;

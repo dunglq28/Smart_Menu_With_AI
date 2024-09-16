@@ -30,6 +30,21 @@ export const formatCurrencyMenu = (amount: string): string => {
     .replace(".000", "");
 };
 
+export const formatCurrencyVND = (amount: string): string => {
+  const number = parseFloat(amount.replace(/,/g, ""));
+  if (isNaN(number)) {
+    return amount;
+  }
+
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  })
+    .format(number)
+    .replace("₫", "VND")
+    .trim();
+};
+
 export const formatCurrency = (amount: string): string => {
   const number = parseFloat(amount.replace(/,/g, ""));
   if (isNaN(number)) {
@@ -43,7 +58,6 @@ export const formatCurrency = (amount: string): string => {
     .format(number)
     .trim();
 };
-
 
 export const getRoleName = (roleId: number): string => {
   if (roleId === UserRole.Admin) {
