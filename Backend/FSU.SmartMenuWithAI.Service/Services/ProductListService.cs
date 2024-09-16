@@ -85,7 +85,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             var listPositionDTOs = new List<ProductListDTO>();
             foreach (var detail in listProductDetails)
             {
-                foreach (var detailIndex in detail.IndexProducts)
+                foreach (var detailIndex in detail.IndexProducts!)
                 {
                     // Check if the listId exists in the ListPosition table
                     var listPosition = await _unitOfWork.ListPositionRepository.GetByID(detail.ListId);
@@ -156,7 +156,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 {
                     _unitOfWork.ProductListRepository.Delete(listProduct);
                 }
-                foreach (var detailIndex in detail.IndexProducts)
+                foreach (var detailIndex in detail.IndexProducts!)
                 {
                     // Check if the listId exists in the ListPosition table
                     var listPosition = await _unitOfWork.ListPositionRepository.GetByID(detail.ListId);

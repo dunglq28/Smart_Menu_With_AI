@@ -78,41 +78,64 @@ namespace FSU.SmartMenuWithAI.API.Controllers
         //}
 
         //[Authorize(Roles = UserRoles.Admin)]
-        //[HttpPut(APIRoutes.Payment.Update, Name = "update-status-payment")]
-        //public async Task<IActionResult> ConfirmPayment([FromBody] ConfirmRequest request)
-        //{
-        //    try
-        //    {
-        //        var result = await _paymentService.Update(dto);
+        [HttpPut(APIRoutes.Payment.Update, Name = "update-status-payment")]
+        public async Task<IActionResult> ConfirmPayment([FromBody] ConfirmRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Dữ liệu yêu cầu không hợp lệ.",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
 
-        //        if (result == null)
-        //        {
-        //            return NotFound(new BaseResponse
-        //            {
-        //                StatusCode = StatusCodes.Status404NotFound,
-        //                Message = "Không tìm thấy thông tin menu",
-        //                Data = null,
-        //                IsSuccess = false
-        //            });
-        //        }
-        //        return Ok(new BaseResponse
-        //        {
-        //            StatusCode = StatusCodes.Status200OK,
-        //            Message = "Cập nhật thành công",
-        //            Data = result,
-        //            IsSuccess = true
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new BaseResponse
-        //        {
-        //            StatusCode = StatusCodes.Status400BadRequest,
-        //            Message = ex.Message,
-        //            Data = null,
-        //            IsSuccess = false
-        //        });
-        //    }
-        //}
+            if (request.Status != 1 && request.Status != 2)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Trạng thái không hợp lệ. Sử dụng 1 cho thành công hoặc 2 cho thất bại.",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+
+            try
+            {
+                var result = await _paymentService.ConfirmPaymentAsync(request.PaymentId, request.SubscriptionId, request.UserId, request.Status);
+
+                if (!result)
+                {
+                    return NotFound(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "Không tìm thấy thanh toán hoặc đăng ký, hoặc dữ liệu không hợp lệ.",
+                        Data = null,
+                        IsSuccess = false
+                    });
+                }
+
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Cập nhật trạng thái thanh toán thành công.",
+                    Data = null,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Message = $"Lỗi xảy ra: {ex.Message}",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
     }
 }
