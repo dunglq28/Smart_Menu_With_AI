@@ -141,8 +141,8 @@ const PaymentInfoPage = () => {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setVerificationCode(code);
-    const result = await sendVerificationCode(email.value, code);
     setIsLoadingSendMail(true);
+    const result = await sendVerificationCode(email.value, code);
     if (result.isSuccess) {
       setIsLoadingSendMail(false);
       setIsCodeSent(true);

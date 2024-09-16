@@ -31,6 +31,7 @@ import { getDashboardAdmin } from "../../services/DashbroadService";
 import { DashboardData } from "../../payloads/responses/DashboarData.model";
 import { getInitialDashboardData } from "../../utils/initialData";
 import moment from "moment";
+import { PaymentStatus } from "../../constants/Enum";
 
 function AdminDashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -269,7 +270,7 @@ function AdminDashboard() {
                   <Thead>
                     <Tr>
                       <Th className={style.subtitle}>Người dùng</Th>
-                      <Th className={style.subtitle}>Ngày & Giờ</Th>
+                      <Th className={style.subtitle}>Ngày & Giờ tạo</Th>
                       <Th className={style.subtitle}>Tổng tiền</Th>
                       <Th className={style.subtitle}>Trạng thái</Th>
                     </Tr>
@@ -297,10 +298,12 @@ function AdminDashboard() {
                           {formatCurrency(transaction.amount.toString())}
                         </Td>
                         <Td className={style.textDescription}>
-                          {transaction.status === 1 ? (
+                          {transaction.status === PaymentStatus.Succeed ? (
                             <Badge colorScheme="green">Thành công</Badge>
-                          ) : (
+                          ) : transaction.status === PaymentStatus.Failed ? (
                             <Badge colorScheme="red">Thất bại</Badge>
+                          ) : (
+                            <Badge colorScheme="yellow">Chờ thanh toán</Badge>
                           )}
                         </Td>
                       </Tr>
