@@ -3,7 +3,8 @@
     public class ConfirmRequest
     {
         public int PaymentId { get; set; }
-        public int PlanId { get; set; }
+        public int SubscriptionId { get; set; }
         public int UserId { get; set; }
+        public int Status { get; set; }
     }
 }
