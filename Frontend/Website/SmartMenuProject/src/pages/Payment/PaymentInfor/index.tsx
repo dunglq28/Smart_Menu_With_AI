@@ -325,11 +325,11 @@ const PaymentInfoPage = () => {
     } finally {
     }
   }
-  
+
   const formatDateToYYYYMMDD = (date: Date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng từ 0-11
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng từ 0-11
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -417,7 +417,11 @@ const PaymentInfoPage = () => {
               label="Ngày sinh"
               placeholder=""
               type="Date"
-              value={userData.DOB.value}
+              value={
+                userData.DOB.value
+                  ? userData.DOB.value.toISOString().split("T")[0]
+                  : ""
+              }
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleDateChange("DOB", e.target.value)
               }
