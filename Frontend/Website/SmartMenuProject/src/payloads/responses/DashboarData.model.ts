@@ -24,6 +24,7 @@ interface brandStatistics {
 export interface DashboardData {
   numberOfUsers: number;
   totalRevenue: string;
+  numberOfBrands: number;
   listRevenue: listRevenue[];
   listBrandCounts: brandStatistics[];
   latestUsers: UserData[];

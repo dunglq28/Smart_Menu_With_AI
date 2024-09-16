@@ -61,8 +61,8 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     amount: (int)request.Amount!,
                     description: "Thanh toán đơn hàng",
                     items: [new(request.PlanName, 1, (int)request.Amount!)],
-                    returnUrl: domain + "/success.html",
-                    cancelUrl: domain + "/payment/payment-infor?is-success=false"
+                    returnUrl: $"{domain}/payment/payment-success?payment-id={payment.PaymentId}&user-id={request.UserId}",
+                    cancelUrl: $"{domain}/payment/payment-failure?payment-id={payment.PaymentId}&user-id={request.UserId}"
                 );
                 var response = await payOS.createPaymentLink(paymentLinkRequest);
 
@@ -86,5 +86,51 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
+
+        [HttpGet(APIRoutes.Checkout.GetPaymentLink, Name = "GetPaymentLink")]
+        public async Task<IActionResult> GetPaymentStatus([FromQuery] string paymentId)
+        {
+            try
+            {
+                // Lấy thông tin thanh toán từ hệ thống PayOS
+                var payOS = new PayOS(_payOSSetting.ClientID, _payOSSetting.ApiKey, _payOSSetting.ChecksumKey);
+
+                var paymentLink = await payOS.getPaymentLinkInformation(long.Parse(paymentId));
+
+                if (paymentLink == null)
+                {
+                    return NotFound(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "Không tìm thấy thông tin thanh toán",
+                        Data = null,
+                        IsSuccess = false
+                    });
+                }
+
+                // Trả về thông tin thanh toán
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Lấy thông tin thanh toán thành công",
+                    Data = paymentLink,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ex.Message,
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
+
+
+
+
     }
 }

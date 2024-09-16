@@ -26,6 +26,26 @@ import { UserForm } from "../../../models/UserForm.model";
 import { generateUsernameFromBrand } from "../../../utils/createUserName";
 import { createPaymentLink } from "../../../services/CheckoutService";
 import { sendVerificationCode } from "../../../services/EmailService";
+import { PlanData } from "../../../payloads/responses/PlanResponse.model";
+import { getPlan } from "../../../services/PlanService";
+import { toast } from "react-toastify";
+import {
+  getInitialBrandData,
+  getInitialPlanData,
+  getInitialUserData,
+} from "../../../utils/initialData";
+import {
+  capitalizeWords,
+  formatCurrencyVND,
+} from "../../../utils/functionHelper";
+import moment from "moment";
+import { createUser } from "../../../services/UserService";
+import { createBrand } from "../../../services/BrandService";
+
+interface AddBrandResult {
+  isSuccess: boolean;
+  userId?: string;
+}
 
 const FormInput = ({
   label,
@@ -65,25 +85,8 @@ const PackageDetail = ({
 
 const PaymentInfoPage = () => {
   const navigate = useNavigate();
-  const [brandData, setBrandData] = useState<BrandForm>({
-    brandName: { value: "", errorMessage: "" },
-    image: { value: null, errorMessage: "" },
-    imageUrl: {
-      value: "",
-      errorMessage: "",
-    },
-  });
-  const [userData, setUserData] = useState<UserForm>({
-    fullName: { value: "", errorMessage: "" },
-    userName: {
-      value: "",
-      errorMessage: "",
-    },
-    phoneNumber: { value: "", errorMessage: "" },
-    DOB: { value: null, errorMessage: "" },
-    gender: { value: "Nam", errorMessage: "" },
-    isActive: { value: 2, errorMessage: "" },
-  });
+  const [brandData, setBrandData] = useState<BrandForm>(getInitialBrandData());
+  const [userData, setUserData] = useState<UserForm>(getInitialUserData());
   const [email, setEmail] = useState({
     value: "",
     errorMessage: "",
@@ -93,9 +96,39 @@ const PaymentInfoPage = () => {
     value: "",
     errorMessage: "",
   });
+  const [plan, setPlan] = useState<PlanData>(getInitialPlanData());
+  const today = moment();
+  const effectiveDate = today.format("DD/MM/YYYY");
+  const expirationDate = today.add(1, "month").format("DD/MM/YYYY");
+
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [isLoadingSendMail, setIsLoadingSendMail] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchPlan = async () => {
+      const queryParams = new URLSearchParams(location.search);
+      const planIdParam = queryParams.get("plan-id");
+      if (planIdParam) {
+        const id = parseInt(planIdParam);
+        try {
+          const result = await getPlan(id);
+          if (result.isSuccess) {
+            setPlan(result.data);
+          } else {
+            toast.error("Không có dữ liệu kế hoạch");
+          }
+        } catch (err) {
+          toast.error("Lỗi khi lấy dữ liệu gói dịch vụ");
+        }
+      } else {
+        toast.error("ID kế hoạch không hợp lệ");
+      }
+    };
+
+    fetchPlan();
+  }, [location.search]);
 
   async function handleSendVerificationCode() {
     if (!isValidEmail(email.value)) {
@@ -108,12 +141,18 @@ const PaymentInfoPage = () => {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setVerificationCode(code);
-    // const result = await sendVerificationCode(email.value, code);
-    // if (result.isSuccess) {
-    console.log(code);
-    setIsCodeSent(true);
-    setCountdown(300);
-    // }
+    setIsLoadingSendMail(true);
+    const result = await sendVerificationCode(email.value, code);
+    if (result.isSuccess) {
+      setIsLoadingSendMail(false);
+      setIsCodeSent(true);
+      setCountdown(300);
+    } else {
+      setEmail((prev) => ({
+        ...prev,
+        errorMessage: result.message,
+      }));
+    }
   }
 
   useEffect(() => {
@@ -199,130 +238,180 @@ const PaymentInfoPage = () => {
     ? URL.createObjectURL(brandData.image.value)
     : brandData.imageUrl?.value;
 
-  async function handleCreatePaymentLink() {
+  async function addNewBrand(): Promise<AddBrandResult> {
     try {
-      let hasError = false;
+      const brandForm = new FormData();
 
-      if (brandData.brandName.value.length < 1) {
-        setBrandData((prevData) => ({
-          ...prevData,
-          brandName: {
-            ...prevData.brandName,
-            errorMessage: "Tên thương hiệu là bắt buộc",
-          },
-        }));
-        hasError = true;
+      if (brandData.image.value && brandData.brandName.value) {
+        brandForm.append(
+          "BrandName",
+          capitalizeWords(brandData.brandName.value),
+        );
+        brandForm.append("Image", brandData.image.value);
+
+        const userResult = await createUser(userData, 2);
+        console.log(userResult);
+
+        if (userResult.statusCode === 200) {
+          brandForm.append("UserId", userResult.data.toString());
+          const brandResult = await createBrand(brandForm);
+
+          if (brandResult.statusCode === 200) {
+            return { isSuccess: true, userId: userResult.data.toString() };
+          } else {
+            return { isSuccess: false };
+          }
+        } else {
+          return { isSuccess: false };
+        }
+      } else {
+        return { isSuccess: false };
       }
+    } catch (error) {
+      console.error("Error creating brand:", error);
+      setBrandData((prevData) => ({
+        ...prevData,
+        brandName: {
+          ...prevData.brandName,
+          errorMessage: "Tên thương hiệu đã tồn tại",
+        },
+      }));
+      return { isSuccess: false };
+    }
+  }
 
-      if (
-        !brandData.image.value &&
-        !brandData.imageUrl?.value &&
-        !brandData.image.errorMessage
-      ) {
-        setBrandData((prevData) => ({
-          ...prevData,
-          image: {
-            ...prevData.image,
-            errorMessage: "Logo là bắt buộc",
-          },
-        }));
-        hasError = true;
-      }
+  async function handleCreatePaymentLink() {
+    let hasError = false;
 
-      if (userData.fullName.value.trim() === "") {
-        setUserData((prevData) => ({
-          ...prevData,
-          fullName: {
-            ...prevData.fullName,
-            errorMessage: "Họ và tên là bắt buộc",
-          },
-        }));
-        hasError = true;
-      } else if (userData.fullName.value.trim().length < 6) {
-        setUserData((prevData) => ({
-          ...prevData,
-          fullName: {
-            ...prevData.fullName,
-            errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
-          },
-        }));
-        hasError = true;
-      }
+    if (brandData.brandName.value.length < 1) {
+      setBrandData((prevData) => ({
+        ...prevData,
+        brandName: {
+          ...prevData.brandName,
+          errorMessage: "Tên thương hiệu là bắt buộc",
+        },
+      }));
+      hasError = true;
+    }
 
-      if (userData.phoneNumber.value.trim() === "") {
-        setUserData((prevData) => ({
-          ...prevData,
-          phoneNumber: {
-            ...prevData.phoneNumber,
-            errorMessage: "Số điện thoại là bắt buộc",
-          },
-        }));
-        hasError = true;
-      } else if (!isValidPhoneNumber(userData.phoneNumber.value.trim())) {
-        setUserData((prevData) => ({
-          ...prevData,
-          phoneNumber: {
-            ...prevData.phoneNumber,
-            errorMessage: "Số điện thoại không hợp lệ",
-          },
-        }));
-        hasError = true;
-      }
+    if (
+      !brandData.image.value &&
+      !brandData.imageUrl?.value &&
+      !brandData.image.errorMessage
+    ) {
+      setBrandData((prevData) => ({
+        ...prevData,
+        image: {
+          ...prevData.image,
+          errorMessage: "Logo là bắt buộc",
+        },
+      }));
+      hasError = true;
+    }
 
-      // if (!userData.DOB.value) {
-      //   setUserData((prevData) => ({
-      //     ...prevData,
-      //     DOB: {
-      //       ...prevData.DOB,
-      //       errorMessage: "Ngày sinh là bắt buộc",
-      //     },
-      //   }));
-      //   hasError = true;
-      // }
+    if (userData.fullName.value.trim() === "") {
+      setUserData((prevData) => ({
+        ...prevData,
+        fullName: {
+          ...prevData.fullName,
+          errorMessage: "Họ và tên là bắt buộc",
+        },
+      }));
+      hasError = true;
+    } else if (userData.fullName.value.trim().length < 6) {
+      setUserData((prevData) => ({
+        ...prevData,
+        fullName: {
+          ...prevData.fullName,
+          errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
+        },
+      }));
+      hasError = true;
+    }
 
-      if (email.value.trim() === "") {
-        setEmail((prev) => ({
-          ...prev,
-          errorMessage: "Email là bắt buộc",
-        }));
-        hasError = true;
-      } else if (!isValidEmail(email.value.trim())) {
-        setEmail((prev) => ({
-          ...prev,
-          errorMessage: "Email không hợp lệ",
-        }));
-        hasError = true;
-      }
+    if (userData.phoneNumber.value.trim() === "") {
+      setUserData((prevData) => ({
+        ...prevData,
+        phoneNumber: {
+          ...prevData.phoneNumber,
+          errorMessage: "Số điện thoại là bắt buộc",
+        },
+      }));
+      hasError = true;
+    } else if (!isValidPhoneNumber(userData.phoneNumber.value.trim())) {
+      setUserData((prevData) => ({
+        ...prevData,
+        phoneNumber: {
+          ...prevData.phoneNumber,
+          errorMessage: "Số điện thoại không hợp lệ",
+        },
+      }));
+      hasError = true;
+    }
 
-      if (verificationCodeUser.value.trim() === "") {
-        setVerificationCodeUser((prev) => ({
-          ...prev,
-          errorMessage: "Mã xác nhận là bắt buộc",
-        }));
-        hasError = true;
-      } else if (verificationCodeUser.value.trim() != verificationCode) {
-        setVerificationCodeUser((prev) => ({
-          ...prev,
-          errorMessage: "Mã xác nhận không chính xác",
-        }));
-        hasError = true;
-      }
+    if (!userData.DOB.value) {
+      setUserData((prevData) => ({
+        ...prevData,
+        DOB: {
+          ...prevData.DOB,
+          errorMessage: "Ngày sinh là bắt buộc",
+        },
+      }));
+      hasError = true;
+    }
 
-      if (!hasError) {
-        console.log("Thanh toán");
-        setIsLoading(true);
-        console.log(brandData);
+    if (email.value.trim() === "") {
+      setEmail((prev) => ({
+        ...prev,
+        errorMessage: "Email là bắt buộc",
+      }));
+      hasError = true;
+    } else if (!isValidEmail(email.value.trim())) {
+      setEmail((prev) => ({
+        ...prev,
+        errorMessage: "Email không hợp lệ",
+      }));
+      hasError = true;
+    }
+
+    if (verificationCodeUser.value.trim() === "") {
+      setVerificationCodeUser((prev) => ({
+        ...prev,
+        errorMessage: "Mã xác nhận là bắt buộc",
+      }));
+      hasError = true;
+    } else if (verificationCodeUser.value.trim() != verificationCode) {
+      setVerificationCodeUser((prev) => ({
+        ...prev,
+        errorMessage: "Mã xác nhận không chính xác",
+      }));
+      hasError = true;
+    }
+
+    if (!hasError) {
+      try {
         console.log(userData);
 
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 5000);
-        // const result = await createPaymentLink();
-        // if (result.isSuccess) {
-        //   window.location.href = result.data;
-        // }
+        setIsLoading(true);
+        const addBrandResult = await addNewBrand();
+        if (addBrandResult.isSuccess) {
+          const result = await createPaymentLink(
+            // plan.price,
+            "2000",
+            addBrandResult.userId,
+            email.value,
+            plan.planId,
+            plan.planName,
+          );
+          if (result.isSuccess) {
+            window.location.href = result.data;
+          }
+        }
+      } catch (err) {
+        console.error("Error during payment process:", err);
+      } finally {
+        setIsLoading(false);
       }
-    } finally {
     }
   }
 
@@ -402,6 +491,8 @@ const PaymentInfoPage = () => {
               <Button
                 mt={9}
                 onClick={handleSendVerificationCode}
+                isLoading={isLoadingSendMail}
+                loadingText="Gửi mã"
                 isDisabled={isCodeSent || countdown > 0}
                 colorScheme={isCodeSent ? "gray" : "teal"}
                 sx={{
@@ -465,17 +556,20 @@ const PaymentInfoPage = () => {
           <Heading className={style.packagesTitle} mb={4}>
             Thông tin chi tiết gói
           </Heading>
-          <PackageDetail label="Tên gói" value="Gói Cơ Bản" />
+          <PackageDetail label="Tên gói" value={plan.planName} />
           <PackageDetail label="Thời hạn gói" value="01 tháng" />
           <Divider borderWidth="1px" mb={4} />
-          <PackageDetail label="Ngày hiệu lực" value="14/09/2024" />
-          <PackageDetail label="Sử dụng đến" value="14/10/2024" />
+          <PackageDetail label="Ngày hiệu lực" value={effectiveDate} />
+          <PackageDetail label="Sử dụng đến" value={expirationDate} />
           <Divider borderWidth="1px" mb={4} />
-          <PackageDetail label="Trị giá" value="500.000 VND" />
+          <PackageDetail
+            label="Trị giá"
+            value={formatCurrencyVND(plan.price.toString())}
+          />
           <Divider borderWidth="1px" mb={4} />
           <PackageDetail
             label="Thành tiền"
-            value="500.000 VND"
+            value={formatCurrencyVND(plan.price.toString())}
             classNameValue={style.packagesFinalPrice}
           />
           <Flex justify="space-between" mb={4} w="100%">

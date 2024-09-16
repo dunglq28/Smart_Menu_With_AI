@@ -25,12 +25,13 @@ import { FaUserCheck, FaLuggageCart, FaTrademark } from "react-icons/fa";
 import { Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { GlobalStyles, themeColors } from "../../constants/GlobalStyles";
-import { formatCurrency } from "../../utils/functionHelper";
+import { formatCurrency, formatCurrencyVND } from "../../utils/functionHelper";
 import { ChartOptions } from "chart.js/auto";
 import { getDashboardAdmin } from "../../services/DashbroadService";
 import { DashboardData } from "../../payloads/responses/DashboarData.model";
 import { getInitialDashboardData } from "../../utils/initialData";
 import moment from "moment";
+import { PaymentStatus } from "../../constants/Enum";
 
 function AdminDashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -104,7 +105,7 @@ function AdminDashboard() {
       const loadData = async () => {
         result = await getDashboardAdmin();
         if (result.isSuccess) {
-          console.log(result.data.totalRevenue);
+          console.log(result);
 
           setData(result.data);
           setIsLoading(false);
@@ -129,9 +130,6 @@ function AdminDashboard() {
 
   return (
     <Box className={style.container}>
-      {/* <Heading as="h3" size="lg" mb={3} fontWeight="bold">
-        Báo cáo
-      </Heading> */}
       <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4}>
         <Card>
           <CardBody>
@@ -172,7 +170,7 @@ function AdminDashboard() {
               <Box>
                 <Text paddingBottom={2}>Doanh thu</Text>
                 <Heading size="md" id="totalRevenue">
-                  {formatCurrency(data.totalRevenue.toString())}
+                  {formatCurrencyVND(data.totalRevenue.toString())}
                 </Heading>
               </Box>
             </Grid>
@@ -195,7 +193,7 @@ function AdminDashboard() {
               <Box>
                 <Text paddingBottom={2}>Thương hiệu</Text>
                 <Heading size="md" id="brandCount">
-                  15
+                  {data.numberOfBrands}
                 </Heading>
               </Box>
             </Grid>
@@ -272,7 +270,7 @@ function AdminDashboard() {
                   <Thead>
                     <Tr>
                       <Th className={style.subtitle}>Người dùng</Th>
-                      <Th className={style.subtitle}>Ngày & Giờ</Th>
+                      <Th className={style.subtitle}>Ngày & Giờ tạo</Th>
                       <Th className={style.subtitle}>Tổng tiền</Th>
                       <Th className={style.subtitle}>Trạng thái</Th>
                     </Tr>
@@ -293,17 +291,19 @@ function AdminDashboard() {
                         </Td>
                         <Td className={style.textDescription}>
                           {moment(transaction.paymentDate).format(
-                            "DD/MM/YYYY HH:mm:ss"
+                            "DD/MM/YYYY HH:mm:ss",
                           )}
                         </Td>
                         <Td className={style.textDescription}>
                           {formatCurrency(transaction.amount.toString())}
                         </Td>
                         <Td className={style.textDescription}>
-                          {transaction.status === 1 ? (
+                          {transaction.status === PaymentStatus.Succeed ? (
                             <Badge colorScheme="green">Thành công</Badge>
-                          ) : (
+                          ) : transaction.status === PaymentStatus.Failed ? (
                             <Badge colorScheme="red">Thất bại</Badge>
+                          ) : (
+                            <Badge colorScheme="yellow">Chờ thanh toán</Badge>
                           )}
                         </Td>
                       </Tr>

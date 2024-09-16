@@ -864,9 +864,10 @@ VALUES
 -- Insert dữ liệu giả vào bảng Plans
 INSERT INTO Plans (PlanName, MaxMenu, MaxAccount, Price)
 VALUES 
-('Basic Plan', 10, 5, 500000),
-('Standard Plan', 50, 25, 1000000),
-('Premium Plan', 100, 50, 1200000);
+(N'Gói Cơ Bản', 10, 5, 100000),  -- 100,000 VNĐ/tháng
+(N'Gói Tiêu Chuẩn', 50, 25, 200000),  -- 200,000 VNĐ/tháng
+(N'Gói Cao Cấp', 100, 50, 300000);  -- 300,000 VNĐ/tháng
+
 
 INSERT INTO Subscriptions (SubscriptionCode, StartDate, EndDate, Status, UserID, Email, PaymentID, PlanID)
 VALUES
