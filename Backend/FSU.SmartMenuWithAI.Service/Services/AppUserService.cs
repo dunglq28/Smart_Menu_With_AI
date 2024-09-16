@@ -84,7 +84,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             }
 
             Func<IQueryable<AppUser>, IOrderedQueryable<AppUser>> orderBy = q => q.OrderByDescending(x => x.UserId);
-            string includeProperties = "Role,Brands";
+            string includeProperties = "Role";
 
             var entities = _unitOfWork.AppUserRepository.Get(currentIDLogin, filter: filter, orderBy: orderBy, includeProperties: includeProperties, pageIndex: pageIndex, pageSize: pageSize).ToList();
             var pagin = new PageEntity<AppUserDTO>();

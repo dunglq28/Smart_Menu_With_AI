@@ -21,7 +21,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _appUserService = appUserService;
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost(APIRoutes.AppUser.Add, Name = "AddUserAsync")]
         public async Task<IActionResult> AddAsync([FromBody] AddUserRequest reqObj)
         {
