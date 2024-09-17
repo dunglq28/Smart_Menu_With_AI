@@ -279,8 +279,6 @@ function Sidebar() {
 
   async function saveBranchHandle(data: UserForm) {
     try {
-      console.log(data);
-
       const userResult = await createUser(data, 3);
 
       if (userResult.statusCode === 200) {

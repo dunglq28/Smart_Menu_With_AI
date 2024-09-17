@@ -39,6 +39,7 @@ import moment from "moment";
 import { createUser, updateUser } from "../../../services/UserService";
 import {
   createBrand,
+  getBrandByBrandName,
   getBrandByUserId,
   updateBrand,
 } from "../../../services/BrandService";
@@ -254,30 +255,29 @@ const PaymentInfoPage = () => {
         brandForm.append("BrandName", brandData.brandName.value);
         brandForm.append("Image", brandData.image.value);
 
-        const userResult = await createUser(userData, 2);
+        const response = await getBrandByBrandName(brandData.brandName.value);
+        if (response.data == null) {
+          const userResult = await createUser(userData, 2);
+          if (userResult.statusCode === 200) {
+            brandForm.append("UserId", userResult.data.toString());
+            const brandResult = await createBrand(brandForm);
 
-        if (userResult.statusCode === 200) {
-          brandForm.append("UserId", userResult.data.toString());
-          const brandResult = await createBrand(brandForm);
-
-          if (brandResult.statusCode === 200) {
-            return { isSuccess: true, userId: userResult.data.toString() };
-          } else {
-            setBrandData((prevData) => ({
-              ...prevData,
-              brandName: {
-                ...prevData.brandName,
-                errorMessage: "Tên thương hiệu đã tồn tại",
-              },
-            }));
-            return { isSuccess: false };
-          }
+            if (brandResult.statusCode === 200) {
+              return { isSuccess: true, userId: userResult.data.toString() };
+            }
+          } 
         } else {
-          return { isSuccess: false };
+          setBrandData((prevData) => ({
+            ...prevData,
+            brandName: {
+              ...prevData.brandName,
+              errorMessage: "Tên thương hiệu đã tồn tại",
+            },
+          }));
         }
-      } else {
-        return { isSuccess: false };
-      }
+      } 
+
+      return { isSuccess: false };
     } catch (error) {
       console.error("Error creating brand:", error);
       return { isSuccess: false };

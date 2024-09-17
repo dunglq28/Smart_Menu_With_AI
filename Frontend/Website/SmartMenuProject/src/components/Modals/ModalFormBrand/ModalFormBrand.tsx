@@ -14,6 +14,7 @@ import styles from "./ModalFormBrand.module.scss";
 import { BrandForm } from "../../../models/BrandForm.model";
 import { isImageFile } from "../../../utils/validation";
 import { getInitialBrandData } from "../../../utils/initialData";
+import { getBrandByBrandName } from "../../../services/BrandService";
 
 interface ModalFormBrandProps {
   brandData: BrandForm;
@@ -80,7 +81,7 @@ const ModalFormBrand: React.FC<ModalFormBrandProps> = ({
     onClose();
   };
 
-  const handleNextForm = () => {
+  const handleNextForm = async () => {
     let hasError = false;
 
     if (formData.brandName.value.length < 1) {
@@ -112,7 +113,18 @@ const ModalFormBrand: React.FC<ModalFormBrandProps> = ({
     if (!hasError) {
       updateBrandData?.(formData, true);
       if (nextHandler) {
-        nextHandler();
+        const result = await getBrandByBrandName(formData.brandName.value);
+        if (result.data == null) {
+          nextHandler();
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            brandName: {
+              ...prevData.brandName,
+              errorMessage: "Tên thương hiệu đã tồn tại",
+            },
+          }));
+        }
       }
     }
   };

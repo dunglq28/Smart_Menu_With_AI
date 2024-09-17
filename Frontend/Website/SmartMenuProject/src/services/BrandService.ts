@@ -11,7 +11,7 @@ import { GetData } from "../payloads/responses/GetData.model";
 
 export const getBrands = async (
   currentPage: number,
-  rowsPerPage: number
+  rowsPerPage: number,
 ): Promise<GetData<BrandData>> => {
   const res = await axiosAuth.get("brands", {
     params: {
@@ -42,7 +42,7 @@ export const getBrand = async (id: number): Promise<ApiResponse<BrandData>> => {
 };
 
 export const getBrandByUserId = async (
-  id: number
+  id: number,
 ): Promise<ApiResponse<BrandData>> => {
   const res = await axiosAuth.get(`brands/get-by-user-id`, {
     params: {
@@ -53,8 +53,27 @@ export const getBrandByUserId = async (
   return apiResponse;
 };
 
+export const getBrandByBrandName = async (
+  brandName: string,
+): Promise<ApiResponse<BrandData>> => {
+  try {
+    const res = await axiosAuth.get(`brands/get-by-name`, {
+      params: {
+        brandName: brandName,
+      },
+    });
+    const apiResponse = res.data as ApiResponse<BrandData>;
+    return apiResponse;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response.data as ApiResponse<BrandData>;
+    }
+    throw new Error("Unexpected error");
+  }
+};
+
 export const createBrand = async (
-  brandForm: FormData
+  brandForm: FormData,
 ): Promise<ApiResponse<Object>> => {
   const res = await axiosMultipartForm.post("brands/add", brandForm);
   const apiResponse = res.data as ApiResponse<Object>;
@@ -62,7 +81,7 @@ export const createBrand = async (
 };
 
 export const updateBrand = async (
-  brand: brandUpdate
+  brand: brandUpdate,
 ): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosMultipartForm.put("brands/update", brand);
