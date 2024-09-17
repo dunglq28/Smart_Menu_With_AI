@@ -45,7 +45,6 @@ import {
   getInitialUserData,
 } from "../../../utils/initialData";
 import { toast } from "react-toastify";
-import { capitalizeWords } from "../../../utils/functionHelper";
 import { createUser } from "../../../services/UserService";
 import { createBrand } from "../../../services/BrandService";
 import { createBranch } from "../../../services/BranchService";
@@ -249,10 +248,7 @@ function Sidebar() {
       const brandForm = new FormData();
 
       if (brandData.image.value && brandData.brandName.value) {
-        brandForm.append(
-          "BrandName",
-          capitalizeWords(brandData.brandName.value),
-        );
+        brandForm.append("BrandName", brandData.brandName.value);
         brandForm.append("Image", brandData.image.value);
       }
 
