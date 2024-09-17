@@ -26,7 +26,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _imageFileValidator = new ImageFileValidator();
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost(APIRoutes.Brand.Add, Name = "add-brand-async")]
         public async Task<IActionResult> AddAsync([FromForm] CreateBrandRequest reqObj)
         {

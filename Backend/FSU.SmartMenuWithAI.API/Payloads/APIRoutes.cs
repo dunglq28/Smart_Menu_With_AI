@@ -26,6 +26,7 @@
         public static class Checkout
         {
             public const string CheckoutPayOs = Base + "/PayOS/create-payment-link";
+            public const string GetPaymentLink = Base + "/PayOS/get-payment-link";
         }
         public static class Email
         {

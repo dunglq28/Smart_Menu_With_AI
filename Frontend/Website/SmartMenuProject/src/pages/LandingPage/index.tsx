@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -33,8 +33,11 @@ import menuRecommend from "../../assets/images/menuRecommend.png";
 import menuManage from "../../assets/images/menuManage.png";
 import database from "../../assets/images/database.png";
 import twoLaptop from "../../assets/images/2laptop.png";
-import ModalForm from "../../components/Modals/ModalForm/ModalForm";
 import { t } from "i18next";
+import { PlanData } from "../../payloads/responses/PlanResponse.model";
+import { getPlans } from "../../services/PlanService";
+import { toast } from "react-toastify";
+import { formatCurrencyVND } from "../../utils/functionHelper";
 
 type BusinessType = {
   icon: string;
@@ -53,6 +56,7 @@ type Benefit = {
 };
 
 type PricingPackageType = {
+  id: number;
   image: string;
   title: string;
   price: string;
@@ -95,29 +99,11 @@ const benefits: Benefit[] = [
   { icon: FaCheckCircle, text: "Tích hợp dữ liệu thông minh" },
 ];
 
-const pricingPackages: PricingPackageType[] = [
-  {
-    image: basicPackage,
-    title: "Gói Cơ Bản",
-    price: "500.000 VND/tháng",
-    features: ["5 lượt tạo chi nhánh", "5 lượt tạo thực đơn"],
-  },
-  {
-    image: standardPackage,
-    title: "Gói Tiêu Chuẩn",
-    price: "1.000.000 VND/tháng",
-    features: ["20 lượt tạo chi nhánh", "20 lượt tạo thực đơn"],
-  },
-  {
-    image: premiumPackage,
-    title: "Gói Cao Cấp",
-    price: "1.200.000 VND/tháng",
-    features: ["Tạo chi nhánh không giới hạn", "Tạo thực đơn không giới hạn"],
-  },
-];
-
 function LandingPage() {
   const navigate = useNavigate();
+  const [pricingPackages, setPricingPackages] = useState<PricingPackageType[]>(
+    [],
+  );
 
   const handleNavigateAndScroll = (hash: string) => {
     if (window.location.pathname !== "/") {
@@ -131,6 +117,35 @@ function LandingPage() {
       }
     }, 200);
   };
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const result = await getPlans();
+        if (result.isSuccess) {
+          const packages: PricingPackageType[] = result.data.map(
+            (plan: PlanData, index: number) => ({
+              id: plan.planId,
+              image: [basicPackage, standardPackage, premiumPackage][index],
+              title: plan.planName,
+              price: `${formatCurrencyVND(plan.price.toString())}/tháng`,
+              features: [
+                `${plan.maxMenu} lượt tạo thực đơn`,
+                `${plan.maxAccount} lượt tạo chi nhánh`,
+              ],
+            }),
+          );
+          setPricingPackages(packages);
+        } else {
+          toast.error("Không có dữ liệu kế hoạch");
+        }
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu gói dịch vụ", err);
+      }
+    };
+
+    fetchPlans();
+  }, []);
 
   return (
     <>
@@ -176,7 +191,7 @@ function LandingPage() {
                 size="lg"
                 _hover={{
                   borderColor: "transparent",
-                  bg: `${themeColors.primaryButton}`, 
+                  bg: `${themeColors.primaryButton}`,
                   opacity: 0.9,
                 }}
                 onClick={() => handleNavigateAndScroll("pricing")}
@@ -377,7 +392,12 @@ function LandingPage() {
           </Flex>
           <Flex justify="space-evenly" wrap="wrap" gap={6} pb={48}>
             {pricingPackages.map((pricing, index) => (
-              <Box width="100%" maxW="400px" position="relative" key={index}>
+              <Box
+                width="100%"
+                maxW="400px"
+                position="relative"
+                key={pricing.id}
+              >
                 <Box mb={4}>
                   <img
                     src={pricing.image}
@@ -404,12 +424,11 @@ function LandingPage() {
                   {pricing.features.map((feature, index) => (
                     <HStack spacing={2} align="center" mb={6} key={index}>
                       <Icon as={FaCheckCircle} w={6} h={6} color="teal.500" />
-                      <Text marginLeft="8px" fontSize="20px" color="gray.600">
+                      <Text fontSize="20px" color="gray.600">
                         {feature}
                       </Text>
                     </HStack>
                   ))}
-
                   <Button
                     mt={6}
                     bg={themeColors.primaryButton}
@@ -417,10 +436,12 @@ function LandingPage() {
                     size="lg"
                     _hover={{
                       borderColor: "transparent",
-                      bg: `${themeColors.primaryButton}`, 
+                      bg: `${themeColors.primaryButton}`,
                       opacity: 0.9,
                     }}
-                    onClick={() => navigate("/payment/payment-infor")}
+                    onClick={() =>
+                      navigate(`/payment/payment-infor?plan-id=${pricing.id}`)
+                    }
                   >
                     Đăng ký ngay
                   </Button>

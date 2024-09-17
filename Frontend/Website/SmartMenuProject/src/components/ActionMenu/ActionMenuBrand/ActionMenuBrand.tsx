@@ -148,6 +148,7 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({
             updateBrandData={updateBrandData}
           />
         }
+        isEdit={true}
         onClose={onCloseBrand}
         isOpen={isOpenBrand}
         title={t("Cập nhật thương hiệu")}

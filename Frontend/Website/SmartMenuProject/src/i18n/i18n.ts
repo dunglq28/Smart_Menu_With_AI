@@ -31,6 +31,8 @@ const resources = {
         "users":"Người Dùng",
         "paymentHistory":"Lịch sử thanh toán",
         "payment-history":"Lịch sử thanh toán",
+        "packages":"Gói đăng ký",
+        "landingPage":"Trang landing",
         "brands":"Thương Hiệu",
         "branches":"Chi Nhánh",
         "customer segment":"Phân Khúc Khách Hàng",

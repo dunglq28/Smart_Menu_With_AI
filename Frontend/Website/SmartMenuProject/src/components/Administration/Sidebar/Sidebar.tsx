@@ -21,6 +21,7 @@ import Logo from "../../../assets/images/Logo.jpeg";
 import {
   AiOutlineCreditCard,
   AiOutlineCustomerService,
+  AiOutlineLayout,
   AiOutlineProduct,
 } from "react-icons/ai";
 import { MdOutlineCategory } from "react-icons/md";
@@ -31,6 +32,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdListAlt } from "react-icons/md";
 import { MdOutlineBrandingWatermark } from "react-icons/md";
 import { MdOutlineDashboard } from "react-icons/md";
+import { GoPackage } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 
 import { BrandForm } from "../../../models/BrandForm.model";
@@ -51,6 +53,7 @@ import ModalForm from "../../Modals/ModalForm/ModalForm";
 import ModalFormBrand from "../../Modals/ModalFormBrand/ModalFormBrand";
 import ModalFormBranch from "../../Modals/ModalFormBranch/ModalFormBranch";
 import ModalFormUser from "../../Modals/ModalFormUser/ModalFormUser";
+import { themeColors } from "../../../constants/GlobalStyles";
 
 function Sidebar() {
   const { t } = useTranslation();
@@ -65,7 +68,7 @@ function Sidebar() {
 
   //BRANCH DATA
   const [branchData, setBranchData] = useState<BranchForm>(
-    getInitialBranchData()
+    getInitialBranchData(),
   );
 
   // USER DATA
@@ -116,11 +119,23 @@ function Sidebar() {
       icon: AiOutlineUser,
       label: t("users"),
       to: "/users",
-      permissionRole: [UserRole.Admin, UserRole.BrandManager]
+      permissionRole: [UserRole.Admin, UserRole.BrandManager],
     },
     {
       icon: AiOutlineCreditCard,
       label: t("paymentHistory"),
+      to: "/payment-history",
+      permissionRole: [UserRole.Admin],
+    },
+    {
+      icon: GoPackage,
+      label: t("packages"),
+      to: "/payment-history",
+      permissionRole: [UserRole.Admin],
+    },
+    {
+      icon: AiOutlineLayout,
+      label: t("landingPage"),
       to: "/payment-history",
       permissionRole: [UserRole.Admin],
     },
@@ -184,7 +199,7 @@ function Sidebar() {
 
   useEffect(() => {
     const currentItem = menuItems.find(
-      (menuItem) => menuItem.to === location.pathname
+      (menuItem) => menuItem.to === location.pathname,
     );
     if (currentItem) {
       setItem(currentItem.label);
@@ -236,7 +251,7 @@ function Sidebar() {
       if (brandData.image.value && brandData.brandName.value) {
         brandForm.append(
           "BrandName",
-          capitalizeWords(brandData.brandName.value)
+          capitalizeWords(brandData.brandName.value),
         );
         brandForm.append("Image", brandData.image.value);
       }
@@ -268,12 +283,14 @@ function Sidebar() {
 
   async function saveBranchHandle(data: UserForm) {
     try {
+      console.log(data);
+
       const userResult = await createUser(data, 3);
 
       if (userResult.statusCode === 200) {
         const branchResult = await createBranch(
           branchData,
-          userResult.data.toString()
+          userResult.data.toString(),
         );
 
         if (branchResult.statusCode === 200) {
@@ -294,7 +311,8 @@ function Sidebar() {
           }
         }
       }
-    } catch {
+    } catch (err) {
+      console.log(err);
       toast.error("Thêm chi nhánh mới thất bại");
     }
   }
@@ -348,7 +366,7 @@ function Sidebar() {
                 (menuItem.label === t("brands") &&
                   currentPathPart === "branches") ||
                 (menuItem.label === t("brands") && currentPathPart === "brands")
-                  ? "#55AD9B"
+                  ? themeColors.sidebarBgColor
                   : "#fff"
               }
               color={
@@ -387,6 +405,9 @@ function Sidebar() {
             isEdit={false}
           />
         }
+        isEdit={false}
+        stepperName={CurrentForm.BRAND}
+        stepperIndex={0}
         onClose={onCloseBrand}
         isOpen={isOpenBrand}
         title={t("Tạo thương hiệu mới")}
@@ -403,6 +424,9 @@ function Sidebar() {
             isEdit={false}
           />
         }
+        isEdit={false}
+        stepperName={CurrentForm.BRANCH}
+        stepperIndex={0}
         onClose={onCloseBranch}
         isOpen={isOpenBranch}
         updateBranchData={updateBranchData}
@@ -427,6 +451,9 @@ function Sidebar() {
             userData={userData}
           />
         }
+        isEdit={false}
+        stepperName={formPrevious}
+        stepperIndex={1}
         onClose={onCloseUser}
         isOpen={isOpenUser}
         title={t("Thêm người dùng mới")}

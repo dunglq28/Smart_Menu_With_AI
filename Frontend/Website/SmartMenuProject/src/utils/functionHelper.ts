@@ -1,3 +1,4 @@
+import moment from "moment";
 import { UserRole } from "../constants/Enum";
 
 export const getOptions = (total: number): number[] => {
@@ -30,6 +31,21 @@ export const formatCurrencyMenu = (amount: string): string => {
     .replace(".000", "");
 };
 
+export const formatCurrencyVND = (amount: string): string => {
+  const number = parseFloat(amount.replace(/,/g, ""));
+  if (isNaN(number)) {
+    return amount;
+  }
+
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  })
+    .format(number)
+    .replace("₫", "VND")
+    .trim();
+};
+
 export const formatCurrency = (amount: string): string => {
   const number = parseFloat(amount.replace(/,/g, ""));
   if (isNaN(number)) {
@@ -44,6 +60,13 @@ export const formatCurrency = (amount: string): string => {
     .trim();
 };
 
+export const formatDate = (date: Date): string => {
+  return moment(date).format("DD/MM/YYYY");
+};
+
+export const formatDateAndTime = (date: Date): string => {
+  return moment(date).format("DD/MM/YYYY HH:mm:ss");
+};
 
 export const getRoleName = (roleId: number): string => {
   if (roleId === UserRole.Admin) {

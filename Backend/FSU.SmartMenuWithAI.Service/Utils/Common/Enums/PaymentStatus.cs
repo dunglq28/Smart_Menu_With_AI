@@ -11,5 +11,6 @@ namespace FSU.SmartMenuWithAI.Service.Utils.Common.Enums
         Succeed = 1,
         Failed = 2,
         Pending = 3,
+        Cancelled = 4
     }
 }

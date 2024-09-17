@@ -18,13 +18,13 @@ namespace FSU.SmartMenuWithAI.API.Controllers
     [ApiController]
     public class CheckoutController : ControllerBase
     {
-        private readonly PayOSSetting _payOSSetting;
         private readonly IPaymentService _paymentService;
+        private readonly IPayOSService _payOSService;
 
-        public CheckoutController(IOptions<PayOSSetting> payOSSetting, IPaymentService paymentService)
+        public CheckoutController(IPaymentService paymentService, IPayOSService payOSService)
         {
-            _payOSSetting = payOSSetting.Value;
             _paymentService = paymentService;
+            _payOSService = payOSService;
         }
 
         //[Authorize(Roles = UserRoles.Admin)]
@@ -52,26 +52,23 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 {
                     throw new Exception("Lỗi nghiêm trọng!!! Lịch sử giao dịch chưa được khởi tạo");
                 }
-                var payOS = new PayOS(_payOSSetting.ClientID, _payOSSetting.ApiKey, _payOSSetting.ChecksumKey);
 
-                var domain = _payOSSetting.domain;
 
-                var paymentLinkRequest = new PaymentData(
-                    orderCode: transactionid,
-                    amount: (int)request.Amount!,
-                    description: "Thanh toán đơn hàng",
-                    items: [new(request.PlanName, 1, (int)request.Amount!)],
-                    returnUrl: domain + "/success.html",
-                    cancelUrl: domain + "/payment/payment-infor?is-success=false"
+                var paymentLinkResponse = await _payOSService.CreatePaymentLink(
+                  transactionid,
+                  request.PlanName,
+                  (int)request.Amount!,
+                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={request.UserId}",
+                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={request.UserId}"
                 );
-                var response = await payOS.createPaymentLink(paymentLinkRequest);
 
-                Response.Headers.Append("Location", response.checkoutUrl);
+
+                Response.Headers.Append("Location", paymentLinkResponse);
                 return Ok(new BaseResponse
                 {
                     StatusCode = StatusCodes.Status200OK,
                     Message = "Tạo link thanh toán thành công",
-                    Data = response.checkoutUrl,
+                    Data = paymentLinkResponse,
                     IsSuccess = true
                 });
             }
@@ -86,5 +83,6 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
+
     }
 }

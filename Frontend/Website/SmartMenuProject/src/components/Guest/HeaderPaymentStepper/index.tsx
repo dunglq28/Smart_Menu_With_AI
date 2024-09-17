@@ -27,7 +27,14 @@ const steps = [
 const HeaderPaymentStepper: React.FC = () => {
   const navigate = useNavigate();
   const pathname = location.pathname;
-  const index = pathname === "/payment/payment-guide" ? 2 : 1;
+  const index = [
+    "/payment/payment-success",
+    "/payment/payment-failure",
+    "/payment/payment-cancel",
+    "/payment/payment-guide",
+  ].includes(pathname)
+    ? 3
+    : 1;
 
   const { activeStep, setActiveStep } = useSteps({
     index: index,

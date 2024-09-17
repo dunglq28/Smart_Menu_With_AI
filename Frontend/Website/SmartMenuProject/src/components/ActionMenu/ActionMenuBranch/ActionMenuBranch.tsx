@@ -167,6 +167,7 @@ const ActionMenuBranch: FC<ActionMenuProps> = ({
             updateBranchData={updateBranchData}
           />
         }
+        isEdit={true}
         onClose={onCloseBranch}
         isOpen={isOpenBranch}
         title={t("Cập nhật chi nhánh")}

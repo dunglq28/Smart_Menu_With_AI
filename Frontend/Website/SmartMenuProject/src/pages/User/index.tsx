@@ -43,11 +43,8 @@ function User() {
         const loadData = async () => {
           if (searchValue) {
             result = await getUsers(currentPage, rowsPerPage, searchValue);
-             
           } else {
             result = await getUsers(currentPage, rowsPerPage, "");
-            console.log(result);
-
           }
           setData(result.list);
           setTotalPages(result.totalPage);
@@ -71,7 +68,7 @@ function User() {
         setIsLoading(false);
       }
     },
-    [currentPage, rowsPerPage, isInitialLoad]
+    [currentPage, rowsPerPage, isInitialLoad],
   );
 
   useEffect(() => {
@@ -82,7 +79,7 @@ function User() {
     (page: number) => {
       setCurrentPage(page);
     },
-    [setCurrentPage]
+    [setCurrentPage],
   );
 
   const handleRowsPerPageChange = useCallback(
@@ -90,7 +87,7 @@ function User() {
       setCurrentPage(1);
       setRowsPerPage(newRowsPerPage);
     },
-    [setCurrentPage, setRowsPerPage]
+    [setCurrentPage, setRowsPerPage],
   );
 
   async function handleDelete(id: number) {
