@@ -202,7 +202,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                         <p>Cảm ơn bạn đã đăng ký sử dụng dịch vụ Smart Menu. Dưới đây là thông tin đăng nhập của bạn:</p>
                         <p>
                             <strong>Username:</strong> <span style='color: #466d6b;'>{user.UserName}</span><br />
-                            <strong>Password:</strong> <span style='color: #466d6b;'>{user.Password}</span>
+                            <strong>Password:</strong> <span style='color: #466d6b;'>{PasswordHelper.ConvertToDecrypt(user.Password)}</span>
                         </p>
                         <p style='color: #5A3D41;'><strong>Lưu ý:</strong> Hãy đảm bảo thay đổi mật khẩu sau lần đăng nhập đầu tiên.</p>
                         <p>Trân trọng,<br />
