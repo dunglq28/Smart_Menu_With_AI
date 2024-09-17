@@ -257,6 +257,8 @@
             public const string Add = Base + "/payments/";
 
             public const string Update = Base + "/payments/";
+
+            public const string GetByEmail = Base + "/payments/get-by-email";
         }
         public static class Subscription
         {

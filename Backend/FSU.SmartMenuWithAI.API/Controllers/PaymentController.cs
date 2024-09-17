@@ -92,17 +92,6 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
 
-            if (request.Status != 1 && request.Status != 2)
-            {
-                return BadRequest(new BaseResponse
-                {
-                    StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Trạng thái không hợp lệ. Sử dụng 1 cho thành công hoặc 2 cho thất bại.",
-                    Data = null,
-                    IsSuccess = false
-                });
-            }
-
             try
             {
                 var result = await _paymentService.ConfirmPaymentAsync(request.PaymentId, request.UserId, request.Status);
@@ -123,6 +112,56 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     StatusCode = StatusCodes.Status200OK,
                     Message = "Cập nhật trạng thái thanh toán thành công.",
                     Data = null,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Message = $"Lỗi xảy ra: {ex.Message}",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
+
+        //[Authorize(Roles = UserRoles.Admin)]
+        [HttpGet(APIRoutes.Payment.GetByEmail, Name = "get-payment-by-email")]
+        public async Task<IActionResult> GetByEmailAsync([FromQuery(Name = "email")] string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Email không hợp lệ.",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+
+            try
+            {
+                var payments = await _paymentService.GetByEmail(email);
+
+                if (payments == null)
+                {
+                    return NotFound(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "Không tìm thấy thanh toán nào cho email này.",
+                        Data = null,
+                        IsSuccess = false
+                    });
+                }
+
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Tìm thông tin thanh toán thành công.",
+                    Data = payments,
                     IsSuccess = true
                 });
             }
