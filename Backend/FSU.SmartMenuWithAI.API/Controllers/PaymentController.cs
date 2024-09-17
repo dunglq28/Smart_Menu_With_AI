@@ -176,5 +176,55 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
+
+        //[Authorize(Roles = UserRoles.Admin)]
+        [HttpGet(APIRoutes.Payment.GetByEmail2, Name = "get-payment-unsuccess-by-email")]
+        public async Task<IActionResult> CheckExistEmail([FromQuery(Name = "email")] string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Email không hợp lệ.",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+
+            try
+            {
+                var payments = await _paymentService.GetByEmail2(email);
+
+                if (payments == null)
+                {
+                    return NotFound(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "Không tìm thấy thanh toán nào cho email này.",
+                        Data = null,
+                        IsSuccess = false
+                    });
+                }
+
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Tìm thông tin thanh toán thành công.",
+                    Data = payments,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Message = $"Lỗi xảy ra: {ex.Message}",
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
     }
 }

@@ -260,6 +260,9 @@
             public const string Update = Base + "/payments/";
 
             public const string GetByEmail = Base + "/payments/get-by-email";
+
+            public const string GetByEmail2 = Base + "/payments/check-exist-email";
+
         }
         public static class Subscription
         {

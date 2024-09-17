@@ -13,6 +13,7 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
         Task<PageEntity<PaymentDTO>?> GetAsync(string? searchKey, int? pageIndex, int? pageSize);
         Task<PaymentDTO> Insert(int userID, decimal? amount, string email);
         Task<PaymentDTO> GetByEmail(string email);
+        Task<PaymentDTO> GetByEmail2(string email);
         Task<PaymentDTO> Checkout(int userID, decimal? amount, string email, int transactionId);
         Task<bool> ConfirmPaymentAsync(int paymentId, int userId, int status);
 
