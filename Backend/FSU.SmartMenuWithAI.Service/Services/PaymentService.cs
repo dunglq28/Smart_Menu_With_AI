@@ -197,18 +197,18 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     var subject = "Thông tin tài khoản Smart Menu của bạn";
 
                     var body = $@"
-                    <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #5A3D41;'>
+                    <div style='font-family: Arial, sans-serif; line-height: 1.6;'>
                         <h2 style='color: #5A3D41;'>Xin chào, {user.Fullname},</h2>
                         <p>Cảm ơn bạn đã đăng ký sử dụng dịch vụ Smart Menu. Dưới đây là thông tin đăng nhập của bạn:</p>
                         <p>
-                            <strong>Username:</strong> <span style='color: #466d6b;'>{user.UserName}</span><br />
-                            <strong>Password:</strong> <span style='color: #466d6b;'>{PasswordHelper.ConvertToDecrypt(user.Password)}</span>
+                            <strong>Username:</strong> <span style='color: #5A3D41;'>{user.UserName}</span><br />
+                            <strong>Password:</strong> <span style='color: #5A3D41;'>{PasswordHelper.ConvertToDecrypt(user.Password)}</span>
                         </p>
                         <p style='color: #5A3D41;'><strong>Lưu ý:</strong> Hãy đảm bảo thay đổi mật khẩu sau lần đăng nhập đầu tiên.</p>
                         <p>Trân trọng,<br />
                         <em>Đội ngũ hỗ trợ Smart Menu</em></p>
                         <hr />
-                        <footer style='font-size: 12px; color: #466d6b;'>
+                        <footer style='font-size: 12px;'>
                             <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ chúng tôi qua email <a href='mailto:support@smartmenu.com' style='color: #5A3D41;'>support@smartmenu.com</a></p>
                         </footer>
                     </div>";

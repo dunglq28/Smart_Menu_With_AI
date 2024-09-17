@@ -16,7 +16,6 @@ import { toast } from "react-toastify";
 import { ProductForm } from "../../../models/ProductForm.model";
 import { isImageFile } from "../../../utils/validation";
 import { getProduct } from "../../../services/ProductService";
-import { capitalizeWords } from "../../../utils/functionHelper";
 
 interface ModalFormProductProps {
   id?: number;
@@ -63,7 +62,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
               categoryId: category.categoryId,
               categoryCode: category.categoryCode,
               categoryName: category.categoryName,
-            })
+            }),
           );
 
           const options = categories.map((category) => ({
@@ -201,13 +200,10 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
       const productForm = new FormData();
       productForm.append(
         "CategoryId",
-        formData.category.value?.toString() || ""
+        formData.category.value?.toString() || "",
       );
 
-      productForm.append(
-        "ProductName",
-        capitalizeWords(formData.productName.value)
-      );
+      productForm.append("ProductName", formData.productName.value);
       productForm.append("Description", formData.description.value);
       productForm.append("Price", formData.price.value?.toString() || "");
       productForm.append("BrandId", brandId?.toString() || "");
@@ -241,7 +237,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
                 handleChange("category", selectedOption?.value || 0)
               }
               value={categoryOptions.find(
-                (option) => option.value === formData.category.value
+                (option) => option.value === formData.category.value,
               )}
             />
             {formData.category.errorMessage && (

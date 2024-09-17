@@ -198,12 +198,12 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
                 if (payments == null)
                 {
-                    return NotFound(new BaseResponse
+                    return Ok(new BaseResponse
                     {
-                        StatusCode = StatusCodes.Status404NotFound,
+                        StatusCode = StatusCodes.Status200OK,
                         Message = "Không tìm thấy thanh toán nào cho email này.",
                         Data = null,
-                        IsSuccess = false
+                        IsSuccess = true
                     });
                 }
 

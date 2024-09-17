@@ -12,12 +12,16 @@ import { toast } from "react-toastify";
 import { CategoryForm } from "../../../models/CategoryForm.model";
 import moment from "moment";
 import { getCategory } from "../../../services/CategoryService";
-import { capitalizeWords } from "../../../utils/functionHelper";
 
 interface ModalFormCategoryProps {
   id?: number;
   handleCreate?: (id: number, categoryName: string) => void;
-  handleEdit?: (cateId: number, brandId: number, categoryName: string, onClose: () => void) => void;
+  handleEdit?: (
+    cateId: number,
+    brandId: number,
+    categoryName: string,
+    onClose: () => void,
+  ) => void;
   onClose: () => void;
   isEdit: boolean;
 }
@@ -84,13 +88,10 @@ const ModalFormCategory: React.FC<ModalFormCategoryProps> = ({
 
     const hasErrors = Object.values(errors).some((error) => error !== "");
     if (!hasErrors) {
-      const capitalizedCategoryName = capitalizeWords(
-        formData.categoryName.value
-      );
       if (!isEdit) {
-        handleCreate?.(brandId, capitalizedCategoryName);
+        handleCreate?.(brandId, formData.categoryName.value);
       } else {
-        handleEdit?.(id!, brandId, capitalizedCategoryName, onClose);
+        handleEdit?.(id!, brandId, formData.categoryName.value, onClose);
       }
     }
   };
@@ -122,7 +123,7 @@ const ModalFormCategory: React.FC<ModalFormCategoryProps> = ({
               className={style.InputField}
               readOnly={true}
               value={moment(new Date().toISOString().split("T")[0]).format(
-                "DD/MM/YYYY"
+                "DD/MM/YYYY",
               )}
             />
           </Flex>
@@ -130,9 +131,7 @@ const ModalFormCategory: React.FC<ModalFormCategoryProps> = ({
       </ModalBody>
       <ModalFooter>
         <Flex className={style.Footer}>
-          <Button onClick={() => onClose()}>
-            Huỷ
-          </Button>
+          <Button onClick={() => onClose()}>Huỷ</Button>
           <Button className={style.AddCategoryBtn} onClick={handleSubmit}>
             {isEdit ? "Lưu" : "Tạo mới"}
           </Button>

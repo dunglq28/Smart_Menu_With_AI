@@ -109,7 +109,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPut(APIRoutes.Brand.Update, Name = "update-brand-async")]
         public async Task<IActionResult> UpdateUserAsync([FromForm] int id, [FromForm] UpdateBrandRequest reqObj)
         {
@@ -206,7 +206,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.Admin+","+UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.Admin+","+UserRoles.BrandManager)]
         [HttpGet(APIRoutes.Brand.GetByID, Name = "GetBrandByID")]
         public async Task<IActionResult> GetAsync([FromQuery] int id)
         {
@@ -281,7 +281,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin + "," + UserRoles.Store)]
+        //[Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin + "," + UserRoles.Store)]
         [HttpGet(APIRoutes.Brand.GetByUserID, Name = "GetBrandByUserId")]
         public async Task<IActionResult> GetBrandByUserIdAsync([FromQuery(Name = "user-id")] int userId)
         {
