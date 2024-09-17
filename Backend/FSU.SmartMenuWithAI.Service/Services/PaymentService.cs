@@ -179,11 +179,11 @@ namespace FSU.SmartMenuWithAI.Service.Services
             _unitOfWork.PaymentRepository.Update(payment);
 
             subscription.Status = status; // 1 = Thành công, 2 = Thất bại
-            if (status == 1)
-            {
+            //if (status == 1)
+            //{
                 //subscription.StartDate = DateTime.Now;
                 //subscription.EndDate = DateTime.Now.AddMonths(1); // Đăng ký có giá trị trong 1 tháng nếu thành công
-            }
+            //}
             _unitOfWork.SubscriptioRepository.Update(subscription);
 
             // Cập nhật trạng thái người dùng nếu cần (chỉ nếu thanh toán thành công)
