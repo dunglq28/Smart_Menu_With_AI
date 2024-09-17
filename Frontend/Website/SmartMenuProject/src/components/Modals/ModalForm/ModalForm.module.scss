@@ -7,6 +7,17 @@
   border-radius: 20px 20px 0 0;
   margin-bottom: 20px;
 
+  .wrapper-stepper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .text-stepper {
+      font-size: 1.15rem !important ;
+    }
+  }
+
   .close-button {
     background: none;
     padding: 0;

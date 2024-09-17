@@ -24,13 +24,17 @@ import {
 import { FaUserCheck, FaLuggageCart, FaTrademark } from "react-icons/fa";
 import { Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
-import { GlobalStyles, themeColors } from "../../constants/GlobalStyles";
-import { formatCurrency, formatCurrencyVND } from "../../utils/functionHelper";
+import { themeColors } from "../../constants/GlobalStyles";
+import {
+  formatCurrency,
+  formatCurrencyVND,
+  formatDate,
+  formatDateAndTime,
+} from "../../utils/functionHelper";
 import { ChartOptions } from "chart.js/auto";
 import { getDashboardAdmin } from "../../services/DashbroadService";
 import { DashboardData } from "../../payloads/responses/DashboarData.model";
 import { getInitialDashboardData } from "../../utils/initialData";
-import moment from "moment";
 import { PaymentStatus } from "../../constants/Enum";
 
 function AdminDashboard() {
@@ -244,8 +248,7 @@ function AdminDashboard() {
                           </Box>
                           <Box>
                             <Text className={style.userDetails}>
-                              {user.fullname} -{" "}
-                              {moment(user.createDate).format("DD/MM/YYYY")}
+                              {user.fullname} - {formatDate(user.createDate)}
                             </Text>
                             <Text className={style.userName}>
                               {user.userName}
@@ -290,9 +293,7 @@ function AdminDashboard() {
                           </Badge>
                         </Td>
                         <Td className={style.textDescription}>
-                          {moment(transaction.paymentDate).format(
-                            "DD/MM/YYYY HH:mm:ss",
-                          )}
+                          {formatDateAndTime(transaction.paymentDate)}
                         </Td>
                         <Td className={style.textDescription}>
                           {formatCurrency(transaction.amount.toString())}
@@ -302,8 +303,12 @@ function AdminDashboard() {
                             <Badge colorScheme="green">Thành công</Badge>
                           ) : transaction.status === PaymentStatus.Failed ? (
                             <Badge colorScheme="red">Thất bại</Badge>
-                          ) : (
+                          ) : transaction.status === PaymentStatus.Pending ? (
                             <Badge colorScheme="yellow">Chờ thanh toán</Badge>
+                          ) : transaction.status === PaymentStatus.Cancelled ? (
+                            <Badge colorScheme="red">Đã huỷ</Badge>
+                          ) : (
+                            <Badge colorScheme="red">Có lỗi</Badge>
                           )}
                         </Td>
                       </Tr>

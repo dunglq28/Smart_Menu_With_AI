@@ -210,15 +210,9 @@ function Header() {
                     style={{ textDecoration: "none" }}
                   >
                     <Flex className={style.PopupSubNav}>
-                      <Text className={style.Text}>Profile</Text>
+                      <Text className={style.Text}>Hồ sơ cá nhân</Text>
                     </Flex>
                   </ChakraLink>
-                  <Flex className={style.PopupSubNav}>
-                    <Text className={style.Text}>History</Text>
-                  </Flex>
-                  <Flex className={style.PopupSubNav}>
-                    <Text className={style.Text}>FeedBack</Text>
-                  </Flex>
                 </Flex>
               </PopoverBody>
             </PopoverContent>

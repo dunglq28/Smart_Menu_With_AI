@@ -1,3 +1,4 @@
+import moment from "moment";
 import { UserRole } from "../constants/Enum";
 
 export const getOptions = (total: number): number[] => {
@@ -57,6 +58,14 @@ export const formatCurrency = (amount: string): string => {
   })
     .format(number)
     .trim();
+};
+
+export const formatDate = (date: Date): string => {
+  return moment(date).format("DD/MM/YYYY");
+};
+
+export const formatDateAndTime = (date: Date): string => {
+  return moment(date).format("DD/MM/YYYY HH:mm:ss");
 };
 
 export const getRoleName = (roleId: number): string => {

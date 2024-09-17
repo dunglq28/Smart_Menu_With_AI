@@ -24,6 +24,7 @@ import { BsShield } from "react-icons/bs";
 import { LuBell, LuCreditCard } from "react-icons/lu";
 import PasswordInput from "../../components/PasswordInput";
 import { useTranslation } from "react-i18next";
+import { themeColors } from "../../constants/GlobalStyles";
 
 function Profile() {
   const [locationString, setLocationString] = useState<string>("");
@@ -50,35 +51,35 @@ function Profile() {
         <Flex className={style.tabs_container}>
           <TabList className={style.tab_list}>
             <Tab
-              _selected={{ color: "white", bg: "#5D5FEF" }}
+              _selected={{ color: "white", bg: themeColors.sidebarBgColor }}
               className={style.tab}
             >
               <GoPerson className={style.icon} />
               <Text className={style.tab_text}>{t("profile information")}</Text>
             </Tab>
             <Tab
-              _selected={{ color: "white", bg: "#5D5FEF" }}
+              _selected={{ color: "white", bg: themeColors.sidebarBgColor }}
               className={style.tab}
             >
               <IoSettingsOutline className={style.icon} />
               <Text className={style.tab_text}>{t("account settings")}</Text>
             </Tab>
             <Tab
-              _selected={{ color: "white", bg: "#5D5FEF" }}
+              _selected={{ color: "white", bg: themeColors.sidebarBgColor }}
               className={style.tab}
             >
               <BsShield className={style.icon} />
               <Text className={style.tab_text}>{t("sercurity")}</Text>
             </Tab>
             <Tab
-              _selected={{ color: "white", bg: "#5D5FEF" }}
+              _selected={{ color: "white", bg: themeColors.sidebarBgColor }}
               className={style.tab}
             >
               <LuBell className={style.icon} />
               <Text className={style.tab_text}>{t("notification")}</Text>
             </Tab>
             <Tab
-              _selected={{ color: "white", bg: "#5D5FEF" }}
+              _selected={{ color: "white", bg: themeColors.sidebarBgColor }}
               className={style.tab}
             >
               <LuCreditCard className={style.icon} />

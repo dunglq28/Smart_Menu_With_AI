@@ -28,6 +28,7 @@ import { getInitialUserData } from "../../../utils/initialData";
 import { getUser } from "../../../services/UserService";
 import CustomAlertDialog from "../../AlertDialog";
 import { userUpdate } from "../../../payloads/requests/updateRequests.model";
+import { getGender } from "../../../utils/functionHelper";
 
 interface ActionMenuProps {
   id: number;
@@ -51,6 +52,8 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
     var result = await getUser(id);
 
     if (result.statusCode === 200) {
+      console.log(result.data);
+      
       const { fullname, userName, phone, dob, gender, isActive } = result.data;
 
       const updatedUserData: UserForm = {
@@ -58,7 +61,7 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
         userName: { value: userName, errorMessage: "" },
         phoneNumber: { value: phone, errorMessage: "" },
         DOB: { value: new Date(dob), errorMessage: "" },
-        gender: { value: gender, errorMessage: "" },
+        gender: { value: getGender(gender), errorMessage: "" },
         isActive: { value: isActive ? 1 : 0, errorMessage: "" },
       };
       setUserData(updatedUserData);
@@ -126,6 +129,7 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
             updateUserData={updateUserData}
           />
         }
+        isEdit={true}
         onClose={onCloseUser}
         isOpen={isOpenUser}
         title={t("Cập nhật người dùng")}

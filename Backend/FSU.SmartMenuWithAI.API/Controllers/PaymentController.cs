@@ -92,17 +92,6 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
 
-            if (request.Status != 1 && request.Status != 2)
-            {
-                return BadRequest(new BaseResponse
-                {
-                    StatusCode = StatusCodes.Status400BadRequest,
-                    Message = "Trạng thái không hợp lệ. Sử dụng 1 cho thành công hoặc 2 cho thất bại.",
-                    Data = null,
-                    IsSuccess = false
-                });
-            }
-
             try
             {
                 var result = await _paymentService.ConfirmPaymentAsync(request.PaymentId, request.UserId, request.Status);

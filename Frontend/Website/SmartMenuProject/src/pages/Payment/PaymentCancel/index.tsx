@@ -9,13 +9,11 @@ import {
   VStack,
   HStack,
 } from "@chakra-ui/react";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { updatePaymentStatus } from "../../../services/PaymentService";
 import { PaymentStatus } from "../../../constants/Enum";
-import { useNavigate } from "react-router-dom";
 
-function PaymentSuccess() {
-  const navigate = useNavigate();
+function PaymentCancel() {
   const headingSize = useBreakpointValue({ base: "lg", md: "xl" });
   const textSize = useBreakpointValue({ base: "md", md: "xl" });
 
@@ -24,14 +22,7 @@ function PaymentSuccess() {
       const queryParams = new URLSearchParams(location.search);
       const paymentIdParam = queryParams.get("payment-id");
       const userIdParam = queryParams.get("user-id");
-      const statusParam = queryParams.get("status");
 
-      if (statusParam != null && statusParam.toUpperCase() != "PAID") {
-        navigate(
-          `/payment/payment-failure?payment-id=${paymentIdParam}&user-id=${userIdParam}`,
-        );
-      }
-      
       if (paymentIdParam && userIdParam) {
         const paymentId = parseInt(paymentIdParam);
         const userId = parseInt(userIdParam);
@@ -40,7 +31,7 @@ function PaymentSuccess() {
           const result = await updatePaymentStatus(
             paymentId,
             userId,
-            PaymentStatus.Succeed,
+            PaymentStatus.Cancelled,
           );
         } catch (err) {
           console.error(err);
@@ -65,18 +56,18 @@ function PaymentSuccess() {
         maxW="650px" // Giới hạn chiều rộng để cân đối nội dung
         mx="auto" // Canh giữa cho nội dung
       >
-        {/* Icon thành công */}
-        <Icon as={AiOutlineCheckCircle} color="green.500" boxSize={24} mb={4} />
+        {/* Icon thanh toán bị hủy */}
+        <Icon as={AiOutlineCloseCircle} color="red.500" boxSize={24} mb={4} />
 
         {/* Tiêu đề */}
         <Heading as="h1" size={headingSize} mb={4}>
-          Đăng ký gói Smart Menu thành công!
+          Thanh toán bị hủy!
         </Heading>
 
         {/* Thông báo */}
         <Text fontSize={textSize} mb={6} px={4}>
-          Cảm ơn bạn đã đăng ký. Tài khoản và mật khẩu sẽ được gửi đến email mà
-          bạn đã đăng ký.
+          Thanh toán của bạn đã bị hủy. Vui lòng thử lại hoặc liên hệ với bộ
+          phận hỗ trợ nếu bạn cần giúp đỡ.
         </Text>
 
         {/* Các bước tiếp theo */}
@@ -85,19 +76,21 @@ function PaymentSuccess() {
             Các bước tiếp theo:
           </Text>
           <HStack>
-            <Icon as={AiOutlineCheckCircle} color="green.500" />
+            <Icon as={AiOutlineCloseCircle} color="red.500" />
             <Text fontSize={textSize}>
-              Kiểm tra email để nhận thông tin tài khoản
+              Thử lại thanh toán hoặc chọn một phương thức thanh toán khác.
             </Text>
           </HStack>
           <HStack>
-            <Icon as={AiOutlineCheckCircle} color="green.500" />
-            <Text fontSize={textSize}>Đăng nhập vào hệ thống Smart Menu</Text>
+            <Icon as={AiOutlineCloseCircle} color="red.500" />
+            <Text fontSize={textSize}>
+              Kiểm tra email để biết thêm thông tin nếu có vấn đề.
+            </Text>
           </HStack>
           <HStack>
-            <Icon as={AiOutlineCheckCircle} color="green.500" />
+            <Icon as={AiOutlineCloseCircle} color="red.500" />
             <Text fontSize={textSize}>
-              Bắt đầu tùy chỉnh và sử dụng Smart Menu
+              Liên hệ bộ phận hỗ trợ nếu bạn cần giúp đỡ.
             </Text>
           </HStack>
         </VStack>
@@ -106,20 +99,9 @@ function PaymentSuccess() {
         <Button colorScheme="teal" size="lg" mb={4} width="full" maxW="300px">
           Quay về trang chủ
         </Button>
-
-        {/* Nút chuyển đến trang hướng dẫn sử dụng */}
-        <Button
-          variant="outline"
-          size="lg"
-          colorScheme="teal"
-          width="full"
-          maxW="300px"
-        >
-          Xem hướng dẫn sử dụng
-        </Button>
       </Box>
     </Box>
   );
 }
 
-export default PaymentSuccess;
+export default PaymentCancel;

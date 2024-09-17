@@ -70,7 +70,7 @@ AWSConfigs.AWSRegion = "ap-southeast-1";
 
 //Config PayOS
 builder.Services.Configure<PayOSSetting>(builder.Configuration.GetSection("PayOS"));
-//builder.Services.AddScoped<IPayOSService, PayOSService>();
+builder.Services.AddScoped<IPayOSService, PayOSService>();
 
 // Add Mapping profiles
 var mapper = new MapperConfiguration(mc =>
