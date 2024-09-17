@@ -30,6 +30,7 @@ const HeaderPaymentStepper: React.FC = () => {
   const index = [
     "/payment/payment-success",
     "/payment/payment-failure",
+    "/payment/payment-cancel",
     "/payment/payment-guide",
   ].includes(pathname)
     ? 3

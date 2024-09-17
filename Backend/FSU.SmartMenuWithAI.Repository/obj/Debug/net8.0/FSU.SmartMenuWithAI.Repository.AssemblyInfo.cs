@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FSU.SmartMenuWithAI.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d37a7860a1f38db0a92e6ceebbcd9d5edecf108f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab8ba6457bc15cc2d1bae5dd1a0f60bf5c5fd4f8")]
 [assembly: System.Reflection.AssemblyProductAttribute("FSU.SmartMenuWithAI.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FSU.SmartMenuWithAI.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

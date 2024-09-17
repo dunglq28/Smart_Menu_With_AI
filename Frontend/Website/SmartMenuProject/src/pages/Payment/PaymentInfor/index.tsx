@@ -41,6 +41,8 @@ import {
 import moment from "moment";
 import { createUser } from "../../../services/UserService";
 import { createBrand } from "../../../services/BrandService";
+import { getPayment } from "../../../services/PaymentService";
+import { PaymentStatus } from "../../../constants/Enum";
 
 interface AddBrandResult {
   isSuccess: boolean;
@@ -148,6 +150,7 @@ const PaymentInfoPage = () => {
       setIsCodeSent(true);
       setCountdown(300);
     } else {
+      setIsLoadingSendMail(false);
       setEmail((prev) => ({
         ...prev,
         errorMessage: result.message,
@@ -390,23 +393,44 @@ const PaymentInfoPage = () => {
 
     if (!hasError) {
       try {
-        console.log(userData);
-
         setIsLoading(true);
+        // const payment = await getPayment(email.value);
+
+        // if (
+        //   payment?.data &&
+        //   (payment.data.status === PaymentStatus.Cancelled ||
+        //     payment.data.status === PaymentStatus.Pending)
+        // ) {
+        //   const result = await createPaymentLink(
+        //     "2000",
+        //     payment.data.userId.toString(),
+        //     email.value,
+        //     plan.planId,
+        //     plan.planName,
+        //   );
+
+        //   if (result.isSuccess) {
+        //     return (window.location.href = result.data);
+        //   }
+        // }
+
         const addBrandResult = await addNewBrand();
-        if (addBrandResult.isSuccess) {
+
+        if (addBrandResult?.isSuccess) {
           const result = await createPaymentLink(
-            // plan.price,
             "2000",
             addBrandResult.userId,
             email.value,
             plan.planId,
             plan.planName,
           );
+
           if (result.isSuccess) {
-            window.location.href = result.data;
+            return (window.location.href = result.data);
           }
         }
+
+        throw new Error("No valid payment process could be initiated");
       } catch (err) {
         console.error("Error during payment process:", err);
       } finally {

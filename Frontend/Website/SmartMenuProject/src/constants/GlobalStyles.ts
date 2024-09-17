@@ -15,6 +15,7 @@ export const themeColors = {
   tradeMarkDarkenColor: "rgba(153, 102, 255, 1)",
   revenueLightenColor: "rgba(75, 192, 192, 0.2)",
   revenueDarkenColor: "rgba(75, 192, 192, 1)",
+  sidebarBgColor: "#55AD9B",
   textColor: "#4D4D4D",
   lighten10: "#d3e7e6",
   lighten20: "#e0f1f0",
