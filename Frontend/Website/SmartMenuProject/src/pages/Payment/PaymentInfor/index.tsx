@@ -34,17 +34,23 @@ import {
   getInitialPlanData,
   getInitialUserData,
 } from "../../../utils/initialData";
-import {
-  capitalizeWords,
-  formatCurrencyVND,
-} from "../../../utils/functionHelper";
+import { formatCurrencyVND } from "../../../utils/functionHelper";
 import moment from "moment";
-import { createUser } from "../../../services/UserService";
-import { createBrand } from "../../../services/BrandService";
-import { getPayment } from "../../../services/PaymentService";
+import { createUser, updateUser } from "../../../services/UserService";
+import {
+  createBrand,
+  getBrandByBrandName,
+  getBrandByUserId,
+  updateBrand,
+} from "../../../services/BrandService";
 import { PaymentStatus } from "../../../constants/Enum";
+import { checkExistEmail } from "../../../services/PaymentService";
+import {
+  brandUpdate,
+  userUpdate,
+} from "../../../payloads/requests/updateRequests.model";
 
-interface AddBrandResult {
+interface BrandResult {
   isSuccess: boolean;
   userId?: string;
 }
@@ -241,42 +247,107 @@ const PaymentInfoPage = () => {
     ? URL.createObjectURL(brandData.image.value)
     : brandData.imageUrl?.value;
 
-  async function addNewBrand(): Promise<AddBrandResult> {
+  async function addNewBrand(): Promise<BrandResult> {
     try {
       const brandForm = new FormData();
 
       if (brandData.image.value && brandData.brandName.value) {
-        brandForm.append(
-          "BrandName",
-          capitalizeWords(brandData.brandName.value),
-        );
+        brandForm.append("BrandName", brandData.brandName.value);
         brandForm.append("Image", brandData.image.value);
 
-        const userResult = await createUser(userData, 2);
-        console.log(userResult);
+        const response = await getBrandByBrandName(brandData.brandName.value);
+        if (response.data == null) {
+          const userResult = await createUser(userData, 2);
+          if (userResult.statusCode === 200) {
+            brandForm.append("UserId", userResult.data.toString());
+            const brandResult = await createBrand(brandForm);
 
-        if (userResult.statusCode === 200) {
-          brandForm.append("UserId", userResult.data.toString());
-          const brandResult = await createBrand(brandForm);
-
-          if (brandResult.statusCode === 200) {
-            return { isSuccess: true, userId: userResult.data.toString() };
-          } else {
-            return { isSuccess: false };
-          }
+            if (brandResult.statusCode === 200) {
+              return { isSuccess: true, userId: userResult.data.toString() };
+            }
+          } 
         } else {
-          return { isSuccess: false };
+          setBrandData((prevData) => ({
+            ...prevData,
+            brandName: {
+              ...prevData.brandName,
+              errorMessage: "Tên thương hiệu đã tồn tại",
+            },
+          }));
         }
-      } else {
-        return { isSuccess: false };
-      }
+      } 
+
+      return { isSuccess: false };
     } catch (error) {
       console.error("Error creating brand:", error);
+      return { isSuccess: false };
+    }
+  }
+
+  async function updateOldBrand(userId: number): Promise<BrandResult> {
+    try {
+      // Chuẩn bị dữ liệu cập nhật cho user
+      var userUpdate: userUpdate = {
+        fullname: userData.fullName.value,
+        dob: userData.DOB.value
+          ? userData.DOB.value.toISOString().split("T")[0]
+          : "",
+        gender: userData.gender.value,
+        phone: userData.phoneNumber.value,
+        isActive: false,
+        updateBy: 0,
+      };
+
+      // Gọi API cập nhật thông tin user
+      var userResult = await updateUser(userId, userUpdate);
+
+      // Kiểm tra kết quả cập nhật user
+      if (userResult.statusCode !== 200) {
+        console.error("Error updating user:", userResult);
+        return { isSuccess: false };
+      }
+
+      // Lấy thông tin thương hiệu bằng userId
+      var brand = await getBrandByUserId(userId);
+
+      if (!brand || !brand.data) {
+        console.error("Error retrieving brand for user:", brand);
+        return { isSuccess: false };
+      }
+
+      // Chuẩn bị dữ liệu cập nhật cho thương hiệu
+      var brandUpdate: brandUpdate = {
+        id: brand.data.brandId,
+        brandName: brandData.brandName.value,
+        image: brandData.image.value,
+      };
+
+      // Gọi API cập nhật thông tin thương hiệu
+      var brandResult = await updateBrand(brandUpdate);
+
+      // Kiểm tra kết quả cập nhật thương hiệu
+      if (brandResult.statusCode !== 200) {
+        console.error("Error updating brand:", brandResult);
+        setBrandData((prevData) => ({
+          ...prevData,
+          brandName: {
+            ...prevData.brandName,
+            errorMessage: "Tên thương hiệu đã tồn tại",
+          },
+        }));
+        return { isSuccess: false };
+      }
+
+      // Trả về kết quả thành công nếu cả user và brand đều cập nhật thành công
+      return { isSuccess: true, userId: userId.toString() };
+    } catch (error) {
+      // Xử lý lỗi nếu có bất kỳ ngoại lệ nào
+      console.error("Error updating brand and user:", error);
       setBrandData((prevData) => ({
         ...prevData,
         brandName: {
           ...prevData.brandName,
-          errorMessage: "Tên thương hiệu đã tồn tại",
+          errorMessage: "Có lỗi xảy ra khi cập nhật thương hiệu",
         },
       }));
       return { isSuccess: false };
@@ -394,32 +465,21 @@ const PaymentInfoPage = () => {
     if (!hasError) {
       try {
         setIsLoading(true);
-        // const payment = await getPayment(email.value);
+        const payment = await checkExistEmail(email.value);
+        console.log(payment);
 
-        // if (
-        //   payment?.data &&
-        //   (payment.data.status === PaymentStatus.Cancelled ||
-        //     payment.data.status === PaymentStatus.Pending)
-        // ) {
-        //   const result = await createPaymentLink(
-        //     "2000",
-        //     payment.data.userId.toString(),
-        //     email.value,
-        //     plan.planId,
-        //     plan.planName,
-        //   );
+        let brandResult;
+        if (payment.data != null) {
+          brandResult = await updateOldBrand(payment.data.userId);
+        } else {
+          brandResult = await addNewBrand();
+        }
 
-        //   if (result.isSuccess) {
-        //     return (window.location.href = result.data);
-        //   }
-        // }
-
-        const addBrandResult = await addNewBrand();
-
-        if (addBrandResult?.isSuccess) {
+        if (brandResult?.isSuccess) {
           const result = await createPaymentLink(
+            // plan.price,
             "2000",
-            addBrandResult.userId,
+            brandResult.userId,
             email.value,
             plan.planId,
             plan.planName,

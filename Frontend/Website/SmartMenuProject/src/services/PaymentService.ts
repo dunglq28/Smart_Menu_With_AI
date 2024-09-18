@@ -21,10 +21,10 @@ export const getPayments = async (
   return apiResponse.data as GetData<PaymentData>;
 };
 
-export const getPayment = async (
+export const checkExistEmail = async (
   email: string,
 ): Promise<ApiResponse<PaymentData>> => {
-  const res = await axiosAuth.get("payments/get-by-email", {
+  const res = await axiosAuth.get("payments/check-exist-email", {
     params: {
       email: email,
     },

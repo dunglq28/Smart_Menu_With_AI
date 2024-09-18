@@ -15,7 +15,6 @@ import {
 import style from "./ModalFormCusSegment.module.scss";
 import { toast } from "react-toastify";
 import { CustomerSegmentForm } from "../../../models/SegmentForm.model";
-import { capitalizeWords } from "../../../utils/functionHelper";
 import { isInteger } from "../../../utils/validation";
 import { customerSegmentUpdate } from "../../../payloads/requests/updateRequests.model";
 import { customerSegmentCreate } from "../../../payloads/requests/createRequests.model";
@@ -30,7 +29,7 @@ interface ModalFormCustomerSegmentProps {
     brandId: number,
     segmentId: number,
     segment: customerSegmentUpdate,
-    onClose: () => void
+    onClose: () => void,
   ) => void;
   onClose: () => void;
   isEdit: boolean;
@@ -94,7 +93,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
 
   const handleChange = (
     field: keyof CustomerSegmentForm,
-    value: string | string[]
+    value: string | string[],
   ) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -124,7 +123,9 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
 
   const handleSubmit = async () => {
     const errors = {
-      segmentName: formData.segmentName.value ? "" : "Tên phân khúc là bắt buộc",
+      segmentName: formData.segmentName.value
+        ? ""
+        : "Tên phân khúc là bắt buộc",
       sessions: formData.sessions.value.length ? "" : "Thời gian là bắt buộc",
       ageFrom: "",
       ageTo: "",
@@ -179,10 +180,6 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
 
     const hasErrors = Object.values(errors).some((error) => error !== "");
     if (!hasErrors) {
-      const capitalizedSegmentName = capitalizeWords(
-        formData.segmentName.value
-      );
-
       const genders = [];
 
       if (
@@ -205,16 +202,16 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
 
       if (!isEdit) {
         var customerSegmentCreate: customerSegmentCreate = {
-          segmentName: capitalizedSegmentName,
+          segmentName: formData.segmentName.value,
           age: `${formData.ageFrom.value}-${formData.ageTo.value}`,
           gender: genders,
           session: formData.sessions.value,
         };
-        
+
         handleCreate?.(brandId, customerSegmentCreate);
       } else {
         var customerSegmentUpdate: customerSegmentUpdate = {
-          segmentName: capitalizedSegmentName,
+          segmentName: formData.segmentName.value,
           age: `${formData.ageFrom.value}-${formData.ageTo.value}`,
           gender: formData.gender.value,
           session: formData.sessions.value[0],
