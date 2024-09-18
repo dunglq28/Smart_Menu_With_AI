@@ -271,6 +271,7 @@
         {
             public const string Get = Base + "/subscriptions/";
 
+            public const string GetInfo = Base + "/subscriptions/{userId}";
         }
     }
 }
