@@ -44,7 +44,8 @@ const resources = {
         "new product":"Sản Phẩm Mới",
         "new":"Sản Phẩm Mới",
         "new brand":"Thương Hiệu Mới",
-        "new branch":"Chi Nhánh Mới"
+        "new branch":"Chi Nhánh Mới",
+        "profile": "Hồ Sơ Cá Nhân"
       }
     }
   };

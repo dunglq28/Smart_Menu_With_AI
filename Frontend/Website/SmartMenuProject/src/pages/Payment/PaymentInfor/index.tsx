@@ -265,7 +265,7 @@ const PaymentInfoPage = () => {
             if (brandResult.statusCode === 200) {
               return { isSuccess: true, userId: userResult.data.toString() };
             }
-          } 
+          }
         } else {
           setBrandData((prevData) => ({
             ...prevData,
@@ -275,7 +275,7 @@ const PaymentInfoPage = () => {
             },
           }));
         }
-      } 
+      }
 
       return { isSuccess: false };
     } catch (error) {
@@ -286,27 +286,6 @@ const PaymentInfoPage = () => {
 
   async function updateOldBrand(userId: number): Promise<BrandResult> {
     try {
-      // Chuẩn bị dữ liệu cập nhật cho user
-      var userUpdate: userUpdate = {
-        fullname: userData.fullName.value,
-        dob: userData.DOB.value
-          ? userData.DOB.value.toISOString().split("T")[0]
-          : "",
-        gender: userData.gender.value,
-        phone: userData.phoneNumber.value,
-        isActive: false,
-        updateBy: 0,
-      };
-
-      // Gọi API cập nhật thông tin user
-      var userResult = await updateUser(userId, userUpdate);
-
-      // Kiểm tra kết quả cập nhật user
-      if (userResult.statusCode !== 200) {
-        console.error("Error updating user:", userResult);
-        return { isSuccess: false };
-      }
-
       // Lấy thông tin thương hiệu bằng userId
       var brand = await getBrandByUserId(userId);
 
@@ -335,6 +314,27 @@ const PaymentInfoPage = () => {
             errorMessage: "Tên thương hiệu đã tồn tại",
           },
         }));
+        return { isSuccess: false };
+      }
+
+      // Chuẩn bị dữ liệu cập nhật cho user
+      var userUpdate: userUpdate = {
+        fullname: userData.fullName.value,
+        dob: userData.DOB.value
+          ? userData.DOB.value.toISOString().split("T")[0]
+          : "",
+        gender: userData.gender.value,
+        phone: userData.phoneNumber.value,
+        isActive: false,
+        updateBy: 0,
+      };
+
+      // Gọi API cập nhật thông tin user
+      var userResult = await updateUser(userId, userUpdate);
+
+      // Kiểm tra kết quả cập nhật user
+      if (userResult.statusCode !== 200) {
+        console.error("Error updating user:", userResult);
         return { isSuccess: false };
       }
 
