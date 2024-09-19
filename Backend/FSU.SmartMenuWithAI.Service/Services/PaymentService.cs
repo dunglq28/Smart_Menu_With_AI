@@ -194,6 +194,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 {
                     user.IsActive = true; // Kích hoạt người dùng nếu thanh toán thành công
                     _unitOfWork.AppUserRepository.Update(user);
+                    var decryptedPassword = PasswordHelper.ConvertToDecrypt(user.Password!); // Giải mã mật khẩu trước khi gửi
                     var subject = "Thông tin tài khoản Smart Menu của bạn";
 
                     var body = $@"
@@ -202,7 +203,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                         <p>Cảm ơn bạn đã đăng ký sử dụng dịch vụ Smart Menu. Dưới đây là thông tin đăng nhập của bạn:</p>
                         <p>
                             <strong>Username:</strong> <span style='color: #5A3D41;'>{user.UserName}</span><br />
-                            <strong>Password:</strong> <span style='color: #5A3D41;'>{PasswordHelper.ConvertToDecrypt(user.Password)}</span>
+                            <strong>Password:</strong> <span style='color: #5A3D41;'>{decryptedPassword}</span>
                         </p>
                         <p style='color: #5A3D41;'><strong>Lưu ý:</strong> Hãy đảm bảo thay đổi mật khẩu sau lần đăng nhập đầu tiên.</p>
                         <p>Trân trọng,<br />

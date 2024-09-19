@@ -30,7 +30,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _menuSegmentService = menuSegmentService;
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.Menu.Add, Name = "AddMenuAsync")]
         public async Task<IActionResult> AddAsync([FromForm] AddMenuRequest reqObj)
         {
@@ -98,7 +98,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpDelete(APIRoutes.Menu.Delete, Name = "DeleteMenuAsync")]
         public async Task<IActionResult> DeleteAsynce([FromQuery] int id)
         {
@@ -135,7 +135,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.Menu.Update, Name = "UpdateMenuAsync")]
         public async Task<IActionResult> UpdateMenuAsync([FromForm] UpdateMenuRequest reqObj)
         {
@@ -187,7 +187,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.Menu.GetAll, Name = "GetMenuAsync")]
         public async Task<IActionResult> GetAllAsync([FromQuery(Name = "brand-id")] int brandID
             , [FromQuery(Name = "page-number")] int pageNumber = Page.DefaultPageIndex
@@ -217,7 +217,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.Menu.GetByID, Name = "GetMenuByID")]
         public async Task<IActionResult> GetAsync([FromQuery] int Id)
         {
@@ -307,7 +307,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.Menu.GetMenuSegmentByID, Name = "get-menu-segment-by-id")]
         public async Task<IActionResult> GetMenuSegmentAsync([FromQuery(Name = "menu-id")] int MenuId, [FromQuery(Name = "segment-id")] int segmentId)
         {
@@ -345,7 +345,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpDelete(APIRoutes.Menu.DeleteMenuSegment, Name = "delete-menu-segment")]
         public async Task<IActionResult> DeleteMenuSegmentAsync([FromQuery(Name ="menu-id")] int Menuid, [FromQuery(Name = ("segment-id"))]int segmentId)
         {
@@ -382,7 +382,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.Menu.UpdateMenuSegment, Name = "update-menu-segment")]
         public async Task<IActionResult> UpdateMenuSegmentAsync([FromBody] UpdateMenuSegmentRequest reqObj)
         {

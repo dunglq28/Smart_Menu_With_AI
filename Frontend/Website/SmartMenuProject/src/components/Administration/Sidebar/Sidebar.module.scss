@@ -54,7 +54,7 @@
       display: flex;
       align-items: center;
       padding: 10px 20px;
-      cursor: pointer;
+      // cursor: pointer;
       width: 90%;
       border-radius: 7px;
       transition: background-color 0.3s;
@@ -80,6 +80,17 @@
         overflow: hidden;
         // color: #2c2c2e;
       }
+    }
+
+    .disabled {
+      background-color: #e0e0e0;
+      opacity: 0.6;
+    }
+
+    .disabled:hover,
+    .disabled:active {
+      background-color: #e0e0e0;
+      color: #000;
     }
   }
 
