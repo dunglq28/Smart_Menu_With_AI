@@ -69,7 +69,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpDelete(APIRoutes.AppUser.Delete, Name = "DeleteUserAsync")]
         public async Task<IActionResult> DeleteAsynce([FromQuery] int id)
         {
@@ -183,7 +183,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpGet(APIRoutes.AppUser.GetByID, Name = "GetUserByID")]
         public async Task<IActionResult> GetAsync([FromQuery] int Id)
         {

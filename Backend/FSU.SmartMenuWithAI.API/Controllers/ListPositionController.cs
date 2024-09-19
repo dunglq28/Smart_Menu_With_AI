@@ -18,7 +18,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _listPositionService = listPositionService;
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.ListPosition.GetByID, Name = "GetListPositionByID")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -89,7 +89,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.ListPosition.Add, Name = "AddListPosition")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateListPositionRequest request)
         {
@@ -115,7 +115,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.ListPosition.AddListList, Name = "AddListListPosition")]
         public async Task<IActionResult> CreateListListAsync([FromBody] CreateListList request)
         {
@@ -165,7 +165,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.ListPosition.UpdateListList, Name = "UpdateListListPosition")]
         public async Task<IActionResult> UpdtateListListAsync([FromBody] UpdateListListPosition request)
         {
@@ -214,7 +214,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.ListPosition.Update, Name = "UpdateListPosition")]
         public async Task<IActionResult> UpdateAsync([FromForm] int id, [FromForm(Name = "total-product")] int totalProduct, [FromForm(Name = "list-name")] string listName)
         {
@@ -249,7 +249,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpDelete(APIRoutes.ListPosition.Delete, Name = "DelListPosition")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

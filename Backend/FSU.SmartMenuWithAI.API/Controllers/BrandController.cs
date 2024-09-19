@@ -73,7 +73,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpDelete(APIRoutes.Brand.Delete, Name = "delete-brand-async")]
         public async Task<IActionResult> DeleteAsynce([FromQuery] int id)
         {
@@ -177,7 +177,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpGet(APIRoutes.Brand.GetAll, Name = "get-brands-async")]
         public async Task<IActionResult> GetAllAsync([FromQuery(Name = "search-key")] string? searchKey
             , [FromQuery(Name = "page-number")] int pageNumber = Page.DefaultPageIndex
@@ -243,7 +243,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpGet(APIRoutes.Brand.GetAllName, Name = "GetAllBrandName")]
         public async Task<IActionResult> GetAllBrandNameAsync()
         {

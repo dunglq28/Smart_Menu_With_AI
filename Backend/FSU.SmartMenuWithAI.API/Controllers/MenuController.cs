@@ -66,7 +66,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 {
                     if (reqObj.MenuImage != null)
                     {
-                        await _s3Service.UploadItemAsync(reqObj.MenuImage,menuAdd.MenuCode!, FolderRootImg.Menu);
+                        //await _s3Service.UploadItemAsync(reqObj.MenuImage,menuAdd.MenuCode!, FolderRootImg.Menu);
                     }
                     return Ok(new BaseResponse
                     {
@@ -144,7 +144,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 var menuInDB = await _menuService.GetAsync(reqObj.menuId);
                 if (reqObj.MenuImage != null && menuInDB != null)
                 {
-                    await _s3Service.UploadItemAsync(reqObj.MenuImage, menuInDB!.MenuCode!, FolderRootImg.Menu);
+                    //await _s3Service.UploadItemAsync(reqObj.MenuImage, menuInDB!.MenuCode!, FolderRootImg.Menu);
                 }
                 // không cần update hình ở db vì đè lên đường dẫn cũ trên aws là hình thay đổi mà vẫn giữ tên
                 var dto = new MenuDTO

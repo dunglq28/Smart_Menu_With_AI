@@ -18,7 +18,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _productListService = productListService;
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.ProductList.GetByID, Name = "GetProductListByID")]
         public async Task<IActionResult> GetByIdAsync([FromQuery(Name = "product-id")] int productId, [FromQuery(Name = "list-id")] int listId)
         {
@@ -52,7 +52,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.ProductList.Add, Name = "AddProductList")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateProducListRequest request)
         {
@@ -91,7 +91,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.ProductList.AddListProduct, Name = "AddListProductList")]
         public async Task<IActionResult> CreateListProductListAsync([FromBody] CreateListProductList request)
         {
@@ -129,7 +129,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.ProductList.UpdateListProduct, Name = "UpdateListProductList")]
         public async Task<IActionResult> UpdateListProductListAsync([FromBody] CreateListProductList request)
         {   
@@ -167,7 +167,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.ProductList.Update, Name = "update-product-list")]
         public async Task<IActionResult> UpdateAsync([FromForm(Name = "product-id")] int productId,
                                                         [FromForm(Name = "list-id")] int listId,
@@ -205,7 +205,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpDelete(APIRoutes.ProductList.Delete, Name = "delete-product-list")]
         public async Task<IActionResult> DeleteAsync([FromQuery(Name = "product-id")] int productId, [FromQuery(Name = "list-id")] int listId)
         {

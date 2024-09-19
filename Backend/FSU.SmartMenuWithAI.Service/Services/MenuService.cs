@@ -112,7 +112,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 BrandId = reqObj.BrandId!.Value,
                 Priority = priority,
                 Description = reqObj.Description,
-                MenuImage = _s3Service.GetPreSignedURL(generateCode, FolderRootImg.Menu),
+                //MenuImage = _s3Service.GetPreSignedURL(generateCode, FolderRootImg.Menu),
                 MenuSegments = menuSegments
             };
             await _unitOfWork.MenuRepository.Insert(menu);
@@ -192,13 +192,16 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 // tim menu theo id da lay duoc
                 if (menuSegment != null)
                 {
-                    var menuRecomend = await _unitOfWork.MenuRepository.GetByID(menuSegment!.MenuId);
-                    var mapdto1 = _mapper.Map<MenuDTO>(menuRecomend);
-                    return mapdto1;
+                    //var menuRecomend = await _unitOfWork.MenuRepository.GetByID(menuSegment!.MenuId);
+                    //var mapdto1 = _mapper.Map<MenuDTO>(menuRecomend);
+                    //return mapdto1;
+                    return await GetAsync(menuSegment.MenuId);
+
+
                 }
                 var menuDefault = await _unitOfWork.MenuRepository.GetAllNoPaging(x => x.BrandId == brandId, x => x.OrderByDescending(x => x.MenuId));
-                var mapdto2 = _mapper.Map<MenuDTO>(menuDefault.FirstOrDefault());
-                return mapdto2;
+                //var mapdto2 = _mapper.Map<MenuDTO>(menuDefault.FirstOrDefault());
+                return await GetAsync(menuDefault.FirstOrDefault().MenuId);
             }
             catch
             {

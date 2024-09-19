@@ -22,7 +22,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _menuListService = menuListService;
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.MenuList.Add, Name = "AddListToMenuAsync")]
         public async Task<IActionResult> AddAsync([FromBody] AddMenuListRequest reqObj)
         {
@@ -50,7 +50,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.MenuList.AddOneRow, Name = "add-1-list-to-menu-async")]
         public async Task<IActionResult> Add1ListAsync([FromBody] MenuListDTO reqObj)
         {
@@ -78,7 +78,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpDelete(APIRoutes.MenuList.Delete, Name = "DeleteListInMenuAsync")]
         public async Task<IActionResult> DeleteAsync([FromQuery(Name = "menu-id")] int menuId, [FromQuery(Name = "list-id")] int listId, [FromQuery(Name = "brand-id")] int brandId)
         {
@@ -115,7 +115,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.MenuList.Update, Name = "UpdateListInMenuAsync")]
         public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateListInMenu reqObj)
         {
@@ -160,7 +160,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.MenuList.GetAll, Name = "GetListInMenuAsync")]
         public async Task<IActionResult> GetAllAsync([FromQuery(Name = "menu-id")] int menuId
             , [FromQuery(Name = "brand-id")] int brandId )
@@ -188,7 +188,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.MenuList.GetByID, Name = "GetListMenuByID")]
         public async Task<IActionResult> GetAsync([FromQuery(Name = "menu-id")] int menuId, [FromQuery(Name = "list-id")] int listId, [FromQuery(Name = "brand-id")] int brandId)
         {

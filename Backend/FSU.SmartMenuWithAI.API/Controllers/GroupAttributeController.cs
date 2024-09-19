@@ -20,7 +20,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _groupAttributeService = groupAttributeService;
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPost(APIRoutes.GroupAttribute.Add, Name = "AddGroupAttributeAsync")]
         public async Task<IActionResult> AddAsync([FromForm] CreateGroupAttributeRequest reqObj)
         {
@@ -48,7 +48,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpDelete(APIRoutes.GroupAttribute.Delete, Name = "DeleteGroupAttributeAsync")]
         public async Task<IActionResult> DeleteAsynce([FromQuery] int id)
         {
@@ -84,7 +84,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpPut(APIRoutes.GroupAttribute.Update, Name = "UpdateGroupAttributeAsync")]
         public async Task<IActionResult> UpdateUserAsync([FromForm] int id, [FromForm] string name)
         {
@@ -121,7 +121,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.GroupAttribute.GetAll, Name = "getGroupAttributeAsync")]
         public async Task<IActionResult> GetAllAsync([FromQuery(Name = "search-key")] string? searchKey
             , [FromQuery(Name = "page-number")] int pageNumber = Page.DefaultPageIndex
@@ -150,7 +150,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager)]
+        //[Authorize(Roles = UserRoles.BrandManager)]
         [HttpGet(APIRoutes.GroupAttribute.GetByID, Name = "GetGroupAttributeByID")]
         public async Task<IActionResult> GetAsync([FromQuery] int id)
         {
