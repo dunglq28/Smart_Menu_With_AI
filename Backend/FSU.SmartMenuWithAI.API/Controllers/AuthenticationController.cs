@@ -278,7 +278,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin+","+UserRoles.Store)]
+        //[Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin+","+UserRoles.Store)]
         [HttpPut(APIRoutes.Account.ChangePassword, Name = "ChangePasswordAsync")]
         public async Task<IActionResult> ChangePasswordAsync(int id, [FromBody] ChangePasswordRequest reqObj)
         {

@@ -19,7 +19,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
         {
             _attributeService = attributeService;
         }
-        [Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin)]
         [HttpPost(APIRoutes.Attribute.Add, Name = "add-attribute-async")]
         public async Task<IActionResult> AddAsync([FromForm] CreateAttributeRequest reqObj)
         {
@@ -46,7 +46,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
-        [Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.BrandManager + "," + UserRoles.Admin)]
         [HttpDelete(APIRoutes.Attribute.Delete, Name = "delete-attribute-async")]
         public async Task<IActionResult> DeleteAsynce([FromQuery] int id)
         {
@@ -82,7 +82,8 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager+","+UserRoles.Admin)]
+
+        //[Authorize(Roles = UserRoles.BrandManager+","+UserRoles.Admin)]
         [HttpPut(APIRoutes.Attribute.Update, Name = "update-attribute-async")]
         public async Task<IActionResult> UpdateUserAsync([FromForm] int id, [FromForm] UpdateAttributeRequest reqObj)
         {
@@ -119,7 +120,8 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager+","+UserRoles.Admin)]
+
+        //[Authorize(Roles = UserRoles.BrandManager+","+UserRoles.Admin)]
         [HttpGet(APIRoutes.Attribute.GetAll, Name = "get-attributes-async")]
         public async Task<IActionResult> GetAllAsync([FromQuery(Name = "search-key")] string? searchKey
             , [FromQuery(Name = "page-number")] int pageNumber = Page.DefaultPageIndex
@@ -148,7 +150,8 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
-        [Authorize(Roles = UserRoles.BrandManager+","+UserRoles.Admin)]
+
+        //[Authorize(Roles = UserRoles.BrandManager+","+UserRoles.Admin)]
         [HttpGet(APIRoutes.Attribute.GetByID, Name = "GetAttributeByID")]
         public async Task<IActionResult> GetAsync([FromQuery] int id)
         {
