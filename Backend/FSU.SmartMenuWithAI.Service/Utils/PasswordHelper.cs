@@ -28,18 +28,15 @@ namespace FSU.SmartMenuWithAI.Service.Utils
 
         public static string ConvertToDecrypt(string base64EncodeData)
         {
-            //if (string.IsNullOrEmpty(base64EncodeData)) return "";
-            //byte[] encryptedPassword = Convert.FromBase64String(base64EncodeData);
-            //string decryptedPassword = ASCIIEncoding.ASCII.GetString(encryptedPassword);
-            //return decryptedPassword;
             using (var aes = Aes.Create())
             {
                 aes.Key = _key;
                 aes.IV = _iv;
 
                 var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-                var decrypted = decryptor.TransformFinalBlock(Convert.FromBase64String(base64EncodeData), 0, base64EncodeData.Length);
-                return Encoding.UTF8.GetString(decrypted);
+                var encryptedBytes = Convert.FromBase64String(base64EncodeData); // Lấy byte của chuỗi Base64
+                var decrypted = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length); // Giải mã
+                return Encoding.UTF8.GetString(decrypted); // Trả về chuỗi gốc
             }
         }
     }

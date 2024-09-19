@@ -107,36 +107,42 @@ function Sidebar() {
       label: t("dashboard"),
       to: "/admin-dashboard",
       permissionRole: UserRole.Admin,
+      isDisabled: false,
     },
     {
       icon: MdOutlineDashboard,
       label: t("dashboard"),
       to: "/brand-dashboard",
       permissionRole: UserRole.BrandManager,
+      isDisabled: false,
     },
     {
       icon: AiOutlineUser,
       label: t("users"),
       to: "/users",
       permissionRole: [UserRole.Admin, UserRole.BrandManager],
+      isDisabled: false,
     },
     {
       icon: AiOutlineCreditCard,
       label: t("paymentHistory"),
       to: "/payment-history",
       permissionRole: [UserRole.Admin],
+      isDisabled: false,
     },
     {
       icon: GoPackage,
       label: t("packages"),
       to: "/payment-history",
       permissionRole: [UserRole.Admin],
+      isDisabled: true,
     },
     {
       icon: AiOutlineLayout,
       label: t("landingPage"),
       to: "/payment-history",
       permissionRole: [UserRole.Admin],
+      isDisabled: true,
     },
     {
       icon: MdOutlineBrandingWatermark,
@@ -144,18 +150,21 @@ function Sidebar() {
       divider: true,
       to: "/brands",
       permissionRole: UserRole.Admin,
+      isDisabled: false,
     },
     {
       icon: AiOutlineProduct,
       label: t("products"),
       to: "/products",
       permissionRole: [UserRole.BrandManager],
+      isDisabled: false,
     },
     {
       icon: MdOutlineCategory,
       label: t("categories"),
       to: "/categories",
       permissionRole: [UserRole.BrandManager],
+      isDisabled: false,
     },
     {
       icon: AiOutlineCustomerService,
@@ -163,36 +172,42 @@ function Sidebar() {
       divider: true,
       to: "/customerSegment",
       permissionRole: [UserRole.BrandManager],
+      isDisabled: false,
     },
     {
       icon: MdListAlt,
       label: t("menu"),
       to: "/menu",
       permissionRole: [UserRole.BrandManager],
+      isDisabled: false,
     },
     {
       icon: IoGitBranchOutline,
       label: t("branches"),
       to: "/branches",
       permissionRole: [UserRole.BrandManager],
+      isDisabled: false,
     },
     {
       icon: IoSettingsOutline,
       label: t("settings"),
       divider: true,
       to: "/settings",
+      isDisabled: false,
     },
     {
       icon: CgAddR,
       label: t("new brand"),
       onclick: onOpenBrand,
       permissionRole: UserRole.Admin,
+      isDisabled: false,
     },
     {
       icon: CgAddR,
       label: t("new branch"),
       onclick: onOpenBranch,
       permissionRole: [UserRole.Admin, UserRole.BrandManager],
+      isDisabled: false,
     },
   ];
 
@@ -346,14 +361,16 @@ function Sidebar() {
         {filteredMenuItems.map((menuItem, index) => (
           <React.Fragment key={index}>
             <ChakraLink
-              as={menuItem.to ? ReactRouterLink : "button"}
+              as={menuItem.to && !menuItem.isDisabled ? ReactRouterLink : "button"}
               {...(menuItem.to ? { to: menuItem.to } : {})}
-              className={style.MenuItem}
+              className={`${style.MenuItem} ${menuItem.isDisabled ? style.disabled : ""}`}
               style={{ textDecoration: "none" }}
               onClick={
-                menuItem.to
-                  ? () => changeItem(menuItem.label)
-                  : menuItem.onclick
+                !menuItem.isDisabled
+                  ? menuItem.to
+                    ? () => changeItem(menuItem.label)
+                    : menuItem.onclick
+                  : undefined
               }
               backgroundColor={
                 item === menuItem.label ||
@@ -371,6 +388,7 @@ function Sidebar() {
                   ? "#F1F8E8"
                   : "black"
               }
+              cursor={menuItem.isDisabled ? "not-allowed" : "pointer"}
             >
               <Flex>
                 <Icon as={menuItem.icon} className={style.MenuIcon} />
