@@ -3,6 +3,7 @@ using FSU.SmartMenuWithAI.Repository.Entities;
 using FSU.SmartMenuWithAI.Repository.UnitOfWork;
 using FSU.SmartMenuWithAI.Service.ISerivice;
 using FSU.SmartMenuWithAI.Service.Models;
+using FSU.SmartMenuWithAI.Service.Utils.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +68,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 : 0;
 
             // Retrieve payments for the user
-            var payments = await _unitOfWork.PaymentRepository.Get(p => p.UserId == userId, includeProperties: "Subscription,Subscription.Plan");
+            var payments = await _unitOfWork.PaymentRepository.Get(p => p.UserId == userId && p.Status == (int)PaymentStatus.Succeed,
+                                                                    includeProperties: "Subscription,Subscription.Plan");
 
             //payments.OrderByDescending(p => p.PaymentDate);
             // Map payments to PaymentDTO
