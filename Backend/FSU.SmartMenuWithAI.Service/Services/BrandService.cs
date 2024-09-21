@@ -11,6 +11,7 @@ using FSU.SmartMenuWithAI.Service.Utils;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using FSU.SmartMenuWithAI.Service.Common.Constants;
+using FSU.SmartMenuWithAI.Service.Models.Brand;
 
 namespace FSU.SmartMenuWithAI.Service.Services
 {
@@ -160,5 +161,53 @@ namespace FSU.SmartMenuWithAI.Service.Services
             brandEntity = await _unitOfWork.BrandRepository.GetByCondition(condition);
             return _mapper.Map<BrandDTO?>(brandEntity)!;
         }
+
+        public async Task<UserMenuAccountDTO?> GetUserMenuAccountInfoAsync(int userId)
+        {
+            // Retrieve the user's last active subscription
+            var subscription = await _unitOfWork.SubscriptioRepository.Get(
+                filter: x => x.UserId == userId && x.Status == 1,
+                orderBy: q => q.OrderByDescending(s => s.EndDate),
+                includeProperties: "Plan",
+                pageSize: 1
+            );
+
+            var latestSubscription = subscription.FirstOrDefault();
+            if (latestSubscription == null)
+            {
+                return null; // No active subscription found
+            }
+
+            // Get plan details (MaxMenu and MaxAccount)
+            var maxMenu = latestSubscription.Plan.MaxMenu;
+            var maxAccount = latestSubscription.Plan.MaxAccount;
+
+            // Retrieve the user's brand information
+            var brand = await _unitOfWork.BrandRepository.GetByCondition(b => b.UserId == userId);
+            if (brand == null)
+            {
+                return new UserMenuAccountDTO
+                {
+                    MaxMenu = maxMenu,
+                    MaxAccount = maxAccount,
+                    NumberMenu = 0,
+                    NumberAccount = 0
+                };
+            }
+
+            // Count the number of menus and accounts for the brand
+            var numberMenu = await _unitOfWork.MenuRepository.Count(m => m.BrandId == brand.BrandId);
+            var numberAccount = await _unitOfWork.StoreRepository.Count(a => a.BrandId == brand.BrandId);
+
+            // Return the result
+            return new UserMenuAccountDTO
+            {
+                MaxMenu = maxMenu,
+                MaxAccount = maxAccount,
+                NumberMenu = numberMenu,
+                NumberAccount = numberAccount
+            };
+        }
+
     }
 }

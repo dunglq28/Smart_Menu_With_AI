@@ -1,5 +1,6 @@
 ﻿using FSU.SmartMenuWithAI.Repository.Entities;
 using FSU.SmartMenuWithAI.Service.Models;
+using FSU.SmartMenuWithAI.Service.Models.Brand;
 using FSU.SmartMenuWithAI.Service.Models.Pagination;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,6 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
         int? pageIndex = null,
         int? pageSize = null);
         Task<BrandDTO> GetBrandByUserID(int userID);
-
+        Task<UserMenuAccountDTO?> GetUserMenuAccountInfoAsync(int userId);
     }
 }

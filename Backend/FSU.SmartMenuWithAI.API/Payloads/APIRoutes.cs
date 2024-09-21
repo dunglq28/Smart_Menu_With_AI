@@ -75,6 +75,7 @@
 
             public const string GetByName = Base + "/brands/get-by-name";
 
+            public const string CheckLimit = Base + "/brands/checklimit";
         }
 
         public static class Store
