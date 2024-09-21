@@ -308,6 +308,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
                 var dto = new AppUserDTO();
                 dto.Password = reqObj.NewPassword;
+                dto.IsActive = true;
                 var result = await _appUserService.Update(id, dto);
                 if (!result)
                 {

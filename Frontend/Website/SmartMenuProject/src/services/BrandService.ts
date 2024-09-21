@@ -82,14 +82,14 @@ export const createBrand = async (
 
 export const updateBrand = async (
   brand: brandUpdate,
-): Promise<ApiResponse<Object>> => {
+): Promise<ApiResponse<BrandData>> => {
   try {
     const res = await axiosMultipartForm.put("brands/update", brand);
-    const apiResponse = res.data as ApiResponse<Object>;
+    const apiResponse = res.data as ApiResponse<BrandData>;
     return apiResponse;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      return error.response.data as ApiResponse<Object>;
+      return error.response.data as ApiResponse<BrandData>;
     }
     throw new Error("Unexpected error");
   }

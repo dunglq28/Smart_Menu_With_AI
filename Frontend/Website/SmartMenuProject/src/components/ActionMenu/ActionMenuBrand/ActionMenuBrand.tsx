@@ -22,6 +22,7 @@ import { BrandForm } from "../../../models/BrandForm.model";
 import { getBrand } from "../../../services/BrandService";
 import CustomAlertDialog from "../../AlertDialog";
 import { brandUpdate } from "../../../payloads/requests/updateRequests.model";
+import { getInitialBrandForm } from "../../../utils/initialData";
 
 interface ActionMenuProps {
   id: number;
@@ -46,16 +47,7 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({
   const cancelRef: React.LegacyRef<HTMLButtonElement> = React.useRef(null);
   const navigate = useNavigate();
   //BRAND DATA
-  const [brandData, setBrandData] = useState<BrandForm>({
-    brandName: {
-      value: "",
-      errorMessage: "",
-    },
-    image: {
-      value: null,
-      errorMessage: "",
-    },
-  });
+  const [brandForm, setBrandForm] = useState<BrandForm>(getInitialBrandForm());
 
   const updateBrandData = (brand: BrandForm, isSave: boolean) => {
     var brandUpdate: brandUpdate = {
@@ -78,7 +70,7 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({
         image: { value: null, errorMessage: "" },
         imageUrl: { value: imageUrl, errorMessage: "" },
       };
-      setBrandData(updatedBrandData);
+      setBrandForm(updatedBrandData);
       onOpenBrand();
     }
   };
@@ -141,7 +133,7 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({
       <ModalForm
         formBody={
           <ModalFormBrand
-            brandData={brandData}
+            brandData={brandForm}
             onClose={onCloseBrand}
             isEdit={true}
             updateBrandData={updateBrandData}

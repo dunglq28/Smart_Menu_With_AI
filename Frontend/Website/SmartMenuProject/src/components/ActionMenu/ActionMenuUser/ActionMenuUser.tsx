@@ -1,11 +1,5 @@
 import React, { FC, useState } from "react";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   Divider,
   Flex,
@@ -24,7 +18,7 @@ import ModalForm from "../../Modals/ModalForm/ModalForm";
 import ModalFormUser from "../../Modals/ModalFormUser/ModalFormUser";
 import { useTranslation } from "react-i18next";
 import { UserForm } from "../../../models/UserForm.model";
-import { getInitialUserData } from "../../../utils/initialData";
+import { getInitialUserForm } from "../../../utils/initialData";
 import { getUser } from "../../../services/UserService";
 import CustomAlertDialog from "../../AlertDialog";
 import { userUpdate } from "../../../payloads/requests/updateRequests.model";
@@ -46,13 +40,12 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
     onClose: onCloseUser,
   } = useDisclosure();
   // USER DATA
-  const [userData, setUserData] = useState<UserForm>(getInitialUserData());
+  const [userForm, setUserForm] = useState<UserForm>(getInitialUserForm());
 
   const handleEditClick = async () => {
     var result = await getUser(id);
 
     if (result.statusCode === 200) {
-      console.log(result.data);
       
       const { fullname, userName, phone, dob, gender, isActive } = result.data;
 
@@ -64,7 +57,7 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
         gender: { value: getGender(gender), errorMessage: "" },
         isActive: { value: isActive ? 1 : 0, errorMessage: "" },
       };
-      setUserData(updatedUserData);
+      setUserForm(updatedUserData);
       onOpenUser();
     }
   };
@@ -124,7 +117,7 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
         formBody={
           <ModalFormUser
             onClose={onCloseUser}
-            userData={userData}
+            userData={userForm}
             isEdit={true}
             updateUserData={updateUserData}
           />

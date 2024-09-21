@@ -15,7 +15,7 @@ import {
 import style from "./ModalFormCusSegment.module.scss";
 import { toast } from "react-toastify";
 import { CustomerSegmentForm } from "../../../models/SegmentForm.model";
-import { isInteger } from "../../../utils/validation";
+import { isInteger, validateCustomerSegmentForm } from "../../../utils/validation";
 import { customerSegmentUpdate } from "../../../payloads/requests/updateRequests.model";
 import { customerSegmentCreate } from "../../../payloads/requests/createRequests.model";
 import { getCustomerSegment } from "../../../services/CustomerSegmentService";
@@ -122,48 +122,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
   };
 
   const handleSubmit = async () => {
-    const errors = {
-      segmentName: formData.segmentName.value
-        ? ""
-        : "Tên phân khúc là bắt buộc",
-      sessions: formData.sessions.value.length ? "" : "Thời gian là bắt buộc",
-      ageFrom: "",
-      ageTo: "",
-    };
-
-    if (formData.segmentName.value && formData.segmentName.value.length < 5) {
-      errors.segmentName = "Tên phân khúc phải có ít nhất 5 ký tự";
-    }
-
-    if (!formData.ageFrom.value) {
-      errors.ageFrom = "Tuổi bắt đầu là bắt buộc";
-    } else if (
-      isNaN(Number(formData.ageFrom.value)) ||
-      Number(formData.ageFrom.value) <= 0
-    ) {
-      errors.ageFrom = "Tuổi bắt đầu phải là một số lớn hơn 0";
-    } else if (
-      !isInteger(formData.ageFrom.value) ||
-      Number(formData.ageFrom.value) <= 0
-    ) {
-      errors.ageFrom = "Tuổi bắt đầu phải là một số nguyên dương";
-    }
-
-    if (!formData.ageTo.value) {
-      errors.ageTo = "Tuổi kết thúc là bắt buộc";
-    } else if (
-      isNaN(Number(formData.ageTo.value)) ||
-      Number(formData.ageTo.value) <= 0
-    ) {
-      errors.ageTo = "Tuổi kết thúc phải là một số lớn hơn 0";
-    } else if (
-      !isInteger(formData.ageTo.value) ||
-      Number(formData.ageTo.value) <= 0
-    ) {
-      errors.ageTo = "Tuổi kết thúc phải là một số nguyên dương";
-    } else if (Number(formData.ageTo.value) <= Number(formData.ageFrom.value)) {
-      errors.ageTo = "Tuổi kết thúc phải lớn hơn tuổi bắt đầu";
-    }
+    const errors = validateCustomerSegmentForm(formData);
 
     const updatedFormData = {
       segmentName: {

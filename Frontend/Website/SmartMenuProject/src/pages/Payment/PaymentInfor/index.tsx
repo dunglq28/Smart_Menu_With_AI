@@ -19,8 +19,10 @@ import { useNavigate } from "react-router-dom";
 import { BrandForm } from "../../../models/BrandForm.model";
 import {
   isImageFile,
-  isValidEmail,
-  isValidPhoneNumber,
+  validateBrandForm,
+  validateEmail,
+  validateUserForm,
+  validateVerificationCode,
 } from "../../../utils/validation";
 import { UserForm } from "../../../models/UserForm.model";
 import { generateUsernameFromBrand } from "../../../utils/createUserName";
@@ -30,9 +32,9 @@ import { PlanData } from "../../../payloads/responses/PlanResponse.model";
 import { getPlan } from "../../../services/PlanService";
 import { toast } from "react-toastify";
 import {
-  getInitialBrandData,
+  getInitialBrandForm,
   getInitialPlanData,
-  getInitialUserData,
+  getInitialUserForm,
 } from "../../../utils/initialData";
 import { formatCurrencyVND } from "../../../utils/functionHelper";
 import moment from "moment";
@@ -93,8 +95,8 @@ const PackageDetail = ({
 
 const PaymentInfoPage = () => {
   const navigate = useNavigate();
-  const [brandData, setBrandData] = useState<BrandForm>(getInitialBrandData());
-  const [userData, setUserData] = useState<UserForm>(getInitialUserData());
+  const [brandForm, setBrandForm] = useState<BrandForm>(getInitialBrandForm());
+  const [userForm, setUserForm] = useState<UserForm>(getInitialUserForm());
   const [email, setEmail] = useState({
     value: "",
     errorMessage: "",
@@ -139,10 +141,11 @@ const PaymentInfoPage = () => {
   }, [location.search]);
 
   async function handleSendVerificationCode() {
-    if (!isValidEmail(email.value)) {
+    const emailError = validateEmail(email.value);
+    if (emailError) {
       setEmail((prev) => ({
         ...prev,
-        errorMessage: "Email không hợp lệ",
+        errorMessage: emailError,
       }));
       return;
     }
@@ -184,12 +187,12 @@ const PaymentInfoPage = () => {
   const handleBrandNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newBrandName = e.target.value;
 
-    setBrandData((prevData) => ({
+    setBrandForm((prevData) => ({
       ...prevData,
       brandName: { value: newBrandName, errorMessage: "" },
     }));
 
-    setUserData((prevData) => ({
+    setUserForm((prevData) => ({
       ...prevData,
       userName: {
         value: generateUsernameFromBrand(newBrandName),
@@ -204,14 +207,14 @@ const PaymentInfoPage = () => {
       const isImage = isImageFile(file);
 
       if (!isImage) {
-        setBrandData((prevData) => ({
+        setBrandForm((prevData) => ({
           ...prevData,
           image: { value: null, errorMessage: "Tệp phải là hình ảnh" },
         }));
         return;
       }
 
-      setBrandData((prevData) => ({
+      setBrandForm((prevData) => ({
         ...prevData,
         image: { value: file, errorMessage: "" },
         imageName: { value: file.name, errorMessage: "" },
@@ -220,7 +223,7 @@ const PaymentInfoPage = () => {
   };
 
   const handleRemoveImage = () => {
-    setBrandData((prevData) => ({
+    setBrandForm((prevData) => ({
       ...prevData,
       image: { value: null, errorMessage: "" },
       imageUrl: { value: "", errorMessage: "" },
@@ -228,7 +231,7 @@ const PaymentInfoPage = () => {
   };
 
   const handleInputChange = (field: keyof UserForm, value: string) => {
-    setUserData((prevData) => ({
+    setUserForm((prevData) => ({
       ...prevData,
       [field]: { value, errorMessage: "" },
     }));
@@ -236,38 +239,38 @@ const PaymentInfoPage = () => {
 
   const handleDateChange = (field: keyof UserForm, value: string) => {
     if (!isNaN(Date.parse(value))) {
-      setUserData((prevData) => ({
+      setUserForm((prevData) => ({
         ...prevData,
         [field]: { value: new Date(value), errorMessage: "" },
       }));
     }
   };
 
-  const imageUrl = brandData.image.value
-    ? URL.createObjectURL(brandData.image.value)
-    : brandData.imageUrl?.value;
+  const imageUrl = brandForm.image.value
+    ? URL.createObjectURL(brandForm.image.value)
+    : brandForm.imageUrl?.value;
 
   async function addNewBrand(): Promise<BrandResult> {
     try {
-      const brandForm = new FormData();
+      const brandFormRequest = new FormData();
 
-      if (brandData.image.value && brandData.brandName.value) {
-        brandForm.append("BrandName", brandData.brandName.value);
-        brandForm.append("Image", brandData.image.value);
+      if (brandForm.image.value && brandForm.brandName.value) {
+        brandFormRequest.append("BrandName", brandForm.brandName.value);
+        brandFormRequest.append("Image", brandForm.image.value);
 
-        const response = await getBrandByBrandName(brandData.brandName.value);
+        const response = await getBrandByBrandName(brandForm.brandName.value);
         if (response.data == null) {
-          const userResult = await createUser(userData, 2);
+          const userResult = await createUser(userForm, 2);
           if (userResult.statusCode === 200) {
-            brandForm.append("UserId", userResult.data.toString());
-            const brandResult = await createBrand(brandForm);
+            brandFormRequest.append("UserId", userResult.data.toString());
+            const brandResult = await createBrand(brandFormRequest);
 
             if (brandResult.statusCode === 200) {
               return { isSuccess: true, userId: userResult.data.toString() };
             }
           }
         } else {
-          setBrandData((prevData) => ({
+          setBrandForm((prevData) => ({
             ...prevData,
             brandName: {
               ...prevData.brandName,
@@ -297,8 +300,8 @@ const PaymentInfoPage = () => {
       // Chuẩn bị dữ liệu cập nhật cho thương hiệu
       var brandUpdate: brandUpdate = {
         id: brand.data.brandId,
-        brandName: brandData.brandName.value,
-        image: brandData.image.value,
+        brandName: brandForm.brandName.value,
+        image: brandForm.image.value,
       };
 
       // Gọi API cập nhật thông tin thương hiệu
@@ -307,7 +310,7 @@ const PaymentInfoPage = () => {
       // Kiểm tra kết quả cập nhật thương hiệu
       if (brandResult.statusCode !== 200) {
         console.error("Error updating brand:", brandResult);
-        setBrandData((prevData) => ({
+        setBrandForm((prevData) => ({
           ...prevData,
           brandName: {
             ...prevData.brandName,
@@ -319,12 +322,12 @@ const PaymentInfoPage = () => {
 
       // Chuẩn bị dữ liệu cập nhật cho user
       var userUpdate: userUpdate = {
-        fullname: userData.fullName.value,
-        dob: userData.DOB.value
-          ? userData.DOB.value.toISOString().split("T")[0]
+        fullname: userForm.fullName.value,
+        dob: userForm.DOB.value
+          ? userForm.DOB.value.toISOString().split("T")[0]
           : "",
-        gender: userData.gender.value,
-        phone: userData.phoneNumber.value,
+        gender: userForm.gender.value,
+        phone: userForm.phoneNumber.value,
         isActive: false,
         updateBy: 0,
       };
@@ -343,7 +346,7 @@ const PaymentInfoPage = () => {
     } catch (error) {
       // Xử lý lỗi nếu có bất kỳ ngoại lệ nào
       console.error("Error updating brand and user:", error);
-      setBrandData((prevData) => ({
+      setBrandForm((prevData) => ({
         ...prevData,
         brandName: {
           ...prevData.brandName,
@@ -355,109 +358,58 @@ const PaymentInfoPage = () => {
   }
 
   async function handleCreatePaymentLink() {
-    let hasError = false;
+    const userErrors = validateUserForm(userForm);
+    const updatedUserForm = {
+      fullName: { ...userForm.fullName, errorMessage: userErrors.fullName },
+      userName: { ...userForm.userName, errorMessage: "" },
+      phoneNumber: {
+        ...userForm.phoneNumber,
+        errorMessage: userErrors.phoneNumber,
+      },
+      DOB: { ...userForm.DOB, errorMessage: userErrors.DOB },
+      gender: { ...userForm.gender, errorMessage: "" },
+      isActive: { ...userForm.isActive, errorMessage: "" },
+    };
 
-    if (brandData.brandName.value.length < 1) {
-      setBrandData((prevData) => ({
-        ...prevData,
-        brandName: {
-          ...prevData.brandName,
-          errorMessage: "Tên thương hiệu là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+    setUserForm(updatedUserForm);
+    const hasUserError = Object.values(userErrors).some(
+      (error) => error !== "",
+    );
 
-    if (
-      !brandData.image.value &&
-      !brandData.imageUrl?.value &&
-      !brandData.image.errorMessage
-    ) {
-      setBrandData((prevData) => ({
-        ...prevData,
-        image: {
-          ...prevData.image,
-          errorMessage: "Logo là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+    const brandErrors = validateBrandForm(brandForm);
+    const updatedBrandForm = {
+      brandName: {
+        ...brandForm.brandName,
+        errorMessage: brandErrors.brandName,
+      },
+      image: { ...brandForm.image, errorMessage: brandErrors.image },
+      imageUrl: { ...brandForm.imageUrl!, errorMessage: "" },
+    };
 
-    if (userData.fullName.value.trim() === "") {
-      setUserData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (userData.fullName.value.trim().length < 6) {
-      setUserData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
-        },
-      }));
-      hasError = true;
-    }
+    setBrandForm(updatedBrandForm);
+    const hasBrandError = Object.values(brandErrors).some(
+      (error) => error !== "",
+    );
 
-    if (userData.phoneNumber.value.trim() === "") {
-      setUserData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (!isValidPhoneNumber(userData.phoneNumber.value.trim())) {
-      setUserData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại không hợp lệ",
-        },
-      }));
-      hasError = true;
-    }
+    let hasError = hasUserError || hasBrandError;
 
-    if (!userData.DOB.value) {
-      setUserData((prevData) => ({
-        ...prevData,
-        DOB: {
-          ...prevData.DOB,
-          errorMessage: "Ngày sinh là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (email.value.trim() === "") {
+    const emailError = validateEmail(email.value);
+    if (emailError) {
       setEmail((prev) => ({
         ...prev,
-        errorMessage: "Email là bắt buộc",
-      }));
-      hasError = true;
-    } else if (!isValidEmail(email.value.trim())) {
-      setEmail((prev) => ({
-        ...prev,
-        errorMessage: "Email không hợp lệ",
+        errorMessage: emailError,
       }));
       hasError = true;
     }
 
-    if (verificationCodeUser.value.trim() === "") {
+    const verificationCodeError = validateVerificationCode(
+      verificationCodeUser.value,
+      verificationCode,
+    );
+    if (verificationCodeError) {
       setVerificationCodeUser((prev) => ({
         ...prev,
-        errorMessage: "Mã xác nhận là bắt buộc",
-      }));
-      hasError = true;
-    } else if (verificationCodeUser.value.trim() != verificationCode) {
-      setVerificationCodeUser((prev) => ({
-        ...prev,
-        errorMessage: "Mã xác nhận không chính xác",
+        errorMessage: verificationCodeError,
       }));
       hasError = true;
     }
@@ -466,7 +418,6 @@ const PaymentInfoPage = () => {
       try {
         setIsLoading(true);
         const payment = await checkExistEmail(email.value);
-        console.log(payment);
 
         let brandResult;
         if (payment.data != null) {
@@ -519,27 +470,27 @@ const PaymentInfoPage = () => {
             <FormInput
               label="Tên thương hiệu"
               placeholder="Nhập tên thương hiệu"
-              value={brandData.brandName.value}
+              value={brandForm.brandName.value}
               onChange={handleBrandNameChange}
-              errorMessage={brandData.brandName.errorMessage}
+              errorMessage={brandForm.brandName.errorMessage}
             />
             <FormInput
               label="Họ và tên"
               placeholder="Nhập họ và tên"
-              value={userData.fullName.value}
+              value={userForm.fullName.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleInputChange("fullName", e.target.value)
               }
-              errorMessage={userData.fullName.errorMessage}
+              errorMessage={userForm.fullName.errorMessage}
             />
             <FormInput
               label="Số điện thoại"
               placeholder="Nhập số điện thoại"
-              value={userData.phoneNumber.value}
+              value={userForm.phoneNumber.value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleInputChange("phoneNumber", e.target.value)
               }
-              errorMessage={userData.phoneNumber.errorMessage}
+              errorMessage={userForm.phoneNumber.errorMessage}
             />
             <FormControl>
               <FormLabel className={style.formLabel}>Giới tính</FormLabel>
@@ -593,43 +544,43 @@ const PaymentInfoPage = () => {
               placeholder=""
               type="Date"
               value={
-                userData.DOB.value
-                  ? userData.DOB.value.toISOString().split("T")[0]
+                userForm.DOB.value
+                  ? userForm.DOB.value.toISOString().split("T")[0]
                   : ""
               }
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleDateChange("DOB", e.target.value)
               }
-              errorMessage={userData.DOB.errorMessage}
+              errorMessage={userForm.DOB.errorMessage}
             />
             <FormControl className={style.formImage}>
               <FormLabel className={style.formLabel} w="36%">
                 Logo thương hiệu
               </FormLabel>
               <Flex align="center">
-                {!brandData.image.value && !brandData.imageUrl?.value && (
+                {!brandForm.image.value && !brandForm.imageUrl?.value && (
                   <Input
                     type="file"
                     className={style.inputImage}
                     onChange={handleImageChange}
                   />
                 )}
-                {(brandData.image.value || brandData.imageUrl?.value) && (
+                {(brandForm.image.value || brandForm.imageUrl?.value) && (
                   <Button onClick={handleRemoveImage} ml={3}>
                     Xoá
                   </Button>
                 )}
               </Flex>
-              {(brandData.image.value ||
-                (brandData.imageUrl && brandData.imageUrl.value)) && (
+              {(brandForm.image.value ||
+                (brandForm.imageUrl && brandForm.imageUrl.value)) && (
                 <Image
                   src={imageUrl}
                   alt="Image Preview"
                   className={style.imagePreview}
                 />
               )}
-              {brandData.image.errorMessage && (
-                <Text color="red.500">{brandData.image.errorMessage}</Text>
+              {brandForm.image.errorMessage && (
+                <Text color="red.500">{brandForm.image.errorMessage}</Text>
               )}
             </FormControl>
           </Grid>

@@ -1,10 +1,13 @@
 import { BranchForm } from "../models/BranchForm.model";
 import { BrandForm } from "../models/BrandForm.model";
+import { PasswordForm } from "../models/Password.model";
+import { ProductForm } from "../models/ProductForm.model";
 import { UserForm } from "../models/UserForm.model";
 import { DashboardData } from "../payloads/responses/DashboarData.model";
 import { PlanData } from "../payloads/responses/PlanResponse.model";
+import { UserData } from "../payloads/responses/UserData.model";
 
-export const getInitialUserData = (): UserForm => ({
+export const getInitialUserForm = (): UserForm => ({
   fullName: {
     value: "",
     errorMessage: "",
@@ -31,7 +34,7 @@ export const getInitialUserData = (): UserForm => ({
   },
 });
 
-export const getInitialBrandData = (): BrandForm => ({
+export const getInitialBrandForm = (): BrandForm => ({
   brandName: { value: "", errorMessage: "" },
   image: { value: null, errorMessage: "" },
   imageUrl: {
@@ -40,12 +43,27 @@ export const getInitialBrandData = (): BrandForm => ({
   },
 });
 
-export const getInitialBranchData = (): BranchForm => ({
+export const getInitialBranchForm = (): BranchForm => ({
   brandName: { id: "", value: "", errorMessage: "" },
   city: { id: "", name: "", errorMessage: "" },
   district: { id: "", name: "", errorMessage: "" },
   ward: { id: "", name: "", errorMessage: "" },
   address: { value: "", errorMessage: "" },
+});
+
+export const getInitialProductForm = (): ProductForm => ({
+  category: { value: null, errorMessage: "" },
+  productName: { value: "", errorMessage: "" },
+  image: { value: null, errorMessage: "" },
+  imageUrl: { value: "", errorMessage: "" },
+  description: { value: "", errorMessage: "" },
+  price: { value: null, errorMessage: "" },
+});
+
+export const getInitialPasswordForm = (): PasswordForm => ({
+  oldPassword: { value: "", errorMessage: "" },
+  newPassword: { value: "", errorMessage: "" },
+  confirm: { value: "", errorMessage: "" },
 });
 
 export const getInitialDashboardData = (): DashboardData => ({

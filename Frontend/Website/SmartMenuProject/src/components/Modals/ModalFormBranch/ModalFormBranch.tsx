@@ -23,7 +23,10 @@ import {
 import Loading from "../../Loading";
 import { BrandData } from "../../../payloads/responses/BrandData.model";
 import { getAllBrandName } from "../../../services/BrandService";
-import { getInitialBranchData } from "../../../utils/initialData";
+import { getInitialBranchForm } from "../../../utils/initialData";
+import {
+  validateBranchForm,
+} from "../../../utils/validation";
 
 interface ModalFormBranchProps {
   branchData: BranchForm;
@@ -85,7 +88,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
         // Set city ID if not already set
         if (formData.city.name && formData.city.id === "") {
           const cityId = cityData.find(
-            (city) => city.name === formData.city.name
+            (city) => city.name === formData.city.name,
           )?.id;
           setFormData((prevData) => ({
             ...prevData,
@@ -104,7 +107,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
           // Set district ID if not already set
           if (formData.district.name && formData.district.id === "") {
             const districtId = districtData.find(
-              (district) => district.name === formData.district.name
+              (district) => district.name === formData.district.name,
             )?.id;
             setFormData((prevData) => ({
               ...prevData,
@@ -124,7 +127,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
           // Set ward ID if not already set
           if (formData.ward.name && formData.ward.id === "") {
             const wardId = wardData.find(
-              (ward) => ward.name === formData.ward.name
+              (ward) => ward.name === formData.ward.name,
             )?.id;
             setFormData((prevData) => ({
               ...prevData,
@@ -233,67 +236,22 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
   };
 
   const cancelHandler = () => {
-    updateBranchData(getInitialBranchData(), false);
+    updateBranchData(getInitialBranchForm(), false);
     onClose();
   };
 
   const handleNextForm = () => {
-    let hasError = false;
+    const errors = validateBranchForm(formData);
+    const updatedFormData = {
+      brandName: { ...formData.brandName, errorMessage: errors.brandName },
+      city: { ...formData.city, errorMessage: errors.city },
+      ward: { ...formData.ward, errorMessage: errors.ward },
+      district: { ...formData.district, errorMessage: errors.district },
+      address: { ...formData.address, errorMessage: errors.address },
+    };
 
-    if (!formData.brandName.value) {
-      setFormData((prevData) => ({
-        ...prevData,
-        brandName: {
-          ...prevData.brandName,
-          errorMessage: "Tên thương hiệu là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (!formData.city.name) {
-      setFormData((prevData) => ({
-        ...prevData,
-        city: {
-          ...prevData.city,
-          errorMessage: "Thành phố là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (!formData.district.name) {
-      setFormData((prevData) => ({
-        ...prevData,
-        district: {
-          ...prevData.district,
-          errorMessage: "Quận là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (!formData.ward.name) {
-      setFormData((prevData) => ({
-        ...prevData,
-        ward: {
-          ...prevData.ward,
-          errorMessage: "Phường là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (!formData.address.value) {
-      setFormData((prevData) => ({
-        ...prevData,
-        address: {
-          ...prevData.address,
-          errorMessage: "Địa chỉ là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+    setFormData(updatedFormData);
+    const hasError = Object.values(errors).some((error) => error !== "");
 
     if (!hasError) {
       updateBranchData(formData, true);
