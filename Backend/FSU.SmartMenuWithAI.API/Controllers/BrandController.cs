@@ -359,5 +359,44 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
+
+        //[Authorize(Roles = UserRoles.Admin)]
+        [HttpGet(APIRoutes.Brand.CheckLimit, Name = "check-limit-create")]
+        public async Task<IActionResult> GetMenuAccountInfo([FromQuery(Name = "user-id")] int userId)
+        {
+            try
+            {
+                var result = await _brandService.GetUserMenuAccountInfoAsync(userId);
+
+                if (result == null)
+                {
+                    return NotFound(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Message = "Không tìm thấy đăng ký hoặc thương hiệu nào đang hoạt động cho người dùng này.",
+                        Data = null,
+                        IsSuccess = false
+                    });
+                }
+
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Lấy giới hạn người dùng thành công.",
+                    Data = result,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Có lỗi xảy ra khi lấy giới hạn người dùng: " + ex.Message,
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
     }
 }
