@@ -17,12 +17,19 @@ import { themeColors } from "../../../constants/GlobalStyles";
 import { CurrentForm } from "../../../constants/Enum";
 import { BrandForm } from "../../../models/BrandForm.model";
 import { UserForm } from "../../../models/UserForm.model";
-import { isValidPhoneNumber } from "../../../utils/validation";
+import {
+  validateUserForm,
+} from "../../../utils/validation";
 import {
   generateUsernameFromBranch,
   generateUsernameFromBrand,
 } from "../../../utils/createUserName";
 import { BranchForm } from "../../../models/BranchForm.model";
+import {
+  getInitialBranchForm,
+  getInitialBrandForm,
+  getInitialUserForm,
+} from "../../../utils/initialData";
 
 interface ModalFormBrandProps {
   isEdit: boolean;
@@ -112,30 +119,11 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
 
   const cancelHandler = () => {
     if (formPrevious === CurrentForm.BRAND) {
-      updateBrandData?.({
-        brandName: { value: "", errorMessage: "" },
-        image: { value: null, errorMessage: "" },
-      });
+      updateBrandData?.(getInitialBrandForm());
     } else if (formPrevious === CurrentForm.BRANCH) {
-      updateBranchData?.({
-        brandName: { id: "", value: "", errorMessage: "" },
-        city: { id: "", name: "", errorMessage: "" },
-        district: { id: "", name: "", errorMessage: "" },
-        ward: { id: "", name: "", errorMessage: "" },
-        address: { value: "", errorMessage: "" },
-      });
+      updateBranchData?.(getInitialBranchForm());
     }
-    updateUserData?.(
-      {
-        fullName: { value: "", errorMessage: "" },
-        userName: { value: "", errorMessage: "" },
-        phoneNumber: { value: "", errorMessage: "" },
-        DOB: { value: null, errorMessage: "" },
-        gender: { value: "Nam", errorMessage: "" },
-        isActive: { value: null, errorMessage: "" },
-      },
-      false
-    );
+    updateUserData?.(getInitialUserForm(), false);
     onClose();
   };
 
@@ -152,65 +140,25 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
   };
 
   const handleSaveForm = () => {
-    let hasError = false;
-    
-    if (formData.fullName.value.trim() === "") {
-      setFormData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (formData.fullName.value.trim().length < 6) {
-      setFormData((prevData) => ({
-        ...prevData,
-        fullName: {
-          ...prevData.fullName,
-          errorMessage: "Họ và tên phải có ít nhất 6 ký tự",
-        },
-      }));
-      hasError = true;
-    }
+    const errors = validateUserForm(formData);
+    const updatedFormData = {
+      fullName: { ...formData.fullName, errorMessage: errors.fullName },
+      userName: { ...formData.userName, errorMessage: "" }, 
+      phoneNumber: { ...formData.phoneNumber, errorMessage: errors.phoneNumber },
+      DOB: { ...formData.DOB, errorMessage: errors.DOB },
+      gender: { ...formData.gender, errorMessage: "" },
+      isActive: { ...formData.isActive, errorMessage: "" },
+    };
 
-    if (formData.phoneNumber.value.trim() === "") {
-      setFormData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại là bắt buộc",
-        },
-      }));
-      hasError = true;
-    } else if (!isValidPhoneNumber(formData.phoneNumber.value.trim())) {
-      setFormData((prevData) => ({
-        ...prevData,
-        phoneNumber: {
-          ...prevData.phoneNumber,
-          errorMessage: "Số điện thoại không hợp lệ",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (!formData.DOB.value) {
-      setFormData((prevData) => ({
-        ...prevData,
-        DOB: {
-          ...prevData.DOB,
-          errorMessage: "Ngày sinh là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+    setFormData(updatedFormData);
+    const hasError = Object.values(errors).some((error) => error !== "");
 
     if (!hasError) {
       if (isEdit) {
         updateUserData(formData, true);
       } else {
         if (formPrevious === CurrentForm.BRAND) {
-           cancelHandler();
+          cancelHandler();
           saveBrandHandle?.(formData);
         } else if (formPrevious === CurrentForm.BRANCH) {
           cancelHandler();
@@ -330,7 +278,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
                   Select one
                 </option>
                 <option value="1">Hoạt động</option>
-                <option value="0">Không hoạt động</option>  
+                <option value="0">Không hoạt động</option>
               </Select>
             </Box>
           </Flex>

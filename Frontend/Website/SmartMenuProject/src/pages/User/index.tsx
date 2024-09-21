@@ -25,6 +25,7 @@ import { userUpdate } from "../../payloads/requests/updateRequests.model";
 import { getGender, getOptions, getRoleName } from "../../utils/functionHelper";
 
 function User() {
+  const [brandId, setBrandId] = useState<string | null>(localStorage.getItem("BrandId"));
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
   const [data, setData] = useState<UserData[]>([]);
@@ -42,9 +43,9 @@ function User() {
 
         const loadData = async () => {
           if (searchValue) {
-            result = await getUsers(currentPage, rowsPerPage, searchValue);
+            result = await getUsers(currentPage, rowsPerPage, searchValue, brandId);
           } else {
-            result = await getUsers(currentPage, rowsPerPage, "");
+            result = await getUsers(currentPage, rowsPerPage, "", brandId);
           }
           setData(result.list);
           setTotalPages(result.totalPage);

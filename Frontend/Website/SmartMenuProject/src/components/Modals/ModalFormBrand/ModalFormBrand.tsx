@@ -12,8 +12,11 @@ import {
 
 import styles from "./ModalFormBrand.module.scss";
 import { BrandForm } from "../../../models/BrandForm.model";
-import { isImageFile } from "../../../utils/validation";
-import { getInitialBrandData } from "../../../utils/initialData";
+import {
+  isImageFile,
+  validateBrandForm,
+} from "../../../utils/validation";
+import { getInitialBrandForm } from "../../../utils/initialData";
 import { getBrandByBrandName } from "../../../services/BrandService";
 
 interface ModalFormBrandProps {
@@ -77,38 +80,19 @@ const ModalFormBrand: React.FC<ModalFormBrandProps> = ({
   };
 
   const cancelHandler = () => {
-    updateBrandData?.(getInitialBrandData(), false);
+    updateBrandData?.(getInitialBrandForm(), false);
     onClose();
   };
 
   const handleNextForm = async () => {
-    let hasError = false;
+    const errors = validateBrandForm(formData);
+    const updatedFormData = {
+      brandName: { ...formData.brandName, errorMessage: errors.brandName },
+      image: { ...formData.image, errorMessage: errors.image },
+    };
 
-    if (formData.brandName.value.length < 1) {
-      setFormData((prevData) => ({
-        ...prevData,
-        brandName: {
-          ...prevData.brandName,
-          errorMessage: "Tên thương hiệu là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
-
-    if (
-      !formData.image.value &&
-      !formData.imageUrl?.value &&
-      !formData.image.errorMessage
-    ) {
-      setFormData((prevData) => ({
-        ...prevData,
-        image: {
-          ...prevData.image,
-          errorMessage: "Logo là bắt buộc",
-        },
-      }));
-      hasError = true;
-    }
+    setFormData(updatedFormData);
+    const hasError = Object.values(errors).some((error) => error !== "");
 
     if (!hasError) {
       updateBrandData?.(formData, true);

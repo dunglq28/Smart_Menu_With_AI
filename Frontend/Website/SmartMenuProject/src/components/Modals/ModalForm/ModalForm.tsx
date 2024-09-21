@@ -24,9 +24,9 @@ import { BrandForm } from "../../../models/BrandForm.model";
 import { BranchForm } from "../../../models/BranchForm.model";
 import { UserForm } from "../../../models/UserForm.model";
 import {
-  getInitialBranchData,
-  getInitialBrandData,
-  getInitialUserData,
+  getInitialBranchForm,
+  getInitialBrandForm,
+  getInitialUserForm,
 } from "../../../utils/initialData";
 import { CurrentForm } from "../../../constants/Enum";
 
@@ -57,15 +57,15 @@ const ModalForm: React.FC<ModalFormProps> = ({
 }) => {
   function cancelHandler() {
     if (updateBrandData) {
-      updateBrandData(getInitialBrandData(), false);
+      updateBrandData(getInitialBrandForm(), false);
     }
 
     if (updateBranchData) {
-      updateBranchData(getInitialBranchData(), false);
+      updateBranchData(getInitialBranchForm(), false);
     }
 
     if (updateUserData) {
-      updateUserData(getInitialUserData(), false);
+      updateUserData(getInitialUserForm(), false);
     }
 
     onClose();

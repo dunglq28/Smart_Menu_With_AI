@@ -8,10 +8,12 @@ import { UserData } from "../payloads/responses/UserData.model";
 export const getUsers = async (
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string
+  searchValue: string,
+  brandId: string | null,
 ): Promise<GetData<UserData>> => {
   const res = await axiosAuth.get("app-users", {
     params: {
+      brandId: brandId || null,
       pageNumber: currentPage,
       pageSize: rowsPerPage,
       searchKey: searchValue,
@@ -21,10 +23,7 @@ export const getUsers = async (
   return apiResponse.data as GetData<UserData>;
 };
 
-export const createUser = async (
-  user: UserForm,
-  roleId: number
-): Promise<ApiResponse<Number>> => {
+export const createUser = async (user: UserForm, roleId: number): Promise<ApiResponse<Number>> => {
   const res = await axiosAuth.post("app-users", {
     userName: user.userName.value,
     fullname: user.fullName.value,
@@ -48,10 +47,7 @@ export const getUser = async (id: number): Promise<ApiResponse<UserData>> => {
   return apiResponse;
 };
 
-export const updateUser = async (
-  id: number,
-  user: userUpdate
-): Promise<ApiResponse<Object>> => {
+export const updateUser = async (id: number, user: userUpdate): Promise<ApiResponse<Object>> => {
   const res = await axiosAuth.put(`app-users?id=${id}`, user);
   const apiResponse = res.data as ApiResponse<Object>;
   return apiResponse;

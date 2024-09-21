@@ -1,7 +1,9 @@
 import { Button, Divider, Flex, Input, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import style from "./Profile.module.scss";
+import style from "./Billing.module.scss";
 import { themeColors } from "../../../constants/GlobalStyles";
+import { SubscriptionData } from "../../../payloads/responses/SubscriptionData.model";
+import { formatCurrencyVND, formatDate } from "../../../utils/functionHelper";
 
 interface BillingProps {
   paymentHistory: Array<{
@@ -10,9 +12,10 @@ interface BillingProps {
     amount: string;
     note: string;
   }>;
+  subscription: SubscriptionData | null;
 }
 
-const Billing: React.FC<BillingProps> = ({ paymentHistory }) => {
+const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
   const { t } = useTranslation("profile");
 
   return (
@@ -23,22 +26,56 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory }) => {
       <Flex className={style.tab_panels_container_content}>
         <Flex className={style.tab_panels_container_content_column}>
           <Text className={style.text_title_content}>{t("Tên gói")}</Text>
-          <Input focusBorderColor={themeColors.primaryButton} readOnly value="Gói cơ bản" />
+          <Input
+            focusBorderColor={themeColors.primaryButton}
+            readOnly
+            value={subscription?.planName || "N/A"}
+          />
         </Flex>
         <Flex className={style.tab_panels_container_content_column}>
           <Text className={style.text_title_content}>{t("Giá tiền")}</Text>
-          <Text className={style.text_title_content}>{t("100.000 VND/tháng")}</Text>
+          <Text className={style.text_title_content}>
+            {formatCurrencyVND(subscription?.price.toString() || "0")}/tháng
+          </Text>
         </Flex>
       </Flex>
 
       <Flex className={style.tab_panels_container_content}>
         <Flex className={style.tab_panels_container_content_column}>
           <Text className={style.text_title_content}>{t("Ngày sử dụng")}</Text>
-          <Input focusBorderColor={themeColors.primaryButton} readOnly value="18/09/2024" />
+          <Input
+            focusBorderColor={themeColors.primaryButton}
+            readOnly
+            value={formatDate(subscription?.startDate!) || "N/A"}
+          />
         </Flex>
         <Flex className={style.tab_panels_container_content_column}>
           <Text className={style.text_title_content}>{t("Ngày hết hạn")}</Text>
-          <Input focusBorderColor={themeColors.primaryButton} readOnly value="18/10/2024" />
+          <Input
+            focusBorderColor={themeColors.primaryButton}
+            readOnly
+            value={formatDate(subscription?.endDate!) || "N/A"}
+          />
+        </Flex>
+      </Flex>
+
+      {/* Số lượt tạo chi nhánh và số lượt tạo menu */}
+      <Flex mt="12px" className={style.tab_panels_container_content}>
+        <Flex className={style.tab_panels_container_content_column}>
+          <Text className={style.text_title_content}>
+            {t("Số lượt tạo chi nhánh")}:{" "}
+            <span>
+              {subscription?.storeCount || 0}/{subscription?.maxAccount || 0}
+            </span>
+          </Text>
+        </Flex>
+        <Flex className={style.tab_panels_container_content_column}>
+          <Text className={style.text_title_content}>
+            {t("Số lượt tạo menu")}:{" "}
+            <span>
+              {subscription?.menuCount || 0}/{subscription?.maxMenu || 0}
+            </span>
+          </Text>
         </Flex>
       </Flex>
 
@@ -53,24 +90,28 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory }) => {
             <Text className={style.payment_history_header_text}>{t("Danh sách thanh toán")}</Text>
           </Flex>
           <Flex className={style.payment_history_list} flexDir="column">
-            {paymentHistory.length > 0 ? (
-              paymentHistory.map((payment, index) => (
+            {subscription && subscription.payments && subscription.payments.length > 0 ? (
+              subscription.payments.map((payment, index) => (
                 <Flex key={index} className={style.payment_history_item}>
                   <Flex flexDirection="column" width="30%">
                     <Text className={style.payment_history_item_label}>{t("Tên gói")}</Text>
-                    <Text className={style.payment_history_item_value}>{payment.name}</Text>
+                    <Text className={style.payment_history_item_value}>{payment.planName}</Text>
                   </Flex>
                   <Flex flexDirection="column" width="30%">
                     <Text className={style.payment_history_item_label}>{t("Ngày giao dịch")}</Text>
-                    <Text className={style.payment_history_item_value}>{payment.date}</Text>
+                    <Text className={style.payment_history_item_value}>
+                      {formatDate(payment.paymentDate)}
+                    </Text>
                   </Flex>
                   <Flex flexDirection="column" width="30%">
                     <Text className={style.payment_history_item_label}>{t("Số tiền")}</Text>
-                    <Text className={style.payment_history_item_value}>{payment.amount} VND</Text>
+                    <Text className={style.payment_history_item_value}>
+                      {formatCurrencyVND(payment.amount.toString())}
+                    </Text>
                   </Flex>
                   <Flex flexDirection="column" width="40%">
                     <Text className={style.payment_history_item_label}>{t("Ghi chú")}</Text>
-                    <Text className={style.payment_history_item_value}>{payment.note}</Text>
+                    <Text className={style.payment_history_item_value}>{payment.planName}</Text>
                   </Flex>
                 </Flex>
               ))
