@@ -1,22 +1,63 @@
 @import "../../styles/shared.scss";
 
-.Container {
-  width: 100%;
-  flex-direction: column;
-  row-gap: 20px;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 0;
+.container {
+  @extend .container;
+
+  .searchWrapper {
+    @extend .searchWrapper;
+  }
 
   .AddMenuBtn {
     @extend .primaryButton;
-    text-decoration: none;
+    margin-right: 20px;
   }
 
-  .CardContainer {
-    width: 97%;
-    justify-content: center;
-    column-gap: 34px;
-    flex-wrap: wrap;
+  .MenuButton {
+    background-color: #466d6b; /* Màu nền */
+    color: white; /* Màu chữ */
+    padding: 10px 20px; /* Khoảng cách bên trong */
+    border: none; /* Bỏ viền */
+    border-radius: 5px; /* Bo tròn góc */
+    cursor: pointer; /* Con trỏ chuột */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu */
+  }
+
+  .MenuButton:hover {
+    background-color: #5e8583; /* Màu khi hover */
+  }
+
+  .Menu {
+    @extend .table;
+
+    .MenuTbl {
+      @extend .tableContainer;
+      @extend .shadow;
+
+      .MenuItem {
+        @extend .tableItem;
+        td {
+          font-size: 17px;
+        }
+      }
+    }
+    .HeaderTbl {
+      @extend .header;
+    }
   }
 }
+
+// .Container {
+//   width: 100%;
+//   flex-direction: column;
+//   row-gap: 20px;
+//   align-items: center;
+//   justify-content: center;
+//   padding: 30px 0;
+
+//   .CardContainer {
+//     width: 97%;
+//     justify-content: center;
+//     column-gap: 34px;
+//     flex-wrap: wrap;
+//   }
+// }

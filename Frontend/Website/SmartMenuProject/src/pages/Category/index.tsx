@@ -188,6 +188,7 @@ function Category() {
               isEdit={false}
             />
           }
+          isEdit={false}
           onClose={onCloseCategory}
           isOpen={isOpenCategory}
           title={"Tạo mới danh mục"}
