@@ -40,25 +40,22 @@ function CreateMenu() {
     maxProduct,
   });
   const [selectedProducts1, setSelectedProducts1] = useState<MenuList>(
-    initializeMenuListState(1, 4)
+    initializeMenuListState(1, 4),
   );
   const [selectedProducts2, setSelectedProducts2] = useState<MenuList>(
-    initializeMenuListState(2, 4)
+    initializeMenuListState(2, 4),
   );
   const [selectedProducts3, setSelectedProducts3] = useState<MenuList>(
-    initializeMenuListState(3, 4)
+    initializeMenuListState(3, 4),
   );
   const [selectedProducts4, setSelectedProducts4] = useState<MenuList>(
-    initializeMenuListState(4, 2)
+    initializeMenuListState(4, 2),
   );
-  const [selectedProductspotLight, setSelectedProductspotLight] =
-    useState<MenuList>(initializeMenuListState(5, 1));
-  const [currentListProduct, setCurrentListProduct] = useState<ProductData[]>(
-    []
+  const [selectedProductspotLight, setSelectedProductspotLight] = useState<MenuList>(
+    initializeMenuListState(5, 1),
   );
-  const [allSelectedProducts, setAllSelectedProducts] = useState<ProductData[]>(
-    []
-  );
+  const [currentListProduct, setCurrentListProduct] = useState<ProductData[]>([]);
+  const [allSelectedProducts, setAllSelectedProducts] = useState<ProductData[]>([]);
   const [menu, setMenu] = useState<Menu>({
     isActive: true,
     segmentId: { value: [], errorMessage: "" },
@@ -117,11 +114,7 @@ function CreateMenu() {
 
   const onCloseListProduct = () => setIsOpenListProduct(false);
 
-  const handleAddToMenu = (
-    products: ProductData[],
-    Index: number,
-    maxProduct: number
-  ) => {
+  const handleAddToMenu = (products: ProductData[], Index: number, maxProduct: number) => {
     let newMenuList: MenuList;
     switch (Index) {
       case 1:
@@ -248,7 +241,7 @@ function CreateMenu() {
       try {
         const result = await getCategoriesByBrandId(brandId);
         console.log(result);
-        
+
         if (result) {
           setCategoryOptions(result.data);
           if (result.data.length > 0) {
@@ -281,10 +274,7 @@ function CreateMenu() {
         allListProducts.push(selectedProducts4);
         allListProducts.push(selectedProductspotLight);
 
-        const listPositionResult = await createListPosition(
-          allListProducts,
-          brandId
-        );
+        const listPositionResult = await createListPosition(allListProducts, brandId);
 
         if (listPositionResult.statusCode === 200) {
           const listAddToMenu = listPositionResult.data.map((list, index) => ({
@@ -295,26 +285,19 @@ function CreateMenu() {
           const menuListResult = await createMenuList(
             menuResult.data.menuId,
             brandId,
-            listAddToMenu
+            listAddToMenu,
           );
 
           if (menuListResult.statusCode === 200) {
-            const listProductDetails = listPositionResult.data.map(
-              (list, index) => ({
-                listId: list.listId,
-                indexProducts: allListProducts[index].productData.map(
-                  (product, productIndex) => ({
-                    productId: product.productId,
-                    indexInList: productIndex + 1,
-                  })
-                ),
-              })
-            );
+            const listProductDetails = listPositionResult.data.map((list, index) => ({
+              listId: list.listId,
+              indexProducts: allListProducts[index].productData.map((product, productIndex) => ({
+                productId: product.productId,
+                indexInList: productIndex + 1,
+              })),
+            }));
 
-            const productListResult = await createProductList(
-              brandId,
-              listProductDetails
-            );
+            const productListResult = await createProductList(brandId, listProductDetails);
             if (productListResult.statusCode === 200) {
               resetLists();
               const toastMessage = "Thêm mới menu thành công";
@@ -363,9 +346,7 @@ function CreateMenu() {
             setMenu({
               isActive: true,
               segmentId: {
-                value: result.data.menuSegments.map(
-                  (segment) => segment.segmentId
-                ),
+                value: result.data.menuSegments.map((segment) => segment.segmentId),
                 errorMessage: "",
               },
               description: { value: result.data.description, errorMessage: "" },
@@ -373,66 +354,69 @@ function CreateMenu() {
               priority: { value: result.data.priority, errorMessage: "" },
             });
 
-            result.data.menuLists.forEach((menuList) => {
-              let newMenuList: MenuList;
-              const productData = menuList.list.productLists.map(
-                (pl) => pl.product
-              );
-              switch (menuList.listIndex) {
-                case 1:
-                  newMenuList = {
-                    listId: menuList.list.listId,
-                    listName: menuList.list.listName,
-                    productData: productData,
-                    listIndex: 1,
-                    maxProduct: menuList.list.totalProduct,
-                  };
-                  setSelectedProducts1(newMenuList);
-                  break;
-                case 2:
-                  newMenuList = {
-                    listId: menuList.list.listId,
-                    listName: menuList.list.listName,
-                    productData: productData,
-                    listIndex: 2,
-                    maxProduct: menuList.list.totalProduct,
-                  };
-                  setSelectedProducts2(newMenuList);
-                  break;
-                case 3:
-                  newMenuList = {
-                    listId: menuList.list.listId,
-                    listName: menuList.list.listName,
-                    productData: productData,
-                    listIndex: 3,
-                    maxProduct: menuList.list.totalProduct,
-                  };
-                  setSelectedProducts3(newMenuList);
-                  break;
-                case 4:
-                  newMenuList = {
-                    listId: menuList.list.listId,
-                    listName: menuList.list.listName,
-                    productData: productData,
-                    listIndex: 4,
-                    maxProduct: menuList.list.totalProduct,
-                  };
-                  setSelectedProducts4(newMenuList);
-                  break;
-                case 5:
-                  newMenuList = {
-                    listId: menuList.list.listId,
-                    listName: menuList.list.listName,
-                    productData: productData,
-                    listIndex: 5,
-                    maxProduct: menuList.list.totalProduct,
-                  };
-                  setSelectedProductspotLight(newMenuList);
-                  break;
-                default:
-                  break;
-              }
-            });
+            result.data.menuLists
+              .sort((a, b) => a.listIndex - b.listIndex)
+              .forEach((menuList) => {
+                let newMenuList: MenuList;
+                const productData = menuList.list.productLists
+                  .sort((a, b) => a.indexInList - b.indexInList)
+                  .map((pl) => pl.product);
+
+                switch (menuList.listIndex) {
+                  case 1:
+                    newMenuList = {
+                      listId: menuList.list.listId,
+                      listName: menuList.list.listName,
+                      productData: productData,
+                      listIndex: 1,
+                      maxProduct: menuList.list.totalProduct,
+                    };
+                    setSelectedProducts1(newMenuList);
+                    break;
+                  case 2:
+                    newMenuList = {
+                      listId: menuList.list.listId,
+                      listName: menuList.list.listName,
+                      productData: productData,
+                      listIndex: 2,
+                      maxProduct: menuList.list.totalProduct,
+                    };
+                    setSelectedProducts2(newMenuList);
+                    break;
+                  case 3:
+                    newMenuList = {
+                      listId: menuList.list.listId,
+                      listName: menuList.list.listName,
+                      productData: productData,
+                      listIndex: 3,
+                      maxProduct: menuList.list.totalProduct,
+                    };
+                    setSelectedProducts3(newMenuList);
+                    break;
+                  case 4:
+                    newMenuList = {
+                      listId: menuList.list.listId,
+                      listName: menuList.list.listName,
+                      productData: productData,
+                      listIndex: 4,
+                      maxProduct: menuList.list.totalProduct,
+                    };
+                    setSelectedProducts4(newMenuList);
+                    break;
+                  case 5:
+                    newMenuList = {
+                      listId: menuList.list.listId,
+                      listName: menuList.list.listName,
+                      productData: productData,
+                      listIndex: 5,
+                      maxProduct: menuList.list.totalProduct,
+                    };
+                    setSelectedProductspotLight(newMenuList);
+                    break;
+                  default:
+                    break;
+                }
+              });
           }
         };
 
@@ -458,28 +442,18 @@ function CreateMenu() {
         allListProducts.push(selectedProducts4);
         allListProducts.push(selectedProductspotLight);
 
-        const listPositionResult = await updateListPosition(
-          allListProducts,
-          brandId
-        );
+        const listPositionResult = await updateListPosition(allListProducts, brandId);
 
         if (listPositionResult.statusCode === 200) {
-          const listProductDetails = listPositionResult.data.map(
-            (list, index) => ({
-              listId: list.listId,
-              indexProducts: allListProducts[index].productData.map(
-                (product, productIndex) => ({
-                  productId: product.productId,
-                  indexInList: productIndex + 1,
-                })
-              ),
-            })
-          );
+          const listProductDetails = listPositionResult.data.map((list, index) => ({
+            listId: list.listId,
+            indexProducts: allListProducts[index].productData.map((product, productIndex) => ({
+              productId: product.productId,
+              indexInList: productIndex + 1,
+            })),
+          }));
 
-          const productListResult = await updateProductList(
-            brandId,
-            listProductDetails
-          );
+          const productListResult = await updateProductList(brandId, listProductDetails);
 
           if (productListResult.statusCode === 200) {
             resetLists();

@@ -21,7 +21,7 @@ interface brandStatistics {
   totalBrands: number;
 }
 
-export interface DashboardData {
+export interface AdminDashboardData {
   numberOfUsers: number;
   totalRevenue: string;
   numberOfBrands: number;

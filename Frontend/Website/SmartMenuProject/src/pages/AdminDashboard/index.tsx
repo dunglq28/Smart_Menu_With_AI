@@ -33,13 +33,14 @@ import {
 } from "../../utils/functionHelper";
 import { ChartOptions } from "chart.js/auto";
 import { getDashboardAdmin } from "../../services/DashbroadService";
-import { DashboardData } from "../../payloads/responses/DashboarData.model";
-import { getInitialDashboardData } from "../../utils/initialData";
+import { AdminDashboardData } from "../../payloads/responses/DashboarData.model";
+import { getInitialAdminDashboardData } from "../../utils/initialData";
 import { PaymentStatus } from "../../constants/Enum";
+import CardStats from "../../components/Dashboard/CardStats";
 
 function AdminDashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [data, setData] = useState<DashboardData>(getInitialDashboardData());
+  const [data, setData] = useState<AdminDashboardData>(getInitialAdminDashboardData());
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -55,14 +56,33 @@ function AdminDashboard() {
     }
   }, [location.state, navigate, location.pathname]);
 
+  const stats = [
+    {
+      icon: FaUserCheck,
+      label: "Người dùng",
+      value: data.numberOfUsers,
+      bgColor: themeColors.userStatColor,
+    },
+    {
+      icon: FaLuggageCart,
+      label: "Doanh thu",
+      value: formatCurrencyVND(data.totalRevenue.toString()),
+      bgColor: themeColors.revenueDarkenColor,
+    },
+    {
+      icon: FaTrademark,
+      label: "Thương hiệu",
+      value: data.numberOfBrands,
+      bgColor: themeColors.tradeMarkDarkenColor,
+    },
+  ];
+
   const lineChartData = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
     datasets: [
       {
         label: "Doanh thu",
-        data: data.listRevenue
-          .sort((a, b) => a.month - b.month)
-          .map((rev) => rev.totalRevenue),
+        data: data.listRevenue.sort((a, b) => a.month - b.month).map((rev) => rev.totalRevenue),
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: themeColors.revenueLightenColor,
         fill: true,
@@ -133,93 +153,20 @@ function AdminDashboard() {
   }, [fetchData]);
 
   return (
-    <Box className={style.container}>
-      <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4}>
-        <Card>
-          <CardBody>
-            <Grid templateColumns="auto 1fr" alignItems="center" gap={6}>
-              <Box
-                bg="#55AD9B"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                borderRadius={4}
-                p={6}
-              >
-                <Icon as={FaUserCheck} boxSize={10} color="#fff" />
-              </Box>
-              <Box>
-                <Text paddingBottom={2}>Người dùng</Text>
-                <Heading size="md" id="userCount">
-                  {data.numberOfUsers}
-                </Heading>
-              </Box>
-            </Grid>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody>
-            <Grid templateColumns="auto 1fr" alignItems="center" gap={6}>
-              <Box
-                bg={themeColors.revenueDarkenColor}
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                borderRadius={4}
-                p={6}
-              >
-                <Icon as={FaLuggageCart} boxSize={10} color="#fff" />
-              </Box>
-              <Box>
-                <Text paddingBottom={2}>Doanh thu</Text>
-                <Heading size="md" id="totalRevenue">
-                  {formatCurrencyVND(data.totalRevenue.toString())}
-                </Heading>
-              </Box>
-            </Grid>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody>
-            <Grid templateColumns="auto 1fr" alignItems="center" gap={6}>
-              <Box
-                bg={themeColors.tradeMarkDarkenColor}
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                borderRadius={4}
-                p={6}
-              >
-                <Icon as={FaTrademark} boxSize={10} color="#fff" />
-              </Box>
-              <Box>
-                <Text paddingBottom={2}>Thương hiệu</Text>
-                <Heading size="md" id="brandCount">
-                  {data.numberOfBrands}
-                </Heading>
-              </Box>
-            </Grid>
-          </CardBody>
-        </Card>
-      </SimpleGrid>
+    <Box className={style.container_dashboard}>
+      <CardStats stats={stats} />
 
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
         <Card>
           <CardBody>
-            <Heading className={style.title}>
-              Thống kê doanh thu theo tháng
-            </Heading>
+            <Heading className={style.title}>Thống kê doanh thu theo tháng</Heading>
             <Line data={lineChartData} options={lineChartOptions} />
           </CardBody>
         </Card>
 
         <Card>
           <CardBody>
-            <Heading className={style.title}>
-              Thống kê thương hiệu theo tháng
-            </Heading>
+            <Heading className={style.title}>Thống kê thương hiệu theo tháng</Heading>
             <Bar data={barChartData} />
           </CardBody>
         </Card>
@@ -250,9 +197,7 @@ function AdminDashboard() {
                             <Text className={style.userDetails}>
                               {user.fullname} - {formatDate(user.createDate)}
                             </Text>
-                            <Text className={style.userName}>
-                              {user.userName}
-                            </Text>
+                            <Text className={style.userName}>{user.userName}</Text>
                           </Box>
                         </Td>
                       </Tr>

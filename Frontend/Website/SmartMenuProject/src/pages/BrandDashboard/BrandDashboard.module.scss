@@ -1,4 +1,5 @@
-.Dashboard {
-  width: 100%;
-  padding: 10px;
+@import "../../styles/shared.scss";
+
+.container_dashboard {
+  @extend .container_dashboard;
 }

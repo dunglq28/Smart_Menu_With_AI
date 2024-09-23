@@ -3,7 +3,7 @@ import { BrandForm } from "../models/BrandForm.model";
 import { PasswordForm } from "../models/Password.model";
 import { ProductForm } from "../models/ProductForm.model";
 import { UserForm } from "../models/UserForm.model";
-import { DashboardData } from "../payloads/responses/DashboarData.model";
+import { AdminDashboardData } from "../payloads/responses/DashboarData.model";
 import { PlanData } from "../payloads/responses/PlanResponse.model";
 import { UserData } from "../payloads/responses/UserData.model";
 
@@ -66,7 +66,7 @@ export const getInitialPasswordForm = (): PasswordForm => ({
   confirm: { value: "", errorMessage: "" },
 });
 
-export const getInitialDashboardData = (): DashboardData => ({
+export const getInitialAdminDashboardData = (): AdminDashboardData => ({
   numberOfUsers: 0,
   numberOfBrands: 0,
   totalRevenue: "0",
