@@ -1,4 +1,4 @@
-@import "../../styles/shared.scss";
+@import "../../../styles/shared.scss";
 
 .profile_container {
   @extend .profile_container;
@@ -13,10 +13,6 @@
       @extend .tab_list;
       .tab {
         @extend .tab;
-        // &:hover {
-        //   color: white;
-        //   background-color: #55ad9b;
-        // }
         .tab_text {
           @extend .tab_text;
         }
@@ -39,11 +35,6 @@
         }
         .text_title_content {
           @extend .text_title_content;
-
-          // span {
-          //   font-weight: bold;
-          //   color: #466d6b;
-          // }
 
           .tab_panels_container_form {
             @extend .tab_panels_container_form;
@@ -69,23 +60,11 @@
     @extend .btn_container;
     .btn_content {
       @extend .btn_content;
-      // &:hover {
-      //   background-color: #4f7e7b;
-      // }
-      // &:active {
-      //   background-color: #466d6b;
-      // }
     }
   }
 
   .btn_delete {
     @extend .btn_delete;
-    // &:hover {
-    //   background-color: #ff0000d3;
-    // }
-    // &:active {
-    //   background-color: #ff0000;
-    // }
   }
 
   .payment_history_container {
@@ -106,10 +85,6 @@
 
   .payment_history_item {
     @extend .payment_history_item;
-
-    // &:nth-child(even) {
-    //   background-color: #f9f9f9;
-    // }
   }
 
   .payment_history_item_label {
@@ -120,3 +95,20 @@
     @extend .payment_history_item_value;
   }
 }
+
+// .input-file {
+//   padding: 0.5rem;
+//   border: 2px solid #ccc;
+//   border-radius: 8px;
+//   background-color: #f8f8f8;
+//   cursor: pointer;
+//   width: 100%;
+
+//   &:hover {
+//     border-color: #aaa;
+//   }
+
+//   &:focus {
+//     outline: none;
+//   }
+// }

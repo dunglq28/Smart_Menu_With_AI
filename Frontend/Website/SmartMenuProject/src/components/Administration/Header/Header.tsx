@@ -26,7 +26,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import i18n from "../../../i18n/i18n";
 import { getRoleName } from "../../../utils/functionHelper";
-
+import { UserRole } from "../../../constants/Enum";
 
 function Header() {
   const location = useLocation();
@@ -57,7 +57,7 @@ function Header() {
   };
 
   const handleLanguageChange = (
-    selectedOption: SingleValue<{ value: string; label: string }>
+    selectedOption: SingleValue<{ value: string; label: string }>,
   ) => {
     if (selectedOption) {
       const selectedLanguage = selectedOption.value === "en" ? "en" : "vi";
@@ -114,7 +114,7 @@ function Header() {
           <BreadcrumbLink as={ReactRouterLink} to={`/${previousPathName}`}>
             {t(previousPathName)}
           </BreadcrumbLink>
-        </BreadcrumbItem>
+        </BreadcrumbItem>,
       );
     }
 
@@ -124,7 +124,7 @@ function Header() {
           <BreadcrumbLink as={ReactRouterLink} to={`/menu`}>
             menu
           </BreadcrumbLink>
-        </BreadcrumbItem>
+        </BreadcrumbItem>,
       );
     }
 
@@ -137,7 +137,7 @@ function Header() {
             ? t("branches")
             : t(formattedPathname)}
         </BreadcrumbLink>
-      </BreadcrumbItem>
+      </BreadcrumbItem>,
     );
 
     return items;
@@ -196,26 +196,32 @@ function Header() {
                       </Text>
                     </Flex>
                   </Flex>
-                  <RiArrowDropDownLine className={style.DropdownIcon} />
+                  {Number(roleId) === UserRole.BrandManager ? (
+                    <RiArrowDropDownLine className={style.DropdownIcon} />
+                  ) : (
+                    <Flex className={style.DropdownIcon}></Flex>
+                  )}
                 </Flex>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className={style.PopupContainer}>
-              <PopoverArrow />
-              <PopoverBody>
-                <Flex className={style.PopupNav}>
-                  <ChakraLink
-                    as={ReactRouterLink}
-                    to="/profile"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Flex className={style.PopupSubNav}>
-                      <Text className={style.Text}>Hồ sơ cá nhân</Text>
-                    </Flex>
-                  </ChakraLink>
-                </Flex>
-              </PopoverBody>
-            </PopoverContent>
+            {Number(roleId) === UserRole.BrandManager && (
+              <PopoverContent className={style.PopupContainer}>
+                <PopoverArrow />
+                <PopoverBody>
+                  <Flex className={style.PopupNav}>
+                    <ChakraLink
+                      as={ReactRouterLink}
+                      to="/profile"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Flex className={style.PopupSubNav}>
+                        <Text className={style.Text}>Hồ sơ cá nhân</Text>
+                      </Flex>
+                    </ChakraLink>
+                  </Flex>
+                </PopoverBody>
+              </PopoverContent>
+            )}
           </Popover>
         </Flex>
       </Flex>

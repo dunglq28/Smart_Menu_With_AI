@@ -47,6 +47,7 @@ import { getCustomerSegmentsNoPaging } from "../../../services/CustomerSegmentSe
 import { Menu, MenuList } from "../../../models/Menu.model";
 import { useNavigate } from "react-router-dom";
 import CustomAlertDialog from "../../AlertDialog";
+import { validateMenu } from "../../../utils/validation";
 
 interface ModalProps {
   isOpen: boolean;
@@ -292,14 +293,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
   };
 
   const handleDonebtn = () => {
-    const errors = {
-      description: menu.description.value !== "" ? "" : "Mô tả là bắt buộc",
-      segmentId:
-        menu.segmentId.value.length > 0
-          ? ""
-          : "Phân khúc khách hàng là bắt buộc",
-      priority: menu.priority.value !== 0 ? "" : "Độ ưu tiên là bắt buộc",
-    };
+    const errors = validateMenu(menu);
 
     const updatedMenu = {
       ...menu,

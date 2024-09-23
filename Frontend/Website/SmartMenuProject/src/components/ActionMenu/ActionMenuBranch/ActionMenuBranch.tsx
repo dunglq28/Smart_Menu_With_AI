@@ -21,6 +21,7 @@ import ModalFormBranch from "../../Modals/ModalFormBranch/ModalFormBranch";
 import { RiSettings3Line } from "react-icons/ri";
 import { getBranch } from "../../../services/BranchService";
 import { branchUpdate } from "../../../payloads/requests/updateRequests.model";
+import { getInitialBranchForm } from "../../../utils/initialData";
 
 interface ActionMenuProps {
   id: number;
@@ -44,32 +45,7 @@ const ActionMenuBranch: FC<ActionMenuProps> = ({
   } = useDisclosure();
   const cancelRef: React.LegacyRef<HTMLButtonElement> = React.useRef(null);
   //BRANCH DATA
-  const [branchData, setBranchData] = useState<BranchForm>({
-    brandName: {
-      id: "",
-      value: "",
-      errorMessage: "",
-    },
-    city: {
-      id: "",
-      name: "",
-      errorMessage: "",
-    },
-    district: {
-      id: "",
-      name: "",
-      errorMessage: "",
-    },
-    ward: {
-      id: "",
-      name: "",
-      errorMessage: "",
-    },
-    address: {
-      value: "",
-      errorMessage: "",
-    },
-  });
+  const [branchData, setBranchData] = useState<BranchForm>(getInitialBranchForm());
 
   const updateBranchData = (branch: BranchForm, isSave: boolean) => {
     var branchUpdate: branchUpdate = {

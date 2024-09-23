@@ -181,3 +181,180 @@ html {
 .ml16Down {
   margin-left: -16px;
 }
+
+// Profile
+.profile_container {
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  padding: 10px 0;
+
+  .icon {
+    height: 25px;
+    width: 25px;
+    margin-right: 5px;
+  }
+
+  .tabs_container {
+    width: 100%;
+    column-gap: 20px;
+    .tab_list {
+      flex-direction: column;
+      width: 40%;
+      background-color: #fff;
+      border-radius: 7px;
+      height: 180px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      justify-content: center;
+      padding: 12px;
+      row-gap: 5px;
+      user-select: none;
+      .tab {
+        margin-top: 2px;
+        margin-bottom: 2px;
+        border-radius: 7px;
+        &:hover {
+          color: white;
+          background-color: #55ad9b;
+        }
+        .tab_text {
+          text-align: left;
+          width: 100%;
+        }
+      }
+    }
+
+    .tab_panels {
+      background-color: #fff;
+      border-radius: 7px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+      .tab_panels_container {
+        flex-direction: column;
+        row-gap: 15px;
+        user-select: none;
+        .tab_panels_container_title {
+          font-size: 20px;
+          font-weight: bold;
+        }
+        .tab_panels_container_content {
+          justify-content: space-between;
+          column-gap: 2rem;
+          row-gap: 10px;
+          width: 100%;
+          .tab_panels_container_content_column {
+            flex-direction: column;
+            width: 48%;
+          }
+        }
+        .text_title_content {
+          font-size: 18px;
+          padding-bottom: 6px;
+          font-weight: 600;
+          color: #333;
+
+          span {
+            font-weight: bold;
+            color: #466d6b;
+          }
+
+          .tab_panels_container_form {
+            margin-bottom: 10px;
+
+            .tab_panels_form {
+              border: 1px solid #ccc;
+            }
+          }
+          .text_content {
+            font-size: 18px;
+          }
+        }
+        .text_title_container_content_column {
+          flex-direction: column !important;
+        }
+        .tab_panels_container_column {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  .btn_container {
+    margin-top: 1.1rem;
+    .btn_content {
+      margin-right: 8px;
+      background-color: #466d6b;
+      color: #fff;
+      &:hover {
+        background-color: #4f7e7b;
+      }
+      &:active {
+        background-color: #466d6b;
+      }
+    }
+  }
+
+  .btn_delete {
+    background-color: #ff0000b4;
+    color: #fff;
+    &:hover {
+      background-color: #ff0000d3;
+    }
+    &:active {
+      background-color: #ff0000;
+    }
+  }
+
+  .payment_history_container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 8px;
+  }
+
+  .payment_history_header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .payment_history_header_text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .payment_history_list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    max-height: 150px; /* Chiều cao tối đa bạn muốn, có thể điều chỉnh */
+    overflow-y: auto; /* Kích hoạt thanh cuộn dọc */
+    padding-right: 10px;
+  }
+
+  .payment_history_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px;
+
+    &:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  }
+
+  .payment_history_item_label {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .payment_history_item_value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+}

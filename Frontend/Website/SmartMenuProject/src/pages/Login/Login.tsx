@@ -87,9 +87,11 @@ function Login() {
           response.data.roleId.toString() === UserRole.BrandManager.toString()
         ) {
           const brand = await getBrandByUserId(response.data.userId);
+          localStorage.setItem("UserId", response.data.userId.toString());
           localStorage.setItem("BrandId", brand.data.brandId.toString());
           localStorage.setItem("BrandName", brand.data.brandName.toString());
           localStorage.setItem("BrandLogo", brand.data.imageUrl.toString());
+          // ---------------------------------------------------------------
           navigate("/brand-dashboard", { state: { toastMessage } });
         } else if (
           response.data.roleId.toString() === UserRole.Admin.toString()

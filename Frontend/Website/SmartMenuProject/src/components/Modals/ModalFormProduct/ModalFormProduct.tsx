@@ -14,8 +14,9 @@ import Select from "react-select";
 import { getCategoryByBrandId } from "../../../services/CategoryService";
 import { toast } from "react-toastify";
 import { ProductForm } from "../../../models/ProductForm.model";
-import { isImageFile } from "../../../utils/validation";
+import { isImageFile, validateProductForm } from "../../../utils/validation";
 import { getProduct } from "../../../services/ProductService";
+import { getInitialProductForm } from "../../../utils/initialData";
 
 interface ModalFormProductProps {
   id?: number;
@@ -43,14 +44,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
     { value: number; label: string }[]
   >([]);
 
-  const [formData, setFormData] = useState<ProductForm>({
-    category: { value: null, errorMessage: "" },
-    productName: { value: "", errorMessage: "" },
-    image: { value: null, errorMessage: "" },
-    imageUrl: { value: "", errorMessage: "" },
-    description: { value: "", errorMessage: "" },
-    price: { value: null, errorMessage: "" },
-  });
+  const [formData, setFormData] = useState<ProductForm>(getInitialProductForm());
 
   useEffect(() => {
     const loadData = async () => {
@@ -152,31 +146,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
   };
 
   const handleSubmit = async () => {
-    const errors = {
-      category: formData.category.value ? "" : "Danh mục là bắt buộc",
-      productName: formData.productName.value ? "" : "Tên sản phẩm là bắt buộc",
-      image: "",
-      description: formData.description.value
-        ? formData.description.value.length < 5 ||
-          formData.description.value.length > 300
-          ? "Mô tả phải từ 5 đến 300 ký tự"
-          : ""
-        : "Mô tả là bắt buộc",
-      price: formData.price.value
-        ? isNaN(Number(formData.price.value)) ||
-          Number(formData.price.value) <= 1000
-          ? "Giá phải là một số lớn hơn 1000 có định dạng: 1000000"
-          : ""
-        : "Giá là bắt buộc",
-    };
-
-    if (
-      !formData.image.value &&
-      !formData.imageUrl?.value &&
-      !formData.image.errorMessage
-    ) {
-      errors.image = "Hình ảnh là bắt buộc";
-    }
+    const errors = validateProductForm(formData);
 
     const updatedFormData = {
       category: { ...formData.category, errorMessage: errors.category },

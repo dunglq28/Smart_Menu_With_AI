@@ -12,11 +12,7 @@ import React, { useState, useEffect } from "react";
 import { CgAddR } from "react-icons/cg";
 import { MdLogout } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
-import {
-  Link as ReactRouterLink,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link as ReactRouterLink, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../../assets/images/Logo.jpeg";
 import {
   AiOutlineCreditCard,
@@ -40,9 +36,9 @@ import { BranchForm } from "../../../models/BranchForm.model";
 import { UserForm } from "../../../models/UserForm.model";
 import { CurrentForm, UserRole } from "../../../constants/Enum";
 import {
-  getInitialBranchData,
-  getInitialBrandData,
-  getInitialUserData,
+  getInitialBranchForm,
+  getInitialBrandForm,
+  getInitialUserForm,
 } from "../../../utils/initialData";
 import { toast } from "react-toastify";
 import { createUser } from "../../../services/UserService";
@@ -63,31 +59,23 @@ function Sidebar() {
   const [formPrevious, setFormPrevious] = useState(CurrentForm.BRAND);
 
   //BRAND DATA
-  const [brandData, setBrandData] = useState<BrandForm>(getInitialBrandData());
+  const [brandData, setBrandData] = useState<BrandForm>(getInitialBrandForm());
 
   //BRANCH DATA
-  const [branchData, setBranchData] = useState<BranchForm>(
-    getInitialBranchData(),
-  );
+  const [branchData, setBranchData] = useState<BranchForm>(getInitialBranchForm());
 
   // USER DATA
-  const [userData, setUserData] = useState<UserForm>(getInitialUserData());
+  const [userData, setUserData] = useState<UserForm>(getInitialUserForm());
 
-  const {
-    isOpen: isOpenBrand,
-    onOpen: onOpenBrand,
-    onClose: onCloseBrand,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenBranch,
-    onOpen: onOpenBranch,
-    onClose: onCloseBranch,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenUser,
-    onOpen: onOpenUser,
-    onClose: onCloseUser,
-  } = useDisclosure();
+  const { isOpen: isOpenBrand, onOpen: onOpenBrand, onClose: onCloseBrand } = useDisclosure();
+  const { isOpen: isOpenBranch, onOpen: onOpenBranch, onClose: onCloseBranch } = useDisclosure();
+  const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
+
+  const customOnOpenBranch = () => {
+    console.log("Opening branch modal...");
+
+    onOpenBranch();
+  };
 
   const changeItem = (label: string) => {
     setItem(label);
@@ -205,16 +193,14 @@ function Sidebar() {
     {
       icon: CgAddR,
       label: t("new branch"),
-      onclick: onOpenBranch,
+      onclick: customOnOpenBranch,
       permissionRole: [UserRole.Admin, UserRole.BrandManager],
       isDisabled: false,
     },
   ];
 
   useEffect(() => {
-    const currentItem = menuItems.find(
-      (menuItem) => menuItem.to === location.pathname,
-    );
+    const currentItem = menuItems.find((menuItem) => menuItem.to === location.pathname);
     if (currentItem) {
       setItem(currentItem.label);
     }
@@ -297,10 +283,7 @@ function Sidebar() {
       const userResult = await createUser(data, 3);
 
       if (userResult.statusCode === 200) {
-        const branchResult = await createBranch(
-          branchData,
-          userResult.data.toString(),
-        );
+        const branchResult = await createBranch(branchData, userResult.data.toString());
 
         if (branchResult.statusCode === 200) {
           await onCloseUser();
@@ -337,11 +320,7 @@ function Sidebar() {
   const currentPathPart = getMenuPartFromPathname(location.pathname);
 
   return (
-    <Flex
-      className={style.Sidebar}
-      width={isExpanded ? "250px" : "65px"}
-      direction="column"
-    >
+    <Flex className={style.Sidebar} width={isExpanded ? "250px" : "65px"} direction="column">
       <Flex>
         <Flex className={style.Logo}>
           <Avatar src={Logo} className={style.Avatar} />
@@ -374,16 +353,14 @@ function Sidebar() {
               }
               backgroundColor={
                 item === menuItem.label ||
-                (menuItem.label === t("brands") &&
-                  currentPathPart === "branches") ||
+                (menuItem.label === t("brands") && currentPathPart === "branches") ||
                 (menuItem.label === t("brands") && currentPathPart === "brands")
                   ? themeColors.sidebarBgColor
                   : "#fff"
               }
               color={
                 item === menuItem.label ||
-                (menuItem.label === t("brands") &&
-                  currentPathPart === "branches") ||
+                (menuItem.label === t("brands") && currentPathPart === "branches") ||
                 (menuItem.label === t("brands") && currentPathPart === "brands")
                   ? "#F1F8E8"
                   : "black"
@@ -392,9 +369,7 @@ function Sidebar() {
             >
               <Flex>
                 <Icon as={menuItem.icon} className={style.MenuIcon} />
-                {isExpanded && (
-                  <Text className={style.MenuText}>{menuItem.label}</Text>
-                )}
+                {isExpanded && <Text className={style.MenuText}>{menuItem.label}</Text>}
               </Flex>
             </ChakraLink>
             {menuItem.divider && <Divider />}

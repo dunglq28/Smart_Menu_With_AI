@@ -83,6 +83,7 @@ const ActionMenuProduct: FC<ActionMenuProps> = ({ id, onDelete, onEdit }) => {
             id={id}
           />
         }
+        isEdit={true}
         onClose={onCloseProduct}
         isOpen={isOpenProduct}
         title={t("Cập nhật sản phẩm")}
