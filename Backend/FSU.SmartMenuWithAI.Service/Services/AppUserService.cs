@@ -34,12 +34,20 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return await _unitOfWork.AppUserRepository.Count(filter: filter);
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, int? brandId)
         {
             var deleteAppUser = await _unitOfWork.AppUserRepository.GetByID(id);
             if (deleteAppUser == null)
             {
                 return false;
+            }
+            if (brandId != null)
+            {
+                var store = await _unitOfWork.StoreRepository.GetByCondition(s => s.BrandId == brandId);
+                if (store == null)
+                {
+                    throw new Exception("cửa hàng không trùng khớp với brand Id");
+                }
             }
             deleteAppUser.Status = (int)Status.Deleted;
 
@@ -129,7 +137,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return 0;
         }
 
-        public async Task<bool> Update(int id, AppUserDTO entityToUpdate)
+        public async Task<bool> Update(int id, AppUserDTO entityToUpdate, int? brandId)
         {
             Expression<Func<AppUser, bool>> condition = x => x.UserId == id && (x.Status != (int)Status.Deleted);
             var updateAppUser = await _unitOfWork.AppUserRepository.GetByCondition(condition);
@@ -138,6 +146,14 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return false;
             }
 
+            if (brandId != null)
+            {
+                var store = await _unitOfWork.StoreRepository.GetByCondition(s => s.BrandId == brandId);
+                if (store == null)
+                {
+                    throw new Exception("cửa hàng không trùng khớp với brand Id");
+                }
+            }
             if (!string.IsNullOrEmpty(entityToUpdate.Password))
             {
                 updateAppUser.Password = PasswordHelper.ConvertToEncrypt(entityToUpdate.Password);

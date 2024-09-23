@@ -444,6 +444,40 @@ namespace FSU.SmartMenuWithAI.Service.Services
             }
             return viewCustomerSegmentList;
         }
+
+        public async Task<List<ViewCustomerSegment>> GetByMenuID(int menuId)
+        {
+            // Lấy danh sách các MenuSegment có MenuId tương ứng
+            var menus = await _unitOfWork.MenuSegmentRepository.Get(m => m.MenuId == menuId);
+
+            var viewCustomerSegmentList = new List<ViewCustomerSegment>();
+
+            // Lặp qua từng MenuSegment
+            foreach (var menu in menus)
+            {
+                // Lấy các CustomerSegment liên quan tới SegmentId của MenuSegment
+                Expression<Func<CustomerSegment, bool>> viewCustomerSegment = x => x.SegmentId == menu.SegmentId && (x.Status == (int)Status.Exist);
+                var customerSegments = await _unitOfWork.CustomerSegmentRepository.Get(filter: viewCustomerSegment, includeProperties: "SegmentAttributes");
+
+                // Lặp qua các CustomerSegment và thêm vào danh sách ViewCustomerSegment
+                foreach (var segment in customerSegments)
+                {
+                    var viewSegment = new ViewCustomerSegment
+                    {
+                        CustomerSegmentId = segment.SegmentId,
+                        CustomerSegmentName = segment.SegmentName,
+                        Demographic = segment.Demographics,
+                        CreateDate = segment.CreateDate,
+                        UpdateDate = segment.UpdateDate,
+                        Age = segment.SegmentAttributes.FirstOrDefault(attr => attr.AttributeId == 1)?.Value!
+                    };
+                    viewCustomerSegmentList.Add(viewSegment);
+                }
+            }
+
+            return viewCustomerSegmentList;
+        }
+
     }
 }
 

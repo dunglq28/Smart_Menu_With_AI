@@ -25,7 +25,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             _storeService = storeService;
 
         }
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost(APIRoutes.Store.Add, Name = "AddStoreAsync")]
         public async Task<IActionResult> AddAsync([FromBody] AddStoreRequest reqObj)
         {
@@ -74,11 +74,11 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin+","+UserRoles.BrandManager)]
         [HttpDelete(APIRoutes.Store.Delete, Name = "DeleteStoreAsync")]
-        public async Task<IActionResult> DeleteAsynce([FromQuery] int id)
+        public async Task<IActionResult> DeleteAsynce([FromQuery] int id, [FromQuery(Name = "brand-id")] int? brandId)
         {
             try
             {
-                var result = await _storeService.Delete(id);
+                var result = await _storeService.Delete(id, brandId);
                 if (!result)
                 {
                     return NotFound(new BaseResponse
@@ -111,7 +111,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin+","+UserRoles.BrandManager)]
         [HttpPut(APIRoutes.Store.Update, Name = "UpdateStoreAsync")]
-        public async Task<IActionResult> UpdateUserAsync(int id, [FromBody] UpdateStoreRequest reqObj)
+        public async Task<IActionResult> UpdateUserAsync(int id, [FromBody] UpdateStoreRequest reqObj, [FromQuery(Name = "brand-id")] int? brandId)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     Address = reqObj.Address,
                     City   = reqObj.City,
                 };
-                var result = await _storeService.UpdateAsync(id, dto);
+                var result = await _storeService.UpdateAsync(id, dto, brandId);
 
                 if (!result)
                 {

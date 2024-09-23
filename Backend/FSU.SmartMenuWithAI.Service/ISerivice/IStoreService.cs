@@ -17,9 +17,9 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
 
         Task<bool> Insert(StoreDTO entity);
 
-        Task<bool> Delete(int id);
+        Task<bool> Delete(int id, int? brandId);
 
-        Task<bool> UpdateAsync(int id, StoreDTO entityToUpdate);
+        Task<bool> UpdateAsync(int id, StoreDTO entityToUpdate, int? brandId);
         Task<BrandDTO> GetBrandOfStoreByUserID(int userId);
     }
 }
