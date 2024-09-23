@@ -362,7 +362,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpGet(APIRoutes.Brand.CheckLimit, Name = "check-limit-create")]
-        public async Task<IActionResult> GetMenuAccountInfo([FromQuery(Name = "user-id")] int userId)
+        public async Task<IActionResult> GetMenuAccountInfo([FromRoute(Name = "user-id")] int userId)
         {
             try
             {

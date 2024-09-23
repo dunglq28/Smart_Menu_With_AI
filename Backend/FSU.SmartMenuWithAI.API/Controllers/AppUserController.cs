@@ -71,11 +71,11 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpDelete(APIRoutes.AppUser.Delete, Name = "DeleteUserAsync")]
-        public async Task<IActionResult> DeleteAsynce([FromQuery] int id)
+        public async Task<IActionResult> DeleteAsynce([FromQuery] int id, [FromQuery(Name ="brand-id")] int? brandId)
         {
             try
             {
-                var result = await _appUserService.Delete(id);
+                var result = await _appUserService.Delete(id,brandId);
                 if (!result)
                 {
                     return NotFound(new BaseResponse
@@ -108,7 +108,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpPut(APIRoutes.AppUser.Update, Name = "UpdateUserAsync")]
-        public async Task<IActionResult> UpdateUserAsync(int id, [FromBody] UpdateAppUserRequest reqObj)
+        public async Task<IActionResult> UpdateUserAsync(int id,[FromBody] UpdateAppUserRequest reqObj, [FromQuery(Name = "brand-id")] int? brandId)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 dto.Dob = reqObj.Dob;
                 dto.UpdateBy = reqObj.UpdateBy;
 
-                var result = await _appUserService.Update(id, dto);
+                var result = await _appUserService.Update(id, dto, brandId);
                 if (!result)
                 {
                     return NotFound(new BaseResponse

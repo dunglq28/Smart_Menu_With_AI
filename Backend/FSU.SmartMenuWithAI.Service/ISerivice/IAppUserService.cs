@@ -24,9 +24,9 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
 
         Task<int> Insert(AppUserDTO entity);
 
-        Task<bool> Delete(int id);
+        Task<bool> Delete(int id,int? brandId);
 
-        Task<bool> Update(int id, AppUserDTO entityToUpdate);
+        Task<bool> Update(int id, AppUserDTO entityToUpdate, int? brandId);
 
         Task<int> Count();
         

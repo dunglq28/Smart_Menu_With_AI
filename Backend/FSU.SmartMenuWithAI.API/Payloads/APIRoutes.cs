@@ -75,7 +75,7 @@
 
             public const string GetByName = Base + "/brands/get-by-name";
 
-            public const string CheckLimit = Base + "/brands/checklimit";
+            public const string CheckLimit = Base + "/brands/checklimit/{user-id}";
         }
 
         public static class Store
@@ -229,6 +229,8 @@
             public const string GetAllNoPaging = Base + "/customer-segments/no-paging";
 
             public const string GetByID = Base + "/customer-segments/get-by-id";
+
+            public const string GetByMenuID = Base + "/customer-segments/{menu-id}";
 
             public const string UpdateName = Base + "/customer-segments/update-name";
 
