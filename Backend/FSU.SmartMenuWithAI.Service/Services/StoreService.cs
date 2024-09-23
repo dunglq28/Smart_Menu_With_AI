@@ -24,12 +24,20 @@ namespace FSU.SmartMenuWithAI.Service.Services
         }
 
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, int? brandId)
         {
             var deleteStore = await _unitOfWork.StoreRepository.GetByID(id);
             if (deleteStore == null || (deleteStore.Status == (int)Status.Deleted))
             {
                 return false;
+            }
+            if (brandId != null)
+            {
+                var store = await _unitOfWork.StoreRepository.GetByCondition(s => s.BrandId == brandId);
+                if (store == null)
+                {
+                    throw new Exception("cửa hàng không trùng khớp với brand Id");
+                }
             }
             deleteStore.Status = (int)Status.Deleted;
             var userStore = await _unitOfWork.AppUserRepository.GetByID(deleteStore.UserId);
@@ -103,13 +111,22 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return result;
         }
 
-        public async Task<bool> UpdateAsync(int id, StoreDTO entityToUpdate)
+        public async Task<bool> UpdateAsync(int id, StoreDTO entityToUpdate, int? brandId)
         {
             Expression<Func<Store, bool>> condition = x => x.StoreId == id && x.Status != (int)Status.Deleted;
             var store = await _unitOfWork.StoreRepository.GetByCondition(condition);
             if (store == null)
             {
                 return false;
+            }
+
+            if (brandId != null)
+            {
+                var store1 = await _unitOfWork.StoreRepository.GetByCondition(s => s.BrandId == brandId);
+                if (store1 == null)
+                {
+                    throw new Exception("cửa hàng không trùng khớp với brand Id");
+                }
             }
             store.IsActive = entityToUpdate.IsActive;
 
