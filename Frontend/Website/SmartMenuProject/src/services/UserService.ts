@@ -47,16 +47,24 @@ export const getUser = async (id: number): Promise<ApiResponse<UserData>> => {
   return apiResponse;
 };
 
-export const updateUser = async (id: number, user: userUpdate): Promise<ApiResponse<Object>> => {
-  const res = await axiosAuth.put(`app-users?id=${id}`, user);
+export const updateUser = async (
+  id: number,
+  brandId: string | null,
+  user: userUpdate,
+): Promise<ApiResponse<Object>> => {
+  const res = await axiosAuth.put(`app-users?id=${id}&brand-id=${brandId}`, user);
   const apiResponse = res.data as ApiResponse<Object>;
   return apiResponse;
 };
 
-export const deleteUser = async (id: number): Promise<ApiResponse<Object>> => {
+export const deleteUser = async (
+  id: number,
+  brandId: string | null,
+): Promise<ApiResponse<Object>> => {
   const res = await axiosAuth.delete("app-users", {
     params: {
       id: id,
+      brandId: brandId,
     },
   });
   const apiResponse = res.data as ApiResponse<Object>;

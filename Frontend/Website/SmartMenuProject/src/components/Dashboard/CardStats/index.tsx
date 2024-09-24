@@ -24,7 +24,9 @@ const StatCard: React.FC<StatCardProps> = ({ icon, label, value, bgColor }) => {
             <Icon as={icon} boxSize={10} color="#fff" />
           </Box>
           <Box>
-            <Text paddingBottom={2}>{label}</Text>
+            <Text paddingBottom={2} fontWeight={500}>
+              {label}
+            </Text>
             <Heading size="md">{value}</Heading>
           </Box>
         </Grid>

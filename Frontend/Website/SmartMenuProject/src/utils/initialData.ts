@@ -3,6 +3,7 @@ import { BrandForm } from "../models/BrandForm.model";
 import { PasswordForm } from "../models/Password.model";
 import { ProductForm } from "../models/ProductForm.model";
 import { UserForm } from "../models/UserForm.model";
+import { LimitBrandData } from "../payloads/responses/BrandData.model";
 import { AdminDashboardData } from "../payloads/responses/DashboarData.model";
 import { PlanData } from "../payloads/responses/PlanResponse.model";
 import { UserData } from "../payloads/responses/UserData.model";
@@ -82,4 +83,11 @@ export const getInitialPlanData = (): PlanData => ({
   maxMenu: 0,
   maxAccount: 0,
   price: "",
+});
+
+export const getInitialLimitBrandData = (): LimitBrandData => ({
+  maxMenu: 0,
+  maxAccount: 0,
+  numberMenu: 0,
+  numberAccount: 0,
 });

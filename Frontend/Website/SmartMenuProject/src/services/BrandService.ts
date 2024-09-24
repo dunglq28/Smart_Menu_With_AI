@@ -93,7 +93,7 @@ export const deleteBrand = async (id: number): Promise<ApiResponse<Object>> => {
 };
 
 export const getLimitBrandByUserId = async (id: string): Promise<ApiResponse<LimitBrandData>> => {
-  const res = await axiosAuth.get(`brands/checklimit?user-id=${id}`);
+  const res = await axiosAuth.get(`brands/checklimit/${id}`);
   const apiResponse = res.data as ApiResponse<LimitBrandData>;
   return apiResponse;
 };

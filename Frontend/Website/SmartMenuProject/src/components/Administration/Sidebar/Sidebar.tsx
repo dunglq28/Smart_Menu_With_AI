@@ -304,16 +304,20 @@ function Sidebar() {
           localStorage.setItem("toastMessage", toastMessage);
           localStorage.setItem("brandName", brandName);
           localStorage.setItem("brandId", id);
-          if (formattedPathname === `branches/${brandName}`) {
+          const brandId = localStorage.getItem("BrandId");
+          if (
+            formattedPathname === `branches/${brandName}` ||
+            (brandId && formattedPathname === `branches`)
+          ) {
             window.location.reload();
           } else {
             changeItem("brands");
-            navigate(`/branches/${brandName}`, { state: { id } });
+            const targetPath = brandId ? `/branches` : `/branches/${brandName}`;
+            navigate(targetPath, { state: { id } });
           }
         }
       }
     } catch (err) {
-      console.log(err);
       toast.error("Thêm chi nhánh mới thất bại");
     }
   }

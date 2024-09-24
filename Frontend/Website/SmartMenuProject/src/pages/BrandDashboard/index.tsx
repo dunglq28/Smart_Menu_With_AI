@@ -9,6 +9,28 @@ import { IoGitBranchOutline } from "react-icons/io5";
 import { MdListAlt } from "react-icons/md";
 import { AiOutlineProduct } from "react-icons/ai";
 import { Bar, Line } from "react-chartjs-2";
+import { TooltipItem } from "chart.js";
+
+const menuAppearanceData = [
+  { menuName: "Menu dành cho giới trẻ", count: 120 },
+  { menuName: "Menu dành cho giới trung niên", count: 80 },
+  { menuName: "Menu dành cho giới trẻ", count: 60 },
+  { menuName: "Menu dành cho giới trẻ", count: 150 },
+  { menuName: "Menu dành cho giới trẻ", count: 150 },
+  { menuName: "Menu dành cho giới trẻ", count: 150 },
+  { menuName: "Menu dành cho giới trẻ", count: 150 },
+  { menuName: "Menu dành cho giới trẻ", count: 150 },
+  { menuName: "Menu dành cho giới trẻ", count: 150 },
+  { menuName: "Menu dành cho giới trẻ", count: 150 },
+];
+
+const fakeProductData = [
+  { category: "Trà", count: 5 },
+  { category: "Cà Phê", count: 4 },
+  { category: "Đá xay", count: 3 },
+  { category: "Đồ Ăn Nhẹ", count: 6 },
+  { category: "Trà Sữa", count: 2 },
+];
 
 function BrandDashboard() {
   const location = useLocation();
@@ -46,28 +68,52 @@ function BrandDashboard() {
     },
   ];
 
-  const fakeProductData = [
-    { category: "Trà", count: 5 },
-    { category: "Cà Phê", count: 4 },
-    { category: "Đá xay", count: 3 },
-    { category: "Đồ Ăn Nhẹ", count: 6 },
-    { category: "Trà Sữa", count: 2 },
-  ];
+  const maxMenuNameLength = 4;
 
-  // const lineChartData = {
-  //   labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-  //   datasets: [
-  //     {
-  //       label: "Doanh thu",
-  //       data: data.listRevenue.sort((a, b) => a.month - b.month).map((rev) => rev.totalRevenue),
-  //       borderColor: "rgba(75, 192, 192, 1)",
-  //       backgroundColor: themeColors.revenueLightenColor,
-  //       fill: true,
-  //     },
-  //   ],
-  // };
+  const truncatedMenuAppearanceData = menuAppearanceData.map((menu) => ({
+    ...menu,
+    displayName:
+      menu.menuName.length > maxMenuNameLength
+        ? menu.menuName.substring(0, maxMenuNameLength) + "..."
+        : menu.menuName,
+  }));
 
-  const barChartData = {
+  const barChartMenuData = {
+    labels: truncatedMenuAppearanceData.map((data) => data.displayName),
+    datasets: [
+      {
+        label: "Số lần menu xuất hiện",
+        data: truncatedMenuAppearanceData.map((data) => data.count),
+        backgroundColor: themeColors.revenueLightenColor,
+        borderColor: "rgba(75, 192, 192, 1)",
+      },
+    ],
+  };
+
+  const lineChartOptions = {
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Di chuột để xem tên",
+        },
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem: TooltipItem<"line">) {
+            return menuAppearanceData[tooltipItem.dataIndex].menuName;
+          },
+        },
+      },
+    },
+  };
+
+  const barChartProductData = {
     labels: fakeProductData.map((data) => data.category),
     datasets: [
       {
@@ -84,17 +130,17 @@ function BrandDashboard() {
       <CardStats stats={stats} />
 
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
-        {/* <Card>
+        <Card>
           <CardBody>
-            <Heading className={style.title}>Thống kê doanh thu theo tháng</Heading>
-            <Line data={lineChartData} options={lineChartOptions} />
+            <Heading className={style.title}>Thống kê số lần xuất hiện của menu</Heading>
+            <Line data={barChartMenuData} options={lineChartOptions} />
           </CardBody>
-        </Card> */}
+        </Card>
 
         <Card>
           <CardBody>
             <Heading className={style.title}>Thống kê sản phẩm theo danh mục</Heading>
-            <Bar data={barChartData} />
+            <Bar data={barChartProductData} />
           </CardBody>
         </Card>
       </SimpleGrid>

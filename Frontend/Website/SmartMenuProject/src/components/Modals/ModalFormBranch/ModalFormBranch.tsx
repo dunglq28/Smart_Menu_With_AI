@@ -31,9 +31,12 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
   const [brandNameCurrent, setBrandNameCurrent] = useState<string | null>(
     localStorage.getItem("BrandName"),
   );
+  const [brandIdCurrent, setBrandIdCurrent] = useState<string | null>(
+    localStorage.getItem("BrandId"),
+  );
   const [formData, setFormData] = useState<BranchForm>({
     brandName: {
-      id: branchData.brandName.id,
+      id: branchData.brandName.id || brandIdCurrent || "",
       value: branchData.brandName.value || brandNameCurrent || "",
       errorMessage: "",
     },
@@ -96,6 +99,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
             const districtId = districtData.find(
               (district) => district.name === formData.district.name,
             )?.id;
+
             setFormData((prevData) => ({
               ...prevData,
               district: {

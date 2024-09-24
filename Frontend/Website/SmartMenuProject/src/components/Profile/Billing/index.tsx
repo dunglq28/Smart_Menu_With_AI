@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import style from "./Billing.module.scss";
 import { themeColors } from "../../../constants/GlobalStyles";
 import { SubscriptionData } from "../../../payloads/responses/SubscriptionData.model";
-import { formatCurrencyVND, formatDate } from "../../../utils/functionHelper";
+import { formatCurrencyVND, formatDate, formatDateAndTime } from "../../../utils/functionHelper";
 
 interface BillingProps {
   paymentHistory: Array<{
@@ -93,23 +93,23 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
             {subscription && subscription.payments && subscription.payments.length > 0 ? (
               subscription.payments.map((payment, index) => (
                 <Flex key={index} className={style.payment_history_item}>
-                  <Flex flexDirection="column" width="30%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Tên gói")}</Text>
                     <Text className={style.payment_history_item_value}>{payment.planName}</Text>
                   </Flex>
-                  <Flex flexDirection="column" width="30%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Ngày giao dịch")}</Text>
                     <Text className={style.payment_history_item_value}>
-                      {formatDate(payment.paymentDate)}
+                      {formatDateAndTime(payment.paymentDate)}
                     </Text>
                   </Flex>
-                  <Flex flexDirection="column" width="30%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Số tiền")}</Text>
                     <Text className={style.payment_history_item_value}>
                       {formatCurrencyVND(payment.amount.toString())}
                     </Text>
                   </Flex>
-                  <Flex flexDirection="column" width="40%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Ghi chú")}</Text>
                     <Text className={style.payment_history_item_value}>{payment.planName}</Text>
                   </Flex>

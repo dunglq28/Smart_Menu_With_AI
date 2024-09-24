@@ -240,7 +240,6 @@ function CreateMenu() {
     const loadData = async () => {
       try {
         const result = await getCategoriesByBrandId(brandId);
-        console.log(result);
 
         if (result) {
           setCategoryOptions(result.data);

@@ -23,7 +23,7 @@ import style from "./Menu.module.scss";
 import MenuCard from "../../components/Menu/MenuCard";
 import { MenuData } from "../../payloads/responses/MenuData.model";
 import { getAllMenu } from "../../services/MenuService";
-import { getOptions } from "../../utils/functionHelper";
+import { getOptions, translateDemographics } from "../../utils/functionHelper";
 import { toast } from "react-toastify";
 import NavigationDot from "../../components/NavigationDot/NavigationDot";
 import Loading from "../../components/Loading";
@@ -31,7 +31,11 @@ import moment from "moment";
 import Searchbar from "../../components/Searchbar";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { getLimitBrandByUserId } from "../../services/BrandService";
-import { GlobalStyles, themeColors } from "../../constants/GlobalStyles";
+import { themeColors } from "../../constants/GlobalStyles";
+import { getCustomerSegmentByMenuId } from "../../services/CustomerSegmentService";
+import { CustomerSegmentData } from "../../payloads/responses/CustomerSegment.model";
+import { LimitBrandData } from "../../payloads/responses/BrandData.model";
+import { getInitialLimitBrandData } from "../../utils/initialData";
 
 function Menu() {
   const location = useLocation();
@@ -39,12 +43,16 @@ function Menu() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
   const [data, setData] = useState<MenuData[]>([]);
+  const [segments, setSegments] = useState<{ menuId: number; segments: CustomerSegmentData[] }[]>(
+    [],
+  );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [rowsPerPageOption, setRowsPerPageOption] = useState<number[]>([5]);
   const [totalPages, setTotalPages] = useState<number>(10);
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [openMenuIds, setOpenMenuIds] = useState<number[]>([]);
+  const [limitBrand, setLimitBrand] = useState<LimitBrandData>(getInitialLimitBrandData());
   const brandId = localStorage.getItem("BrandId");
   const flagRef = useRef(false);
   const { isOpen, onToggle } = useDisclosure();
@@ -58,6 +66,17 @@ function Menu() {
       navigate(location.pathname, { replace: true });
     }
   }, [location.state, navigate]);
+
+  const getLimitBrand = async () => {
+    const userId = localStorage.getItem("UserId");
+    if (userId) {
+      const { statusCode, data } = await getLimitBrandByUserId(userId);
+      if (statusCode === 200) {
+        setLimitBrand(data);
+      }
+    }
+    return;
+  };
 
   const fetchData = useCallback(
     async (searchValue?: string) => {
@@ -92,6 +111,7 @@ function Menu() {
   );
 
   useEffect(() => {
+    getLimitBrand();
     fetchData();
   }, [fetchData]);
 
@@ -110,14 +130,6 @@ function Menu() {
     [setCurrentPage, setRowsPerPage],
   );
 
-  if (isLoading) {
-    return (
-      <Flex className={style.Container}>
-        <Loading />;
-      </Flex>
-    );
-  }
-
   async function handleSearch(value: string) {
     fetchData(value);
   }
@@ -127,23 +139,36 @@ function Menu() {
   };
 
   const handleClickCreate = async () => {
-    const userId = localStorage.getItem("UserId");
-    if (userId) {
-      const { statusCode, data } = await getLimitBrandByUserId(userId);
-      if (statusCode === 200) {
-        if (data.numberMenu < data.maxMenu) {
-          navigate("/menu/create-menu");
-        } else {
-          toast.error(`Bạn đã tạo đủ ${data.maxMenu} thực đơn`);
-        }
-      } else {
-        toast.error("Đã có lỗi xảy ra, vui lòng thử lại.");
-      }
+    if (limitBrand.numberMenu < limitBrand.maxMenu) {
+      navigate("/menu/create-menu");
+    } else {
+      toast.error(`Bạn đã tạo đủ ${limitBrand.maxMenu} thực đơn`);
     }
-    return;
   };
 
-  const handleToggleMenu = (menuId: number) => {
+  const handleToggleMenu = async (menuId: number) => {
+    // Kiểm tra xem đã có segments của menu này chưa
+    const existingMenuSegments = segments.find((s) => s.menuId === menuId);
+
+    // Nếu đã có, chỉ cần toggle openMenuIds mà không gọi API
+    if (existingMenuSegments) {
+      setOpenMenuIds((prevIds) =>
+        prevIds.includes(menuId) ? prevIds.filter((id) => id !== menuId) : [...prevIds, menuId],
+      );
+      return;
+    }
+
+    // Nếu chưa có, gọi API để lấy segments cho menu này
+    const { statusCode, data } = await getCustomerSegmentByMenuId(menuId);
+    if (statusCode === 200) {
+      // Cập nhật state segments với menuId và dữ liệu mới
+      setSegments((prevSegments) => [
+        ...prevSegments,
+        { menuId, segments: data }, // Lưu các segment kèm theo menuId
+      ]);
+    }
+
+    // Toggle openMenuIds
     setOpenMenuIds((prevIds) =>
       prevIds.includes(menuId) ? prevIds.filter((id) => id !== menuId) : [...prevIds, menuId],
     );
@@ -155,7 +180,7 @@ function Menu() {
         <Flex className={style.searchWrapperSub}>
           <Searchbar onSearch={handleSearch} />
           <Text className={style.searchWrapperCount} bg={themeColors.darken40}>
-            Số thực đơn: 0/0
+            Số thực đơn: {limitBrand.numberMenu}/{limitBrand.maxMenu}
           </Text>
         </Flex>
         <Button onClick={handleClickCreate} className={style.AddMenuBtn}>
@@ -177,6 +202,7 @@ function Menu() {
                 <Th className={style.HeaderTbl}>mô tả</Th>
                 <Th className={style.HeaderTbl}>độ ưu tiên</Th>
                 <Th className={style.HeaderTbl}>Nhân khẩu học</Th>
+                {/* <Th className={style.HeaderTbl}>Đang hoạt động</Th> */}
                 <Th className={style.HeaderTbl}>cài đặt</Th>
               </Tr>
             </Thead>
@@ -207,15 +233,24 @@ function Menu() {
                       </Text>
                       <Collapse in={openMenuIds.includes(menu.menuId)} animateOpacity>
                         <Box className={style.demographic_info}>
-                          <Text className={style.demographic_info_text}>
-                            Phân khúc trẻ: Nữ, Buổi Chiều, 18-25 tuổi
-                          </Text>
-                          <Text className={style.demographic_info_text}>
-                            Phân khúc trẻ: Nữ, Buổi Chiều, 18-25 tuổi
-                          </Text>
+                          {segments
+                            .filter((segment) => segment.menuId === menu.menuId)
+                            .map((segment) =>
+                              segment.segments.map((seg) => (
+                                <Text
+                                  key={seg.customerSegmentId}
+                                  className={style.demographic_info_text}
+                                >
+                                  {`${seg.customerSegmentName}: ${translateDemographics(
+                                    seg.demographic,
+                                  )}, ${seg.age} tuổi`}
+                                </Text>
+                              )),
+                            )}
                         </Box>
                       </Collapse>
                     </Td>
+                    {/* <Td>Có</Td> */}
                     <Td>
                       <Button
                         onClick={() => handleClickMenu(menu.menuId)}
