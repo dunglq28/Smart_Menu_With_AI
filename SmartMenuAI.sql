@@ -874,3 +874,6 @@ VALUES
 ('SUBS001', GETDATE(), DATEADD(month, 1, GETDATE()), 1, 1, 'user1@example.com', 1, 1),
 ('SUBS002', GETDATE(), DATEADD(month, 1, GETDATE()), 1, 2, 'user2@example.com', 2, 2),
 ('SUBS003', GETDATE(), DATEADD(month, 1, GETDATE()), 1, 3, 'user3@example.com', 3, 3);
+
+ALTER TABLE Menu
+ADD TimeRCM int;
