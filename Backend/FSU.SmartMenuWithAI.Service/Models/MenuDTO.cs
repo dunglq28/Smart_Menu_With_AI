@@ -28,6 +28,8 @@ namespace FSU.SmartMenuWithAI.Service.Models
 
         public int? Priority { get; set; }
 
+        public int? TimeRcm { get; set; }
+
         public virtual ICollection<MenuListDTO> MenuLists { get; set; } = new List<MenuListDTO>();
 
         public virtual ICollection<MenuSegmentDTO> MenuSegments { get; set; } = new List<MenuSegmentDTO>();

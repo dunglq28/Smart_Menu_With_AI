@@ -21,6 +21,8 @@ public partial class Menu
 
     public int BrandId { get; set; }
 
+    public int? TimeRcm { get; set; }
+
     public virtual Brand Brand { get; set; } = null!;
 
     public virtual ICollection<MenuList> MenuLists { get; set; } = new List<MenuList>();

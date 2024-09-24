@@ -398,5 +398,33 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 });
             }
         }
+
+        //[Authorize(Roles = UserRoles.Admin)]
+        [HttpGet(APIRoutes.Brand.GetDashboard, Name = "get-brand-dashboard-async")]
+        public async Task<IActionResult> GetDashboard([FromRoute(Name = "brand-id")] int brandId)
+        {
+            try
+            {
+                var dashboard = await _brandService.GetDashboard(brandId);
+
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Tải dữ liệu thành công",
+                    Data = dashboard,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = "Tải dữ liệu thất bại!" + ex.Message,
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
     }
 }
