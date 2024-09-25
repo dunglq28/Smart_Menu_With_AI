@@ -129,7 +129,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return null!;
             }
             return _mapper?.Map<PaymentDTO>(entity)!;
-        }      
+        }
         // -> chưa đăng ký chưa kích hoạt = null (count = 0) -> create new ,
         // -> đã đăng ký thành công những chưa kích hoạt thành công = payment (count > 0) -> update -> trả payment
 
@@ -179,11 +179,11 @@ namespace FSU.SmartMenuWithAI.Service.Services
             _unitOfWork.PaymentRepository.Update(payment);
 
             subscription.Status = status; // 1 = Thành công, 2 = Thất bại
-            //if (status == 1)
-            //{
-                //subscription.StartDate = DateTime.Now;
-                //subscription.EndDate = DateTime.Now.AddMonths(1); // Đăng ký có giá trị trong 1 tháng nếu thành công
-            //}
+                                          //if (status == 1)
+                                          //{
+                                          //subscription.StartDate = DateTime.Now;
+                                          //subscription.EndDate = DateTime.Now.AddMonths(1); // Đăng ký có giá trị trong 1 tháng nếu thành công
+                                          //}
             _unitOfWork.SubscriptioRepository.Update(subscription);
 
             // Cập nhật trạng thái người dùng nếu cần (chỉ nếu thanh toán thành công)
@@ -253,15 +253,27 @@ namespace FSU.SmartMenuWithAI.Service.Services
         {
             var sub1 = await _unitOfWork.SubscriptioRepository.GetByID(subId);
 
+            var latestSub = await _unitOfWork.SubscriptioRepository.Get(filter: s => s.UserId == sub1.UserId && s.Status == 1,
+                                                                        orderBy: q => q.OrderByDescending(s => s.EndDate) // Sắp xếp theo EndDate giảm dần
+                                                                        );
+            var latestSubscription = latestSub.FirstOrDefault();
+
             var subscription = new Subscription();
             subscription.SubscriptionCode = Guid.NewGuid().ToString();
             subscription.Status = (int)PaymentStatus.Pending;
-            subscription.StartDate = sub1.EndDate;
+            if (latestSubscription != null)
+            {
+                subscription.StartDate = latestSubscription.EndDate; // Nếu có subscription, bắt đầu sau ngày kết thúc gần nhất
+            }
+            else
+            {
+                subscription.StartDate = DateTime.Now; // Nếu không có, bắt đầu từ ngày hiện tại
+            }
             subscription.EndDate = subscription.StartDate.AddMonths(1);
             subscription.UserId = sub1.UserId;
             subscription.Email = sub1.Email;
-            subscription.PlanId = sub1.PlanId; 
-            subscription.PaymentId = paymentId; 
+            subscription.PlanId = sub1.PlanId;
+            subscription.PaymentId = paymentId;
 
             await _unitOfWork.SubscriptioRepository.Insert(subscription);
 
