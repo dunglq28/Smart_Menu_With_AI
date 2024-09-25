@@ -94,7 +94,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
             try
             {
-                var result = await _paymentService.ConfirmPaymentAsync(request.PaymentId, request.UserId, request.Status);
+                var result = await _paymentService.ConfirmPaymentAsync(request.PaymentId, request.UserId, request.Status, request.IsRenew);
 
                 if (!result)
                 {
