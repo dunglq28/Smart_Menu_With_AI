@@ -198,6 +198,9 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 {
                     user.IsActive = true; // Kích hoạt người dùng nếu thanh toán thành công
                     _unitOfWork.AppUserRepository.Update(user);
+
+                    // check if isRenew
+
                     var decryptedPassword = PasswordHelper.ConvertToDecrypt(user.Password!); // Giải mã mật khẩu trước khi gửi
                     if (!isRenew)
                     {

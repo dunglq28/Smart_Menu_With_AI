@@ -1,32 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  ModalBody,
-  Flex,
-  Box,
-  Input,
-  Text,
-  Button,
-  ModalFooter,
-  Select,
-} from "@chakra-ui/react";
+import { ModalBody, Flex, Box, Input, Text, Button, ModalFooter, Select } from "@chakra-ui/react";
 
 import styles from "./ModalFormBranch.module.scss";
 import { BranchForm } from "../../../models/BranchForm.model";
 import { City } from "../../../models/City.model";
 import { District } from "../../../models/District.model";
 import { Ward } from "../../../models/Ward.model";
-import {
-  fetchCities,
-  fetchDistricts,
-  fetchWards,
-} from "../../../services/ThirdService";
+import { fetchCities, fetchDistricts, fetchWards } from "../../../services/ThirdService";
 import Loading from "../../Loading";
 import { BrandData } from "../../../payloads/responses/BrandData.model";
 import { getAllBrandName } from "../../../services/BrandService";
 import { getInitialBranchForm } from "../../../utils/initialData";
-import {
-  validateBranchForm,
-} from "../../../utils/validation";
+import { validateBranchForm } from "../../../utils/validation";
 
 interface ModalFormBranchProps {
   branchData: BranchForm;
@@ -43,10 +28,16 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
   nextHandler,
   isEdit,
 }) => {
+  const [brandNameCurrent, setBrandNameCurrent] = useState<string | null>(
+    localStorage.getItem("BrandName"),
+  );
+  const [brandIdCurrent, setBrandIdCurrent] = useState<string | null>(
+    localStorage.getItem("BrandId"),
+  );
   const [formData, setFormData] = useState<BranchForm>({
     brandName: {
-      id: branchData.brandName.id,
-      value: branchData.brandName.value || "",
+      id: branchData.brandName.id || brandIdCurrent || "",
+      value: branchData.brandName.value || brandNameCurrent || "",
       errorMessage: "",
     },
     city: {
@@ -67,6 +58,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
     address: { value: branchData.address.value || "", errorMessage: "" },
   });
   const [brandNames, setBrandNames] = useState<BrandData[]>([]);
+
   const [cities, setCities] = useState<City[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [wards, setWards] = useState<Ward[]>([]);
@@ -80,16 +72,14 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
         setCities(cityData);
 
         // Fetch brand names if not in edit mode
-        if (!isEdit) {
+        if (!isEdit && brandNameCurrent == null) {
           const brandNamesData = await getAllBrandName();
           setBrandNames(brandNamesData.data);
         }
 
         // Set city ID if not already set
         if (formData.city.name && formData.city.id === "") {
-          const cityId = cityData.find(
-            (city) => city.name === formData.city.name,
-          )?.id;
+          const cityId = cityData.find((city) => city.name === formData.city.name)?.id;
           setFormData((prevData) => ({
             ...prevData,
             city: {
@@ -109,6 +99,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
             const districtId = districtData.find(
               (district) => district.name === formData.district.name,
             )?.id;
+
             setFormData((prevData) => ({
               ...prevData,
               district: {
@@ -126,9 +117,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
 
           // Set ward ID if not already set
           if (formData.ward.name && formData.ward.id === "") {
-            const wardId = wardData.find(
-              (ward) => ward.name === formData.ward.name,
-            )?.id;
+            const wardId = wardData.find((ward) => ward.name === formData.ward.name)?.id;
             setFormData((prevData) => ({
               ...prevData,
               ward: {
@@ -216,12 +205,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
     let trimmedValue = value;
     let id = "";
 
-    if (
-      field === "city" ||
-      field === "district" ||
-      field === "ward" ||
-      field === "brandName"
-    ) {
+    if (field === "city" || field === "district" || field === "ward" || field === "brandName") {
       const commaIndex = value.indexOf(",");
       if (commaIndex !== -1) {
         id = value.substring(0, commaIndex).trim();
@@ -270,30 +254,20 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
       ) : (
         <>
           <ModalBody>
-            <Flex
-              direction="column"
-              alignItems="stretch"
-              className={styles.containerForm}
-            >
+            <Flex direction="column" alignItems="stretch" className={styles.containerForm}>
               <Flex justify="space-between" mb={3}>
                 <Box flex="1" ml={2}>
                   <Text className={styles.textFontWeight600} py={3} pr={3}>
                     Tên thương hiệu
                   </Text>
-                  {isEdit ? (
-                    <Input
-                      pl={3}
-                      value={formData.brandName.value}
-                      readOnly={true}
-                    />
+                  {isEdit || brandNameCurrent ? (
+                    <Input pl={3} value={formData.brandName.value} readOnly={true} />
                   ) : (
                     <Select
                       id="brandName"
                       className={styles.isActive}
                       value={`${formData.brandName.id}, ${formData.brandName.value}`}
-                      onChange={(e) =>
-                        handleInputChange("brandName", e.target.value)
-                      }
+                      onChange={(e) => handleInputChange("brandName", e.target.value)}
                       placeholder="Chọn Thương Hiệu"
                     >
                       {brandNames.map((brandName) => (
@@ -307,9 +281,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
                     </Select>
                   )}
                   {formData.brandName.errorMessage && (
-                    <Text color="red.500">
-                      {formData.brandName.errorMessage}
-                    </Text>
+                    <Text color="red.500">{formData.brandName.errorMessage}</Text>
                   )}
 
                   <Text className={styles.textFontWeight600} py={3} pr={3}>
@@ -351,18 +323,13 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
                         placeholder="Chọn Quận"
                       >
                         {districts.map((district) => (
-                          <option
-                            key={district.id}
-                            value={`${district.id}, ${district.name}`}
-                          >
+                          <option key={district.id} value={`${district.id}, ${district.name}`}>
                             {district.name}
                           </option>
                         ))}
                       </Select>
                       {formData.district.errorMessage && (
-                        <Text color="red.500">
-                          {formData.district.errorMessage}
-                        </Text>
+                        <Text color="red.500">{formData.district.errorMessage}</Text>
                       )}
                     </Box>
 
@@ -381,18 +348,13 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
                         placeholder="Chọn Phường"
                       >
                         {wards.map((ward) => (
-                          <option
-                            key={ward.id}
-                            value={`${ward.id}, ${ward.name}`}
-                          >
+                          <option key={ward.id} value={`${ward.id}, ${ward.name}`}>
                             {ward.name}
                           </option>
                         ))}
                       </Select>
                       {formData.ward.errorMessage && (
-                        <Text color="red.500">
-                          {formData.ward.errorMessage}
-                        </Text>
+                        <Text color="red.500">{formData.ward.errorMessage}</Text>
                       )}
                     </Box>
                   </Flex>
@@ -404,9 +366,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
                     placeholder="Địa chỉ"
                     pl={3}
                     value={formData.address.value}
-                    onChange={(e) =>
-                      handleInputChange("address", e.target.value)
-                    }
+                    onChange={(e) => handleInputChange("address", e.target.value)}
                   />
                   {formData.address.errorMessage && (
                     <Text color="red.500">{formData.address.errorMessage}</Text>

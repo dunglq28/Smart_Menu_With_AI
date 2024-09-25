@@ -11,6 +11,7 @@ export const themeColors = {
   primaryButton: "#466d6b",
   secondaryColor: "#E2E8F0",
   primary: "#b8d7d5",
+  userStatColor: "#55AD9B",
   tradeMarkLightenColor: "rgba(153, 102, 255, 0.6)",
   tradeMarkDarkenColor: "rgba(153, 102, 255, 1)",
   revenueLightenColor: "rgba(75, 192, 192, 0.2)",

@@ -42,7 +42,7 @@ import {
 } from "../../../utils/initialData";
 import { toast } from "react-toastify";
 import { createUser } from "../../../services/UserService";
-import { createBrand } from "../../../services/BrandService";
+import { createBrand, getLimitBrandByUserId } from "../../../services/BrandService";
 import { createBranch } from "../../../services/BranchService";
 import ModalForm from "../../Modals/ModalForm/ModalForm";
 import ModalFormBrand from "../../Modals/ModalFormBrand/ModalFormBrand";
@@ -71,15 +71,24 @@ function Sidebar() {
   const { isOpen: isOpenBranch, onOpen: onOpenBranch, onClose: onCloseBranch } = useDisclosure();
   const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
 
-  const customOnOpenBranch = () => {
-    console.log("Opening branch modal...");
-
-    onOpenBranch();
+  const customOnOpenBranch = async () => {
+    const userId = localStorage.getItem("UserId");
+    if (userId) {
+      const { statusCode, data } = await getLimitBrandByUserId(userId);
+      if (statusCode === 200) {
+        if (data.numberAccount < data.maxAccount) {
+          onOpenBranch();
+        } else {
+          toast.error(`Bạn đã tạo đủ ${data.maxAccount} chi nhánh`);
+        }
+      } else {
+        toast.error("Đã có lỗi xảy ra, vui lòng thử lại.");
+      }
+    }
+    return;
   };
 
-  const changeItem = (label: string) => {
-    setItem(label);
-  };
+  const changeItem = setItem;
 
   const getMenuPartFromPathname = (pathname: string) => {
     const match = pathname.match(/^\/([^\/]+)/);
@@ -295,16 +304,20 @@ function Sidebar() {
           localStorage.setItem("toastMessage", toastMessage);
           localStorage.setItem("brandName", brandName);
           localStorage.setItem("brandId", id);
-          if (formattedPathname === `branches/${brandName}`) {
+          const brandId = localStorage.getItem("BrandId");
+          if (
+            formattedPathname === `branches/${brandName}` ||
+            (brandId && formattedPathname === `branches`)
+          ) {
             window.location.reload();
           } else {
             changeItem("brands");
-            navigate(`/branches/${brandName}`, { state: { id } });
+            const targetPath = brandId ? `/branches` : `/branches/${brandName}`;
+            navigate(targetPath, { state: { id } });
           }
         }
       }
     } catch (err) {
-      console.log(err);
       toast.error("Thêm chi nhánh mới thất bại");
     }
   }

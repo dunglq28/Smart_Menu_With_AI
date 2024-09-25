@@ -1,57 +1,37 @@
-.container {
-  width: 100%;
-  padding: 20px;
+@import "../../styles/shared.scss";
+
+.container_dashboard {
+  @extend .container_dashboard;
 
   .title {
-    font-size: 24px;
-    padding-bottom: 6px;
+    @extend .title;
   }
 
   .subtitle {
-    text-align: start;
-    font-size: 14px;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    @extend .subtitle;
   }
 
   .tableNewUser {
     .userInfo {
-      display: flex;
-      text-align: start;
-      padding-left: 0;
+      @extend .userInfo;
 
       .avatar {
-        margin-right: 20px;
-        width: 40px; 
-        height: 40px;
-        border-radius: 50%;
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
+        @extend .avatar;
       }
 
       .userDetails {
-        font-size: 18px;
-        font-weight: 600;
-        padding-bottom: 10px;
+        @extend .userDetails;
       }
 
       .userName {
-        display: block;
-        font-style: italic;
+        @extend .userName;
       }
     }
   }
 
   .tablePaymentHistory {
     .textDescription {
-      text-align: start;
-      font-size: 18px;
+      @extend .tablePaymentHistory;
     }
   }
-}
-
-.Dashboard {
-  width: 100%;
-  padding: 10px;
 }

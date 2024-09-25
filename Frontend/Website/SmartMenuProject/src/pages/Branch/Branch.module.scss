@@ -5,6 +5,12 @@
 
   .searchWrapper {
     @extend .searchWrapper;
+    .searchWrapperSub {
+      @extend .searchWrapperSub;
+    }
+    .searchWrapperCount {
+      @extend .searchWrapperCount;
+    }
   }
 
   .Branch {

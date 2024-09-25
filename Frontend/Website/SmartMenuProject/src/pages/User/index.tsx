@@ -93,7 +93,7 @@ function User() {
 
   async function handleDelete(id: number) {
     try {
-      var result = await deleteUser(id);
+      var result = await deleteUser(id, brandId);
       if (result.statusCode === 200) {
         if ((totalRecords - 1) % rowsPerPage === 0 && currentPage > 1) {
           setCurrentPage((prevPage) => prevPage - 1);
@@ -109,7 +109,7 @@ function User() {
 
   async function handleEdit(id: number, user: userUpdate) {
     try {
-      var result = await updateUser(id, user);
+      var result = await updateUser(id, brandId, user);
       if (result.statusCode === 200) {
         fetchData();
         toast.success("Cập nhật thành công");

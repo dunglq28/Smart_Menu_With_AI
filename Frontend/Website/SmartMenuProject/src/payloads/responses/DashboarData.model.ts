@@ -21,7 +21,7 @@ interface brandStatistics {
   totalBrands: number;
 }
 
-export interface DashboardData {
+export interface AdminDashboardData {
   numberOfUsers: number;
   totalRevenue: string;
   numberOfBrands: number;
@@ -29,4 +29,24 @@ export interface DashboardData {
   listBrandCounts: brandStatistics[];
   latestUsers: UserData[];
   recentTransactions: recentTransactions[];
+}
+// ----------------------------------------------------------------
+
+interface timesRecomments {
+  menuId: number;
+  times: number;
+  description: string;
+}
+
+interface productsByCate {
+  numberOfProduct: number;
+  cateName: string;
+}
+
+export interface BrandDashboardData {
+  store: number;
+  product: number;
+  menus: number;
+  timesRecomments: timesRecomments[];
+  productsByCate: productsByCate[];
 }

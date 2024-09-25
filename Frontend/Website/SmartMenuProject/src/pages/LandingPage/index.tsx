@@ -38,6 +38,8 @@ import { PlanData } from "../../payloads/responses/PlanResponse.model";
 import { getPlans } from "../../services/PlanService";
 import { toast } from "react-toastify";
 import { formatCurrencyVND } from "../../utils/functionHelper";
+import { PricingPackageType } from "../../models/PricingPackageType";
+import PricingPackageCard from "../../components/Payment/PricingPackageCard";
 
 type BusinessType = {
   icon: string;
@@ -55,26 +57,16 @@ type Benefit = {
   text: string;
 };
 
-type PricingPackageType = {
-  id: number;
-  image: string;
-  title: string;
-  price: string;
-  features: string[];
-};
-
 const businessTypes: BusinessType[] = [
   {
     icon: iconRestaurant,
     title: "Quán ăn",
-    description:
-      "Dễ dàng cập nhật thực đơn và tạo trải nghiệm tốt cho khách hàng.",
+    description: "Dễ dàng cập nhật thực đơn và tạo trải nghiệm tốt cho khách hàng.",
   },
   {
     icon: iconCafe,
     title: "Chuỗi cà phê",
-    description:
-      "Tối ưu hóa quy trình phục vụ và tăng cường hiệu quả vận hành.",
+    description: "Tối ưu hóa quy trình phục vụ và tăng cường hiệu quả vận hành.",
   },
   {
     icon: iconStore,
@@ -101,9 +93,7 @@ const benefits: Benefit[] = [
 
 function LandingPage() {
   const navigate = useNavigate();
-  const [pricingPackages, setPricingPackages] = useState<PricingPackageType[]>(
-    [],
-  );
+  const [pricingPackages, setPricingPackages] = useState<PricingPackageType[]>([]);
 
   const handleNavigateAndScroll = (hash: string) => {
     if (window.location.pathname !== "/") {
@@ -149,38 +139,20 @@ function LandingPage() {
 
   return (
     <>
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        w="100%"
-        h="auto"
-      >
+      <Flex direction="column" align="center" justify="center" w="100%" h="auto">
         <Box id="about" py={24} px={24} bg="#F5F7FA" w="100%">
           <Flex align="center" justify="space-around">
             <Box textAlign="start">
               <Heading size="2xl" mb={4} color={themeColors.textColor}>
                 Dịch vụ Smart Menu
               </Heading>
-              <Text
-                fontSize="xl"
-                fontWeight="bold"
-                color={themeColors.textColor}
-              >
+              <Text fontSize="xl" fontWeight="bold" color={themeColors.textColor}>
                 - Menu thông minh
               </Text>
-              <Text
-                fontSize="xl"
-                fontWeight="bold"
-                color={themeColors.textColor}
-              >
+              <Text fontSize="xl" fontWeight="bold" color={themeColors.textColor}>
                 - Nhanh chóng
               </Text>
-              <Text
-                fontSize="xl"
-                fontWeight="bold"
-                color={themeColors.textColor}
-              >
+              <Text fontSize="xl" fontWeight="bold" color={themeColors.textColor}>
                 - Tiện lợi
               </Text>
 
@@ -210,11 +182,7 @@ function LandingPage() {
               }}
               transition="transform 0.3s ease-in-out"
             >
-              <img
-                src={menuSample}
-                alt="Dịch vụ Smart Menu"
-                className={style.img}
-              />
+              <img src={menuSample} alt="Dịch vụ Smart Menu" className={style.img} />
             </Box>
           </Flex>
         </Box>
@@ -223,20 +191,15 @@ function LandingPage() {
         <Box py={8} px={24} textAlign="center" bg="#fff" w="100%">
           <Flex align="center" justify="flex-start">
             <Box minW="25%" textAlign="start">
-              <img
-                src={landingImage1}
-                alt="Dịch vụ Smart Menu"
-                className={style.imgBgWhite}
-              />
+              <img src={landingImage1} alt="Dịch vụ Smart Menu" className={style.imgBgWhite} />
             </Box>
             <Box textAlign="left" marginLeft="6rem">
               <Heading className={style.title}>Smart Menu là gì?</Heading>
               <Text fontSize="xl" color="gray.600" lineHeight="tall">
-                Dự án <strong>SmartMenu</strong> là một hệ thống quản lý thực
-                đơn nhà hàng thông minh, sử dụng công nghệ trí tuệ nhân tạo (AI)
-                và nhận diện khuôn mặt để phân tích nhân khẩu học của khách hàng
-                như độ tuổi, giới tính. Từ đó, hệ thống đưa ra gợi ý thực đơn cá
-                nhân hóa theo từng khách hàng và thời gian trong ngày.
+                Dự án <strong>SmartMenu</strong> là một hệ thống quản lý thực đơn nhà hàng thông
+                minh, sử dụng công nghệ trí tuệ nhân tạo (AI) và nhận diện khuôn mặt để phân tích
+                nhân khẩu học của khách hàng như độ tuổi, giới tính. Từ đó, hệ thống đưa ra gợi ý
+                thực đơn cá nhân hóa theo từng khách hàng và thời gian trong ngày.
               </Text>
             </Box>
           </Flex>
@@ -245,9 +208,7 @@ function LandingPage() {
         <Box py={16} px={8} textAlign="center" w="100%" bg="#F5F7FA">
           {/* Tiêu đề chính */}
           <Box mb={8}>
-            <Heading className={style.title}>
-              Tối ưu quản lý thực đơn với Smart Menu
-            </Heading>
+            <Heading className={style.title}>Tối ưu quản lý thực đơn với Smart Menu</Heading>
             <Text fontSize="20px" color="gray.600">
               Smart Menu phù hợp với
             </Text>
@@ -289,11 +250,7 @@ function LandingPage() {
         <Box id="features" pb={8} px={24} textAlign="center" bg="#fff" w="100%">
           <Flex align="center" justify="flex-start">
             <Box minW="25%" textAlign="start">
-              <img
-                src={featuresImage}
-                alt="Features"
-                className={style.imgBgWhite}
-              />
+              <img src={featuresImage} alt="Features" className={style.imgBgWhite} />
             </Box>
             <Box textAlign="left" marginLeft="6rem">
               <Heading className={style.title} mb="50px">
@@ -302,12 +259,7 @@ function LandingPage() {
               <Grid templateColumns="1fr 1fr" gap={6}>
                 {features.map((feature, i) => (
                   <HStack spacing={4} mb={6} key={i}>
-                    <img
-                      src={feature.icon}
-                      alt={feature.text}
-                      width="40"
-                      height="40"
-                    />
+                    <img src={feature.icon} alt={feature.text} width="40" height="40" />
                     <Text fontSize="xl" color="gray.600" lineHeight="tall">
                       {feature.text}
                     </Text>
@@ -319,14 +271,7 @@ function LandingPage() {
         </Box>
 
         {/* Lợi ích */}
-        <Box
-          id="benefits"
-          py={16}
-          px={8}
-          bg="#F5F7FA"
-          textAlign="center"
-          w="100%"
-        >
+        <Box id="benefits" py={16} px={8} bg="#F5F7FA" textAlign="center" w="100%">
           <Heading className={style.title} mb="50px">
             Lợi ích nổi bật của Smart Menu
           </Heading>
@@ -368,85 +313,19 @@ function LandingPage() {
 
         {/* Bảng giá */}
         <Box id="pricing" py={8} px={8} bg="#fff" textAlign="center" w="100%">
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            textAlign="center"
-            mb={8}
-          >
+          <Flex direction="column" align="center" justify="center" textAlign="center" mb={8}>
             <Heading className={style.title} p={2}>
               Chọn gói dịch vụ phù hợp cho doanh nghiệp của bạn
             </Heading>
-            <Text
-              fontSize="20px"
-              color="gray.600"
-              maxW="700px"
-              textAlign="center"
-            >
-              Với Smart Menu, doanh nghiệp có thể tối ưu hoá trải nghiệm khách
-              hàng, nâng cao hiệu suất hoạt động, và tăng doanh thu bằng cách
-              cung cấp thực đơn cá nhân hóa dựa trên nhân khẩu học của mỗi khách
-              hàng.
+            <Text fontSize="20px" color="gray.600" maxW="700px" textAlign="center">
+              Với Smart Menu, doanh nghiệp có thể tối ưu hoá trải nghiệm khách hàng, nâng cao hiệu
+              suất hoạt động, và tăng doanh thu bằng cách cung cấp thực đơn cá nhân hóa dựa trên
+              nhân khẩu học của mỗi khách hàng.
             </Text>
           </Flex>
           <Flex justify="space-evenly" wrap="wrap" gap={6} pb={48}>
             {pricingPackages.map((pricing, index) => (
-              <Box
-                width="100%"
-                maxW="400px"
-                position="relative"
-                key={pricing.id}
-              >
-                <Box mb={4}>
-                  <img
-                    src={pricing.image}
-                    alt={pricing.title}
-                    style={{ width: "100%", borderRadius: "4px" }}
-                  />
-                </Box>
-                <Box
-                  bg="#F5F7FA"
-                  p={6}
-                  rounded="md"
-                  boxShadow="lg"
-                  position="relative"
-                  maxW="90%"
-                  mt="-35%"
-                  transform="translateX(-50%)"
-                  left="50%"
-                  zIndex={1}
-                >
-                  <Heading fontSize="24px" mb={8} color={themeColors.textColor}>
-                    {pricing.title}
-                    <Text>{pricing.price}</Text>
-                  </Heading>
-                  {pricing.features.map((feature, index) => (
-                    <HStack spacing={2} align="center" mb={6} key={index}>
-                      <Icon as={FaCheckCircle} w={6} h={6} color="teal.500" />
-                      <Text fontSize="20px" color="gray.600">
-                        {feature}
-                      </Text>
-                    </HStack>
-                  ))}
-                  <Button
-                    mt={6}
-                    bg={themeColors.primaryButton}
-                    colorScheme="white"
-                    size="lg"
-                    _hover={{
-                      borderColor: "transparent",
-                      bg: `${themeColors.primaryButton}`,
-                      opacity: 0.9,
-                    }}
-                    onClick={() =>
-                      navigate(`/payment/payment-infor?plan-id=${pricing.id}`)
-                    }
-                  >
-                    Đăng ký ngay
-                  </Button>
-                </Box>
-              </Box>
+              <PricingPackageCard key={pricing.id} pricing={pricing} />
             ))}
           </Flex>
         </Box>

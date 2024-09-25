@@ -7,3 +7,10 @@ export interface BrandData {
   imageUrl: string;
   imageName: string;
 }
+
+export interface LimitBrandData {
+  maxMenu: number;
+  maxAccount: number;
+  numberMenu: number;
+  numberAccount: number;
+}

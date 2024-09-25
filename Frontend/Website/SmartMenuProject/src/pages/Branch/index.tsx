@@ -10,22 +10,23 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
 } from "@chakra-ui/react";
 import Loading from "../../components/Loading";
 import NavigationDot from "../../components/NavigationDot/NavigationDot";
-import {
-  deleteBranch,
-  getBranches,
-  updateBranch,
-} from "../../services/BranchService";
+import { deleteBranch, getBranches, updateBranch } from "../../services/BranchService";
 import moment from "moment";
 import Searchbar from "../../components/Searchbar";
 import ActionMenuBranch from "../../components/ActionMenu/ActionMenuBranch/ActionMenuBranch";
 import { branchUpdate } from "../../payloads/requests/updateRequests.model";
 import { getOptions } from "../../utils/functionHelper";
+import { themeColors } from "../../constants/GlobalStyles";
+import { getLimitBrandByUserId } from "../../services/BrandService";
+import { LimitBrandData } from "../../payloads/responses/BrandData.model";
+import { getInitialLimitBrandData } from "../../utils/initialData";
 
 function Branch() {
   const location = useLocation();
@@ -33,10 +34,10 @@ function Branch() {
   const { state } = location;
 
   const initialId = state?.id || localStorage.getItem("BrandId") || "";
-  const initialBrandName =
-    state?.brandName || localStorage.getItem("BrandName") || "";
+  const initialBrandName = state?.brandName || localStorage.getItem("BrandName") || "";
   const initialState = { id: initialId, brandName: initialBrandName };
 
+  const [brandId, setBrandId] = useState<string | null>(localStorage.getItem("BrandId"));
   const [brandInfo, setBrandInfo] = useState(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
@@ -46,7 +47,19 @@ function Branch() {
   const [rowsPerPageOption, setRowsPerPageOption] = useState<number[]>([5]);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalRecords, setTotalRecords] = useState<number>(0);
+  const [limitBrand, setLimitBrand] = useState<LimitBrandData>(getInitialLimitBrandData());
   const flagRef = useRef(false);
+
+  const getLimitBrand = async () => {
+    const userId = localStorage.getItem("UserId");
+    if (userId) {
+      const { statusCode, data } = await getLimitBrandByUserId(userId);
+      if (statusCode === 200) {
+        setLimitBrand(data);
+      }
+    }
+    return;
+  };
 
   useEffect(() => {
     const toastMessage = localStorage.getItem("toastMessage");
@@ -84,19 +97,9 @@ function Branch() {
 
         const loadData = async () => {
           if (searchValue) {
-            result = await getBranches(
-              brandInfo.id,
-              currentPage,
-              rowsPerPage,
-              searchValue
-            );
+            result = await getBranches(brandInfo.id, currentPage, rowsPerPage, searchValue);
           } else {
-            result = await getBranches(
-              brandInfo.id,
-              currentPage,
-              rowsPerPage,
-              ""
-            );
+            result = await getBranches(brandInfo.id, currentPage, rowsPerPage, "");
           }
           setBranchData(result.list);
           setTotalPages(result.totalPage);
@@ -120,10 +123,11 @@ function Branch() {
         setIsLoading(false);
       }
     },
-    [currentPage, rowsPerPage, isInitialLoad, brandInfo.id]
+    [currentPage, rowsPerPage, isInitialLoad, brandInfo.id],
   );
 
   useEffect(() => {
+    getLimitBrand();
     fetchData();
   }, [fetchData, currentPage, isInitialLoad, brandInfo.id]);
 
@@ -131,7 +135,7 @@ function Branch() {
     (page: number) => {
       setCurrentPage(page);
     },
-    [setCurrentPage]
+    [setCurrentPage],
   );
 
   const handleRowsPerPageChange = useCallback(
@@ -139,13 +143,14 @@ function Branch() {
       setCurrentPage(1);
       setRowsPerPage(newRowsPerPage);
     },
-    [setCurrentPage, setRowsPerPage]
+    [setCurrentPage, setRowsPerPage],
   );
 
   async function handleDelete(id: number) {
     try {
-      const result = await deleteBranch(id);
+      const result = await deleteBranch(id, brandId);
       if (result.statusCode === 200) {
+        getLimitBrand();
         if ((totalRecords - 1) % rowsPerPage === 0 && currentPage > 1) {
           setCurrentPage((prevPage) => prevPage - 1);
         } else {
@@ -160,7 +165,7 @@ function Branch() {
 
   async function handleEdit(branch: branchUpdate) {
     try {
-      var result = await updateBranch(branch);
+      var result = await updateBranch(branch, brandId);
       if (result.statusCode === 200) {
         fetchData();
         toast.success("Cập nhật chi nhánh thành công");
@@ -179,8 +184,14 @@ function Branch() {
   return (
     <Flex className={style.container}>
       <Flex className={style.searchWrapper}>
-        <Searchbar onSearch={handleSearch} />
+        <Flex className={style.searchWrapperSub}>
+          <Searchbar onSearch={handleSearch} />
+          <Text className={style.searchWrapperCount} bg={themeColors.darken40}>
+            Số chi nhánh: {limitBrand.numberAccount}/{limitBrand.maxAccount}
+          </Text>
+        </Flex>
       </Flex>
+
       <Flex className={style.Branch}>
         {!brandInfo.id ? (
           <Flex justifyContent="center" alignItems="center" height="50vh">
@@ -218,9 +229,7 @@ function Branch() {
                         <Td>{(currentPage - 1) * rowsPerPage + index + 1}</Td>
                         <Td>{branch.city}</Td>
                         <Td>{branch.address}</Td>
-                        <Td>
-                          {moment(branch.createDate).format("DD/MM/YYYY")}
-                        </Td>
+                        <Td>{moment(branch.createDate).format("DD/MM/YYYY")}</Td>
                         <Td>{branch.isActive ? "Có" : "Không"}</Td>
                         <Td>
                           <ActionMenuBranch

@@ -10,7 +10,7 @@ export const getCustomerSegments = async (
   brandId: number,
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string
+  searchValue: string,
 ): Promise<GetData<CustomerSegmentData>> => {
   const res = await axiosAuth.get("customer-segments", {
     params: {
@@ -33,18 +33,24 @@ export const getCustomerSegmentsNoPaging = async (
     },
   });
   const apiResponse = res.data as ApiResponse<CustomerSegmentData[]>;
-  return apiResponse
+  return apiResponse;
 };
 
-export const getCustomerSegment = async (
-  id: number
-): Promise<ApiResponse<CustomerSegmentData>> => {
+export const getCustomerSegment = async (id: number): Promise<ApiResponse<CustomerSegmentData>> => {
   const res = await axiosAuth.get("customer-segments/get-by-id", {
     params: {
       customerSegmentId: id,
     },
   });
   const apiResponse = res.data as ApiResponse<CustomerSegmentData>;
+  return apiResponse;
+};
+
+export const getCustomerSegmentByMenuId = async (
+  menuId: number,
+): Promise<ApiResponse<CustomerSegmentData[]>> => {
+  const res = await axiosAuth.get(`customer-segments/${menuId}`);
+  const apiResponse = res.data as ApiResponse<CustomerSegmentData[]>;
   return apiResponse;
 };
 
@@ -94,9 +100,7 @@ export const updateCustomerSegment = async (
   }
 };
 
-export const deleteCustomerSegment = async (
-  id: number
-): Promise<ApiResponse<Object>> => {
+export const deleteCustomerSegment = async (id: number): Promise<ApiResponse<Object>> => {
   const res = await axiosAuth.delete("customer-segments", {
     params: {
       segmentId: id,

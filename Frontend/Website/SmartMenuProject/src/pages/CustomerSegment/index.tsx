@@ -249,6 +249,7 @@ function CustomerSegment() {
               isEdit={false}
             />
           }
+          isEdit={false}
           onClose={onCloseCustomerSegment}
           isOpen={isOpenCustomerSegment}
           title={"Tạo mới phân khúc khách hàng"}
