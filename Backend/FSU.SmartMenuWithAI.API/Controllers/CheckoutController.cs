@@ -84,5 +84,74 @@ namespace FSU.SmartMenuWithAI.API.Controllers
             }
         }
 
+
+        //[Authorize(Roles = UserRoles.Admin)]
+        [HttpPost(APIRoutes.Checkout.Extend, Name = "Extend")]
+        public async Task<IActionResult> Extend(/*[FromBody] PayOsRequest request*/ [FromQuery(Name = "sub-id")] int subId)
+        {
+            try
+            {
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //}
+                //viết ở đây
+                // Tạo payment history với status đang thanh toán
+                var transactionid = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+                var payment = await _paymentService.Extend(subId, transactionid);
+                if (payment != null)
+                {
+                    //tạo subscription sau khi đã tạo payment thành công
+                    var subscription = await _paymentService.AddExtendSubscription(payment.PaymentId, subId);
+                    if (subscription == null) { throw new Exception("Lỗi nghiêm trọng!!! Gói đăng kí chưa được khởi tạo"); }
+
+                }
+                else if (payment == null)
+                {
+                    throw new Exception("Lỗi nghiêm trọng!!! Lịch sử giao dịch chưa được khởi tạo");
+                }
+
+                var paymentCreated = await _paymentService.GetPayment(payment.PaymentId);
+
+                if (paymentCreated == null)
+                {
+                    throw new Exception("Không tìm thấy payment vừa được khỏi tạo để tạo link trả tiền");
+                }
+                else
+                {
+                    if(paymentCreated.PlanName == null || paymentCreated.Amount == null)
+                    {
+                        throw new Exception("Thông tin về tên gói và giá tiền của payment vừa khởi tạo chưa được lấy lên");
+                    } 
+                }
+                var paymentLinkResponse = await _payOSService.CreatePaymentLink(
+                  transactionid,
+                  paymentCreated.PlanName,
+                  (int)paymentCreated.Amount!,
+                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={payment.UserId}",
+                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={payment.UserId}"
+                );
+
+
+                Response.Headers.Append("Location", paymentLinkResponse);
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Tạo link thanh toán thành công",
+                    Data = paymentLinkResponse,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ex.Message,
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
     }
 }
