@@ -27,6 +27,25 @@ const steps = [
 const HeaderPaymentStepper: React.FC = () => {
   const navigate = useNavigate();
   const pathname = location.pathname;
+  // const params = new URLSearchParams(location.search);
+  // const step = parseInt(params.get("step") || "1", 10);
+  // const index =
+  //   pathname === "/payment/renew-package"
+  //     ? step - 1
+  //     : [
+  //         "/payment/payment-success",
+  //         "/payment/payment-failure",
+  //         "/payment/payment-cancel",
+  //         "/payment/payment-guide",
+  //       ].includes(pathname)
+  //     ? 3
+  //     : 1;
+
+  // const { activeStep, setActiveStep } = useSteps({
+  //   index: index >= 0 && index < steps.length ? index : 0,
+  //   count: steps.length,
+  // });
+
   const index = [
     "/payment/payment-success",
     "/payment/payment-failure",
@@ -45,18 +64,6 @@ const HeaderPaymentStepper: React.FC = () => {
     setActiveStep(index);
   }, [pathname, index, setActiveStep]);
 
-  const handleNavigateAndScroll = (hash: string) => {
-    if (window.location.pathname !== "/") {
-      navigate("/");
-    }
-
-    setTimeout(() => {
-      const element = document.getElementById(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 200);
-  };
   const getSeparatorStyle = (status: string) => {
     switch (status) {
       case "complete":
@@ -67,6 +74,18 @@ const HeaderPaymentStepper: React.FC = () => {
         return { backgroundColor: "#ccc" };
       default:
         return {};
+    }
+  };
+
+  const handleClickLogo = () => {
+    const userId = localStorage.getItem("UserId");
+    const brandId = localStorage.getItem("brandId");
+    if (!userId && !brandId) {
+      navigate("/");
+    } else if (!userId && brandId) {
+      navigate("/brand-dashboard");
+    } else if (userId && !brandId) {
+      navigate("/admin-dashboard");
     }
   };
 
@@ -84,7 +103,7 @@ const HeaderPaymentStepper: React.FC = () => {
     >
       <Flex justify="space-between" align="center" wrap="wrap">
         {/* Logo và tên */}
-        <Flex align="center" cursor="pointer" onClick={() => navigate("/")}>
+        <Flex align="center" cursor="pointer" onClick={handleClickLogo}>
           <Box
             color="white"
             rounded="full"
@@ -159,9 +178,7 @@ const HeaderPaymentStepper: React.FC = () => {
                   }
                   incomplete={
                     <Box flexShrink="0" ml={2} maxW="180px">
-                      <StepTitle
-                        style={{ color: "rgb(118 113 113)", width: "100%" }}
-                      >
+                      <StepTitle style={{ color: "rgb(118 113 113)", width: "100%" }}>
                         {step.title}
                       </StepTitle>
                     </Box>

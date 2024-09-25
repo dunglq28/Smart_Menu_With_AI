@@ -165,6 +165,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return false;
             }
 
+            //check status phải là pending
+
             // Lấy subscription từ SubscriptionRepository dựa vào paymentId
             var subscription = await _unitOfWork.SubscriptioRepository.GetByCondition(s => s.PaymentId == paymentId);
             if (subscription == null || subscription.PaymentId != paymentId || subscription.UserId != userId)
@@ -194,6 +196,9 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 {
                     user.IsActive = true; // Kích hoạt người dùng nếu thanh toán thành công
                     _unitOfWork.AppUserRepository.Update(user);
+
+                    // check if isRenew
+
                     var decryptedPassword = PasswordHelper.ConvertToDecrypt(user.Password!); // Giải mã mật khẩu trước khi gửi
                     var subject = "Thông tin tài khoản Smart Menu của bạn";
 

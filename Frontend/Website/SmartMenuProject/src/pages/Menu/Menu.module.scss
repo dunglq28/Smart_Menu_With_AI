@@ -1,22 +1,96 @@
 @import "../../styles/shared.scss";
 
-.Container {
-  width: 100%;
-  flex-direction: column;
-  row-gap: 20px;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 0;
+.container {
+  @extend .container;
+
+  .searchWrapper {
+    @extend .searchWrapper;
+    .searchWrapperSub {
+      @extend .searchWrapperSub;
+    }
+    .searchWrapperCount {
+      @extend .searchWrapperCount;
+    }
+  }
 
   .AddMenuBtn {
     @extend .primaryButton;
-    text-decoration: none;
+    margin-right: 20px;
   }
 
-  .CardContainer {
-    width: 97%;
-    justify-content: center;
-    column-gap: 34px;
-    flex-wrap: wrap;
+  .MenuButton {
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  // .MenuButton:hover {
+  //   background-color: #5e8583; /* Màu khi hover */
+  // }
+
+  .Menu {
+    @extend .table;
+
+    .MenuTbl {
+      @extend .tableContainer;
+      @extend .shadow;
+
+      .MenuItem {
+        @extend .tableItem;
+        .description_cell {
+          max-width: 400px;
+          min-width: 320px;
+          text-overflow: ellipsis;
+          white-space: normal;
+        }
+        .demographic_cell {
+          position: relative;
+          text-align: center;
+          width: 200px;
+          min-width: 400px;
+        }
+
+        .demographic_toggle_text {
+          text-decoration: underline;
+          cursor: pointer;
+          color: #466d6b;
+          font-weight: 500;
+          text-decoration: underline;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #5e8583;
+          }
+
+          &:active {
+            color: #5e8583;
+          }
+        }
+
+        .demographic_info {
+          background-color: #5e8583;
+          border: 1px solid #68d391;
+          border-radius: 8px;
+          padding: 8px;
+          margin-top: 8px;
+          transition: all 0.3s ease;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+          .demographic_info_text {
+            font-size: 16px;
+            font-weight: 500;
+            color: white;
+            margin: 8px 0;
+          }
+        }
+
+        td {
+          font-size: 18px;
+        }
+      }
+    }
+    .HeaderTbl {
+      @extend .header;
+    }
   }
 }

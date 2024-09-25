@@ -46,7 +46,6 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     //tạo subscription sau khi đã tạo payment thành công
                     var subscription = await _paymentService.AddSubscription(request.UserId, request.Email, request.PlanId, payment.PaymentId);
                     if (subscription == null) { throw new Exception("Lỗi nghiêm trọng!!! Gói đăng kí chưa được khởi tạo"); }
-
                 }
                 else if (payment == null)
                 {
@@ -54,12 +53,13 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 }
 
 
+                ///----------------------------
                 var paymentLinkResponse = await _payOSService.CreatePaymentLink(
                   transactionid,
                   request.PlanName,
                   (int)request.Amount!,
-                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={request.UserId}",
-                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={request.UserId}"
+                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={request.UserId}&isRenew=false",
+                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={request.UserId}&isRenew=false"
                 );
 
 
@@ -71,6 +71,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     Data = paymentLinkResponse,
                     IsSuccess = true
                 });
+                ///----------------------------
             }
             catch (Exception ex)
             {
@@ -119,17 +120,17 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 }
                 else
                 {
-                    if(paymentCreated.PlanName == null || paymentCreated.Amount == null)
+                    if (paymentCreated.PlanName == null || paymentCreated.Amount == null)
                     {
                         throw new Exception("Thông tin về tên gói và giá tiền của payment vừa khởi tạo chưa được lấy lên");
-                    } 
+                    }
                 }
                 var paymentLinkResponse = await _payOSService.CreatePaymentLink(
                   transactionid,
                   paymentCreated.PlanName,
                   (int)paymentCreated.Amount!,
-                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={payment.UserId}",
-                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={payment.UserId}"
+                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={payment.UserId}&isRenew=true",
+                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={payment.UserId}&isRenew=true"
                 );
 
 

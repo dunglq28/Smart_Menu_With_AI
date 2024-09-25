@@ -10,7 +10,7 @@ export const getBranches = async (
   id: number,
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string
+  searchValue: string,
 ): Promise<GetData<BranchData>> => {
   const res = await axiosAuth.get("stores", {
     params: {
@@ -24,9 +24,7 @@ export const getBranches = async (
   return apiResponse.data as GetData<BranchData>;
 };
 
-export const getBranch = async (
-  id: number
-): Promise<ApiResponse<BranchData>> => {
+export const getBranch = async (id: number): Promise<ApiResponse<BranchData>> => {
   const res = await axiosAuth.get("stores/get-by-id", {
     params: {
       id: id,
@@ -38,7 +36,7 @@ export const getBranch = async (
 
 export const createBranch = async (
   branchForm: BranchForm,
-  id: string
+  id: string,
 ): Promise<ApiResponse<Object>> => {
   const res = await axiosAuth.post("stores", {
     userId: id,
@@ -51,10 +49,11 @@ export const createBranch = async (
 };
 
 export const updateBranch = async (
-  branch: branchUpdate
+  branch: branchUpdate,
+  brandId: string | null,
 ): Promise<ApiResponse<Object>> => {
   try {
-    const res = await axiosAuth.put(`stores?id=${branch.id}`, {
+    const res = await axiosAuth.put(`stores?id=${branch.id}&brand-id=${brandId}`, {
       city: branch.city,
       address: `${branch.address}, Phường ${branch.ward}, Quận ${branch.district}`,
       isActive: branch.isActive,
@@ -70,11 +69,13 @@ export const updateBranch = async (
 };
 
 export const deleteBranch = async (
-  id: number
+  id: number,
+  brandId: string | null,
 ): Promise<ApiResponse<Object>> => {
   const res = await axiosAuth.delete("stores", {
     params: {
       id: id,
+      brandId: brandId,
     },
   });
   const apiResponse = res.data as ApiResponse<Object>;

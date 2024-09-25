@@ -3,8 +3,10 @@ import { BrandForm } from "../models/BrandForm.model";
 import { PasswordForm } from "../models/Password.model";
 import { ProductForm } from "../models/ProductForm.model";
 import { UserForm } from "../models/UserForm.model";
-import { DashboardData } from "../payloads/responses/DashboarData.model";
+import { LimitBrandData } from "../payloads/responses/BrandData.model";
+import { AdminDashboardData, BrandDashboardData } from "../payloads/responses/DashboarData.model";
 import { PlanData } from "../payloads/responses/PlanResponse.model";
+import { SubscriptionData } from "../payloads/responses/SubscriptionData.model";
 import { UserData } from "../payloads/responses/UserData.model";
 
 export const getInitialUserForm = (): UserForm => ({
@@ -66,7 +68,7 @@ export const getInitialPasswordForm = (): PasswordForm => ({
   confirm: { value: "", errorMessage: "" },
 });
 
-export const getInitialDashboardData = (): DashboardData => ({
+export const getInitialAdminDashboardData = (): AdminDashboardData => ({
   numberOfUsers: 0,
   numberOfBrands: 0,
   totalRevenue: "0",
@@ -76,10 +78,40 @@ export const getInitialDashboardData = (): DashboardData => ({
   recentTransactions: [],
 });
 
+export const getInitialBrandDashboardData = (): BrandDashboardData => ({
+  store: 0,
+  product: 0,
+  menus: 0,
+  timesRecomments: [],
+  productsByCate: [],
+});
+
 export const getInitialPlanData = (): PlanData => ({
   planId: 0,
   planName: "",
   maxMenu: 0,
   maxAccount: 0,
   price: "",
+});
+
+export const getInitialSubscriptionData = (): SubscriptionData => ({
+  userId: 0,
+  subscriptionId: 0,
+  startDate: null,
+  endDate: null,
+  planId: "",
+  planName: "",
+  price: "",
+  maxMenu: 0,
+  maxAccount: 0,
+  menuCount: 0,
+  storeCount: 0,
+  payments: [],
+});
+
+export const getInitialLimitBrandData = (): LimitBrandData => ({
+  maxMenu: 0,
+  maxAccount: 0,
+  numberMenu: 0,
+  numberAccount: 0,
 });

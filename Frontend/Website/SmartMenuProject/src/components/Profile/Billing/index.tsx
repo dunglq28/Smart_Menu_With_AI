@@ -3,20 +3,16 @@ import { useTranslation } from "react-i18next";
 import style from "./Billing.module.scss";
 import { themeColors } from "../../../constants/GlobalStyles";
 import { SubscriptionData } from "../../../payloads/responses/SubscriptionData.model";
-import { formatCurrencyVND, formatDate } from "../../../utils/functionHelper";
+import { formatCurrencyVND, formatDate, formatDateAndTime } from "../../../utils/functionHelper";
+import { useNavigate } from "react-router-dom";
 
 interface BillingProps {
-  paymentHistory: Array<{
-    name: string;
-    date: string;
-    amount: string;
-    note: string;
-  }>;
-  subscription: SubscriptionData | null;
+  subscription: SubscriptionData;
 }
 
-const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
+const Billing: React.FC<BillingProps> = ({ subscription }) => {
   const { t } = useTranslation("profile");
+  const navigate = useNavigate();
 
   return (
     <Flex className={style.tab_panels_container}>
@@ -46,7 +42,7 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
           <Input
             focusBorderColor={themeColors.primaryButton}
             readOnly
-            value={formatDate(subscription?.startDate!) || "N/A"}
+            value={formatDate(subscription.startDate!) || "N/A"}
           />
         </Flex>
         <Flex className={style.tab_panels_container_content_column}>
@@ -54,7 +50,7 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
           <Input
             focusBorderColor={themeColors.primaryButton}
             readOnly
-            value={formatDate(subscription?.endDate!) || "N/A"}
+            value={formatDate(subscription.endDate!) || "N/A"}
           />
         </Flex>
       </Flex>
@@ -65,7 +61,7 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
           <Text className={style.text_title_content}>
             {t("Số lượt tạo chi nhánh")}:{" "}
             <span>
-              {subscription?.storeCount || 0}/{subscription?.maxAccount || 0}
+              {subscription.storeCount || 0}/{subscription.maxAccount || 0}
             </span>
           </Text>
         </Flex>
@@ -73,14 +69,19 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
           <Text className={style.text_title_content}>
             {t("Số lượt tạo menu")}:{" "}
             <span>
-              {subscription?.menuCount || 0}/{subscription?.maxMenu || 0}
+              {subscription.menuCount || 0}/{subscription.maxMenu || 0}
             </span>
           </Text>
         </Flex>
       </Flex>
 
       <Flex className={style.btn_container}>
-        <Button className={style.btn_content}>{t("Gia hạn gói")}</Button>
+        <Button onClick={() => navigate(`/payment/renew-package`)} className={style.btn_content}>
+          {t("Gia hạn gói")}
+        </Button>
+        <Button className={style.btn_content} isDisabled={true}>
+          {t("Đăng ký gói mới")}
+        </Button>
       </Flex>
 
       <Flex flexDir="column">
@@ -93,23 +94,23 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
             {subscription && subscription.payments && subscription.payments.length > 0 ? (
               subscription.payments.map((payment, index) => (
                 <Flex key={index} className={style.payment_history_item}>
-                  <Flex flexDirection="column" width="30%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Tên gói")}</Text>
                     <Text className={style.payment_history_item_value}>{payment.planName}</Text>
                   </Flex>
-                  <Flex flexDirection="column" width="30%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Ngày giao dịch")}</Text>
                     <Text className={style.payment_history_item_value}>
-                      {formatDate(payment.paymentDate)}
+                      {formatDateAndTime(payment.paymentDate)}
                     </Text>
                   </Flex>
-                  <Flex flexDirection="column" width="30%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Số tiền")}</Text>
                     <Text className={style.payment_history_item_value}>
                       {formatCurrencyVND(payment.amount.toString())}
                     </Text>
                   </Flex>
-                  <Flex flexDirection="column" width="40%">
+                  <Flex flexDirection="column" width="50%">
                     <Text className={style.payment_history_item_label}>{t("Ghi chú")}</Text>
                     <Text className={style.payment_history_item_value}>{payment.planName}</Text>
                   </Flex>

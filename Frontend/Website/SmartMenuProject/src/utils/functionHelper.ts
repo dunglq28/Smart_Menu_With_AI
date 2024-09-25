@@ -76,9 +76,7 @@ export const getRoleName = (roleId: number): string => {
   } else if (roleId === UserRole.BranchManager) {
     return "Quản lý chi nhánh";
   }
-  return UserRole[roleId]
-    ? `Vai trò: ${UserRole[roleId]}`
-    : "Vai trò không xác định";
+  return UserRole[roleId] ? `Vai trò: ${UserRole[roleId]}` : "Vai trò không xác định";
 };
 
 export const getGender = (gender: string): string => {
@@ -88,6 +86,12 @@ export const getGender = (gender: string): string => {
     return "Nữ";
   }
   return gender;
+};
+
+export const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
 export const translateDemographics = (demographics: string): string => {
@@ -104,7 +108,11 @@ export const translateDemographics = (demographics: string): string => {
     Evening: "Buổi Chiều",
   };
 
-  return `${genderMap[gender] || "Không xác định"}, ${
-    timeMap[time] || "Không xác định"
-  }`;
+  return `${genderMap[gender] || "Không xác định"}, ${timeMap[time] || "Không xác định"}`;
+};
+
+export const addOneMonthToDate = (date: Date): string => {
+  const currentDate = new Date(date);
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  return currentDate.toLocaleDateString("vi-VN");
 };

@@ -31,7 +31,7 @@ import {
 import { CurrentForm } from "../../../constants/Enum";
 
 interface ModalFormProps {
-  isEdit: boolean;
+  isEdit?: boolean;
   stepperName?: CurrentForm;
   stepperIndex?: number;
   isOpen: boolean;
