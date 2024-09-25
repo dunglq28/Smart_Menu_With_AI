@@ -35,14 +35,17 @@ namespace FSU.SmartMenuWithAI.Service.Services
             var subscriptions = await _unitOfWork.SubscriptioRepository.Get(
                 filter: filter,
                 orderBy: orderBy,
-                includeProperties: "Plan", // Include Plan details
-                pageIndex: null, // No pagination needed for fetching the latest record
-                pageSize: 1 // Fetch only the latest record
+                includeProperties: "Plan"//, // Include Plan details
+                //pageIndex: null, // No pagination needed for fetching the latest record
+                //pageSize: 1 // Fetch only the latest record
             );
 
 
             // Get the latest subscription (first record in the result)
             var latestSubscription = subscriptions.FirstOrDefault();
+
+            var earliestStartDate = subscriptions.Min(s => s.StartDate);
+            var latestEndDate = subscriptions.Max(s => s.EndDate);
 
             if (latestSubscription == null)
             {
@@ -80,8 +83,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
             {
                 UserId = userId,
                 SubscriptionId = latestSubscription.SubscriptionId,
-                StartDate = latestSubscription.StartDate,
-                EndDate = latestSubscription.EndDate,
+                StartDate = earliestStartDate,
+                EndDate = latestEndDate,
 
                 // Plan details
                 PlanId = plan.PlanId,
