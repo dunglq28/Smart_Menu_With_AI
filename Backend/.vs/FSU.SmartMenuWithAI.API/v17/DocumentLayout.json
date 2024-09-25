@@ -1,0 +1,144 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.service\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.service\\iserivice\\ipaymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AD54E84-FAB6-4571-AEE1-504E2DF982B4}|FSU.SmartMenuWithAI.Service\\FSU.SmartMenuWithAI.Service.csproj|solutionrelative:fsu.smartmenuwithai.service\\iserivice\\ipaymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.api\\payloads\\request\\payment\\extendsubscriptionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\payloads\\request\\payment\\extendsubscriptionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.api\\controllers\\checkoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\controllers\\checkoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|d:\\exe202\\exe201-smart_menu_with_ai\\backend\\fsu.smartmenuwithai.api\\payloads\\request\\payment\\createpaymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4FB6312-25D1-4E7F-968E-5726B14DACFC}|FSU.SmartMenuWithAI.API\\FSU.SmartMenuWithAI.API.csproj|solutionrelative:fsu.smartmenuwithai.api\\payloads\\request\\payment\\createpaymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IPaymentService.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\ISerivice\\IPaymentService.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\ISerivice\\IPaymentService.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\ISerivice\\IPaymentService.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\ISerivice\\IPaymentService.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAjwBMAAABaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T14:37:09.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CreatePaymentRequest.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\CreatePaymentRequest.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\CreatePaymentRequest.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\CreatePaymentRequest.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\CreatePaymentRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T14:33:26.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ExtendSubscriptionRequest.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\ExtendSubscriptionRequest.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\ExtendSubscriptionRequest.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\ExtendSubscriptionRequest.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Payloads\\Request\\Payment\\ExtendSubscriptionRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T14:33:10.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PaymentController.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\PaymentController.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Controllers\\PaymentController.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\PaymentController.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Controllers\\PaymentController.cs",
+              "ViewState": "AQIAAFEAAAAAAAAAAAAYwGAAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T14:26:39.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CheckoutController.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\CheckoutController.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.API\\Controllers\\CheckoutController.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.API\\Controllers\\CheckoutController.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.API\\Controllers\\CheckoutController.cs",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAkwGkAAABzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T07:38:16.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PaymentService.cs",
+              "DocumentMoniker": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "RelativeDocumentMoniker": "FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "ToolTip": "D:\\EXE202\\EXE201-Smart_Menu_With_AI\\Backend\\FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "RelativeToolTip": "FSU.SmartMenuWithAI.Service\\Services\\PaymentService.cs",
+              "ViewState": "AQIAAOgAAAAAAAAAAAAAwOkAAABOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T07:30:06.941Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 227,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

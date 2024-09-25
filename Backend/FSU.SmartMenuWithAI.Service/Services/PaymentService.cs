@@ -155,7 +155,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
             return null!;
         }
 
-        public async Task<bool> ConfirmPaymentAsync(int paymentId, int userId, int status)
+        public async Task<bool> ConfirmPaymentAsync(int paymentId, int userId, int status, bool isRenew)
         {
             // Lấy payment từ PaymentRepository dựa vào paymentId và userId
             var payment = await _unitOfWork.PaymentRepository.GetByID(paymentId);
@@ -165,8 +165,10 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return false;
             }
 
-            //check status phải là pending
-
+            if (payment.Status != (int)PaymentStatus.Pending)
+            {
+                throw new Exception("Thanh toán này không phải trạng thái đang chờ, không thể cập nhật trạng thái");
+            }
             // Lấy subscription từ SubscriptionRepository dựa vào paymentId
             var subscription = await _unitOfWork.SubscriptioRepository.GetByCondition(s => s.PaymentId == paymentId);
             if (subscription == null || subscription.PaymentId != paymentId || subscription.UserId != userId)
@@ -200,9 +202,11 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     // check if isRenew
 
                     var decryptedPassword = PasswordHelper.ConvertToDecrypt(user.Password!); // Giải mã mật khẩu trước khi gửi
-                    var subject = "Thông tin tài khoản Smart Menu của bạn";
+                    if (!isRenew)
+                    {
+                        var subject = "Thông tin tài khoản Smart Menu của bạn";
 
-                    var body = $@"
+                        var body = $@"
                     <div style='font-family: Arial, sans-serif; line-height: 1.6;'>
                         <h2 style='color: #5A3D41;'>Xin chào, {user.Fullname},</h2>
                         <p>Cảm ơn bạn đã đăng ký sử dụng dịch vụ Smart Menu. Dưới đây là thông tin đăng nhập của bạn:</p>
@@ -218,7 +222,29 @@ namespace FSU.SmartMenuWithAI.Service.Services
                             <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ chúng tôi qua email <a href='mailto:support@smartmenu.com' style='color: #5A3D41;'>support@smartmenu.com</a></p>
                         </footer>
                     </div>";
-                    await _emailService.SendEmailAsync(payment.Email, subject, body);
+                        await _emailService.SendEmailAsync(payment.Email, subject, body);
+                    }
+                    else
+                    {
+                        // Gửi email thông báo gia hạn
+                        var renewSubject = "Gia hạn gói dịch vụ Smart Menu của bạn";
+                        var renewBody = $@"
+                <div style='font-family: Arial, sans-serif; line-height: 1.6;'>
+                    <h2 style='color: #5A3D41;'>Xin chào, {user.Fullname},</h2>
+                    <p>Chúng tôi xin thông báo rằng gói dịch vụ Smart Menu của bạn đã được gia hạn thành công.</p>
+                    <p>
+                        <strong>Thời gian bắt đầu:</strong> {subscription.StartDate}<br />
+                        <strong>Thời gian kết thúc:</strong> {subscription.EndDate}
+                    </p>
+                    <p>Trân trọng,<br />
+                    <em>Đội ngũ hỗ trợ Smart Menu</em></p>
+                    <hr />
+                    <footer style='font-size: 12px;'>
+                        <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ chúng tôi qua email <a href='mailto:support@smartmenu.com' style='color: #5A3D41;'>support@smartmenu.com</a></p>
+                    </footer>
+                </div>";
+                        await _emailService.SendEmailAsync(payment.Email, renewSubject, renewBody);
+                    }
                 }
             }
 
