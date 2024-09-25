@@ -124,14 +124,11 @@ function AdminDashboard() {
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
-      let result;
 
       const loadData = async () => {
-        result = await getDashboardAdmin();
-        if (result.isSuccess) {
-          console.log(result);
-
-          setData(result.data);
+        const { statusCode, data } = await getDashboardAdmin();
+        if (statusCode === 200) {
+          setData(data);
           setIsLoading(false);
         }
       };

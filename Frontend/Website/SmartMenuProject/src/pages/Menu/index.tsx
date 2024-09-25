@@ -84,7 +84,8 @@ function Menu() {
         setIsLoading(true);
         const loadData = async () => {
           var result = await getAllMenu(Number(brandId), currentPage, rowsPerPage);
-
+          console.log(result);
+          
           setData(result.list);
           setTotalPages(result.totalPage);
           setTotalRecords(result.totalRecord);
@@ -202,7 +203,7 @@ function Menu() {
                 <Th className={style.HeaderTbl}>mô tả</Th>
                 <Th className={style.HeaderTbl}>độ ưu tiên</Th>
                 <Th className={style.HeaderTbl}>Nhân khẩu học</Th>
-                {/* <Th className={style.HeaderTbl}>Đang hoạt động</Th> */}
+                <Th className={style.HeaderTbl}>Đang hoạt động</Th>
                 <Th className={style.HeaderTbl}>cài đặt</Th>
               </Tr>
             </Thead>
@@ -250,7 +251,7 @@ function Menu() {
                         </Box>
                       </Collapse>
                     </Td>
-                    {/* <Td>Có</Td> */}
+                    <Td>{menu.isActive ? "Có" : "Không"}</Td>
                     <Td>
                       <Button
                         onClick={() => handleClickMenu(menu.menuId)}

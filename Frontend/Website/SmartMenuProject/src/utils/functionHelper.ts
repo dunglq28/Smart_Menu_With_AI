@@ -90,6 +90,12 @@ export const getGender = (gender: string): string => {
   return gender;
 };
 
+export const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
+
 export const translateDemographics = (demographics: string): string => {
   const [gender, time] = demographics.split(", ") as [string, string];
 

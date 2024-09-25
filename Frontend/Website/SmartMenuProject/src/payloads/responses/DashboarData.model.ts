@@ -30,3 +30,22 @@ export interface AdminDashboardData {
   latestUsers: UserData[];
   recentTransactions: recentTransactions[];
 }
+// ----------------------------------------------------------------
+
+interface timesRecomments {
+  menuId: number;
+  times: number;
+}
+
+interface productsByCate {
+  numberOfProduct: number;
+  cateName: string;
+}
+
+export interface BrandDashboardData {
+  store: number;
+  product: number;
+  menus: number;
+  timesRecomments: timesRecomments[];
+  productsByCate: productsByCate[];
+}

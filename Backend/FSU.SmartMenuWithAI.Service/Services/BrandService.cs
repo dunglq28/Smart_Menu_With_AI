@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using FSU.SmartMenuWithAI.Service.Common.Constants;
 using FSU.SmartMenuWithAI.Service.Models.Brand;
+using FSU.SmartMenuWithAI.Service.Models.ViewDashboard;
 
 namespace FSU.SmartMenuWithAI.Service.Services
 {
@@ -197,7 +198,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
 
             // Count the number of menus and accounts for the brand
             var numberMenu = await _unitOfWork.MenuRepository.Count(m => m.BrandId == brand.BrandId);
-            var numberAccount = await _unitOfWork.StoreRepository.Count(a => a.BrandId == brand.BrandId);
+            var numberAccount = await _unitOfWork.StoreRepository.Count(a => a.BrandId == brand.BrandId && a.Status == 1);
 
             // Return the result
             return new UserMenuAccountDTO
@@ -207,6 +208,50 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 NumberMenu = numberMenu,
                 NumberAccount = numberAccount
             };
+        }
+
+        public async Task<BrandDashboardDTO> GetDashboard(int brandId)
+        {
+            // Initialize the dashboard DTO
+            var dashboard = new BrandDashboardDTO();
+
+            // Retrieve the number of stores associated with the brand
+            dashboard.store = await _unitOfWork.StoreRepository.Count(s => s.BrandId == brandId && s.Status == 1);
+
+            // Retrieve the number of menus associated with the brand
+            dashboard.menus = await _unitOfWork.MenuRepository.Count(m => m.BrandId == brandId);
+
+            // Retrieve the number of products associated with the brand
+            dashboard.product = await _unitOfWork.ProductRepository.Count(p => p.BrandId == brandId);
+
+            // Retrieve times recommended per menu (example logic)
+
+            var timesRecommended = await _unitOfWork.MenuRepository.Get(
+                filter: m => m.BrandId == brandId);
+
+            // Map to TimesRecomment list
+            dashboard.timesRecomments = timesRecommended
+                .Select(menu => new TimesRecomment
+                {
+                    menuid = menu.MenuId, // Default to 0 if MenuId is null
+                    times = menu.TimeRcm ?? 0  // Default to 0 if TimeRcm is null
+                })
+                .ToList();
+            // Retrieve product counts by category (example logic)
+
+
+            var productsByCategory = await _unitOfWork.ProductRepository.Get(
+                filter: p => p.BrandId == brandId,
+                includeProperties: "Category"
+            );
+            dashboard.productsByCate = productsByCategory
+                .GroupBy(p => p.Category.CategoryName)
+                .Select(group => new ProductByCate
+                {
+                    cateName = group.Key,
+                    numberOfProduct = group.Count()
+                }).ToList();
+            return dashboard;
         }
 
     }

@@ -46,7 +46,6 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     //tạo subscription sau khi đã tạo payment thành công
                     var subscription = await _paymentService.AddSubscription(request.UserId, request.Email, request.PlanId, payment.PaymentId);
                     if (subscription == null) { throw new Exception("Lỗi nghiêm trọng!!! Gói đăng kí chưa được khởi tạo"); }
-
                 }
                 else if (payment == null)
                 {
@@ -54,6 +53,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 }
 
 
+                ///----------------------------
                 var paymentLinkResponse = await _payOSService.CreatePaymentLink(
                   transactionid,
                   request.PlanName,
@@ -71,6 +71,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                     Data = paymentLinkResponse,
                     IsSuccess = true
                 });
+                ///----------------------------
             }
             catch (Exception ex)
             {

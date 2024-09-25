@@ -4,19 +4,15 @@ import style from "./Billing.module.scss";
 import { themeColors } from "../../../constants/GlobalStyles";
 import { SubscriptionData } from "../../../payloads/responses/SubscriptionData.model";
 import { formatCurrencyVND, formatDate, formatDateAndTime } from "../../../utils/functionHelper";
+import { useNavigate } from "react-router-dom";
 
 interface BillingProps {
-  paymentHistory: Array<{
-    name: string;
-    date: string;
-    amount: string;
-    note: string;
-  }>;
   subscription: SubscriptionData | null;
 }
 
-const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
+const Billing: React.FC<BillingProps> = ({ subscription }) => {
   const { t } = useTranslation("profile");
+  const navigate = useNavigate();
 
   return (
     <Flex className={style.tab_panels_container}>
@@ -80,7 +76,12 @@ const Billing: React.FC<BillingProps> = ({ paymentHistory, subscription }) => {
       </Flex>
 
       <Flex className={style.btn_container}>
-        <Button className={style.btn_content}>{t("Gia hạn gói")}</Button>
+        <Button onClick={() => navigate(`/payment/renew-package`)} className={style.btn_content}>
+          {t("Gia hạn gói")}
+        </Button>
+        <Button className={style.btn_content} isDisabled={true}>
+          {t("Đăng ký gói mới")}
+        </Button>
       </Flex>
 
       <Flex flexDir="column">

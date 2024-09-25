@@ -22,6 +22,7 @@ import PaymentStepperLayout from "../layouts/PaymentStepperLayout";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import PaymentFailure from "../pages/Payment/PaymentFail";
 import PaymentCancel from "../pages/Payment/PaymentCancel";
+import RenewPackage from "../pages/Payment/RenewPackage";
 
 interface RouteItem {
   path: string;
@@ -37,6 +38,7 @@ export const publicRoutes: RouteItem[] = [
   { path: "/payment/payment-success", component: PaymentSuccess, layout: PaymentStepperLayout },
   { path: "/payment/payment-failure", component: PaymentFailure, layout: PaymentStepperLayout },
   { path: "/payment/payment-cancel", component: PaymentCancel, layout: PaymentStepperLayout },
+  { path: "/payment/renew-package", component: RenewPackage, layout: PaymentStepperLayout },
   { path: "/admin-dashboard", component: AdminDashboard },
   { path: "/brand-dashboard", component: BrandDashboard },
   { path: "/users", component: User },

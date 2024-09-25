@@ -220,6 +220,7 @@ public partial class SmartMenuContext : DbContext
             entity.Property(e => e.MenuId).HasColumnName("MenuID");
             entity.Property(e => e.BrandId).HasColumnName("BrandID");
             entity.Property(e => e.MenuCode).HasMaxLength(36);
+            entity.Property(e => e.TimeRcm).HasColumnName("TimeRCM");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Menus)
                 .HasForeignKey(d => d.BrandId)

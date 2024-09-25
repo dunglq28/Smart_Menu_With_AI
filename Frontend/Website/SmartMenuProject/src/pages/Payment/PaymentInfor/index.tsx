@@ -36,7 +36,6 @@ import {
   getInitialPlanData,
   getInitialUserForm,
 } from "../../../utils/initialData";
-import { formatCurrencyVND } from "../../../utils/functionHelper";
 import moment from "moment";
 import { createUser, updateUser } from "../../../services/UserService";
 import {
@@ -45,53 +44,15 @@ import {
   getBrandByUserId,
   updateBrand,
 } from "../../../services/BrandService";
-import { PaymentStatus } from "../../../constants/Enum";
 import { checkExistEmail } from "../../../services/PaymentService";
-import {
-  brandUpdate,
-  userUpdate,
-} from "../../../payloads/requests/updateRequests.model";
+import { brandUpdate, userUpdate } from "../../../payloads/requests/updateRequests.model";
+import PackageDetails from "../../../components/Payment/PackageDetails";
+import RegistrationForm from "../../../components/Payment/RegistrationForm";
 
 interface BrandResult {
   isSuccess: boolean;
   userId?: string;
 }
-
-const FormInput = ({
-  label,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-  errorMessage,
-}: any) => (
-  <FormControl>
-    <FormLabel className={style.formLabel}>{label}</FormLabel>
-    <Input
-      focusBorderColor={themeColors.primaryButton}
-      placeholder={placeholder}
-      type={type}
-      value={value}
-      onChange={onChange}
-    />
-    {errorMessage && <Text color="red.500">{errorMessage}</Text>}
-  </FormControl>
-);
-
-const PackageDetail = ({
-  label,
-  value,
-  classNameValue = style.packagesDescription,
-}: {
-  label: string;
-  value: string;
-  classNameValue?: string;
-}) => (
-  <Flex justify="space-between" mb={4} className={style.packagesDetails}>
-    <Text>{label}</Text>
-    <Text className={classNameValue}>{value}</Text>
-  </Flex>
-);
 
 const PaymentInfoPage = () => {
   const navigate = useNavigate();
@@ -177,12 +138,6 @@ const PaymentInfoPage = () => {
 
     return () => clearTimeout(timer);
   }, [countdown]);
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
 
   const handleBrandNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newBrandName = e.target.value;
@@ -323,9 +278,7 @@ const PaymentInfoPage = () => {
       // Chuẩn bị dữ liệu cập nhật cho user
       var userUpdate: userUpdate = {
         fullname: userForm.fullName.value,
-        dob: userForm.DOB.value
-          ? userForm.DOB.value.toISOString().split("T")[0]
-          : "",
+        dob: userForm.DOB.value ? userForm.DOB.value.toISOString().split("T")[0] : "",
         gender: userForm.gender.value,
         phone: userForm.phoneNumber.value,
         isActive: false,
@@ -333,7 +286,7 @@ const PaymentInfoPage = () => {
       };
 
       // Gọi API cập nhật thông tin user
-      var userResult = await updateUser(userId, userUpdate);
+      var userResult = await updateUser(userId, null, userUpdate);
 
       // Kiểm tra kết quả cập nhật user
       if (userResult.statusCode !== 200) {
@@ -372,9 +325,7 @@ const PaymentInfoPage = () => {
     };
 
     setUserForm(updatedUserForm);
-    const hasUserError = Object.values(userErrors).some(
-      (error) => error !== "",
-    );
+    const hasUserError = Object.values(userErrors).some((error) => error !== "");
 
     const brandErrors = validateBrandForm(brandForm);
     const updatedBrandForm = {
@@ -387,9 +338,7 @@ const PaymentInfoPage = () => {
     };
 
     setBrandForm(updatedBrandForm);
-    const hasBrandError = Object.values(brandErrors).some(
-      (error) => error !== "",
-    );
+    const hasBrandError = Object.values(brandErrors).some((error) => error !== "");
 
     let hasError = hasUserError || hasBrandError;
 
@@ -450,188 +399,38 @@ const PaymentInfoPage = () => {
     }
   }
 
-  const formatDateToYYYYMMDD = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng từ 0-11
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
   return (
     <Box p={8} w="100%" mb="2rem" mt="1rem">
       {/* Cột chứa Thông tin cá nhân và Thông tin chi tiết gói */}
       <Grid templateColumns="2fr 1fr" gap={6}>
         {/* Cột bên trái - Thông tin cá nhân */}
-        <Box bg="gray.50" p={6} borderRadius="md" className={style.form}>
-          <Heading mb={4} className={style.formTitle}>
-            Thông tin đăng ký
-          </Heading>
-          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            <FormInput
-              label="Tên thương hiệu"
-              placeholder="Nhập tên thương hiệu"
-              value={brandForm.brandName.value}
-              onChange={handleBrandNameChange}
-              errorMessage={brandForm.brandName.errorMessage}
-            />
-            <FormInput
-              label="Họ và tên"
-              placeholder="Nhập họ và tên"
-              value={userForm.fullName.value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleInputChange("fullName", e.target.value)
-              }
-              errorMessage={userForm.fullName.errorMessage}
-            />
-            <FormInput
-              label="Số điện thoại"
-              placeholder="Nhập số điện thoại"
-              value={userForm.phoneNumber.value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleInputChange("phoneNumber", e.target.value)
-              }
-              errorMessage={userForm.phoneNumber.errorMessage}
-            />
-            <FormControl>
-              <FormLabel className={style.formLabel}>Giới tính</FormLabel>
-              <Select
-                focusBorderColor={themeColors.primaryButton}
-                onChange={(e) => handleInputChange("gender", e.target.value)}
-              >
-                <option>Nam</option>
-                <option>Nữ</option>
-              </Select>
-            </FormControl>
-            <FormInput
-              label="Email"
-              placeholder="Nhập email"
-              value={email.value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail({ value: e.target.value, errorMessage: "" })
-              }
-              errorMessage={email.errorMessage}
-            />
-            <Grid templateColumns="2fr auto" gap={4}>
-              <FormInput
-                label="Mã xác thực"
-                placeholder="Nhập mã 6 chữ số"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setVerificationCodeUser({
-                    value: e.target.value,
-                    errorMessage: "",
-                  })
-                }
-                errorMessage={verificationCodeUser.errorMessage}
-              />
-              <Button
-                mt={9}
-                onClick={handleSendVerificationCode}
-                isLoading={isLoadingSendMail}
-                loadingText="Gửi mã"
-                isDisabled={isCodeSent || countdown > 0}
-                colorScheme={isCodeSent ? "gray" : "teal"}
-                sx={{
-                  color: isCodeSent ? "black" : "white",
-                  fontWeight: isCodeSent ? "bold" : "500",
-                  cursor: isCodeSent ? "not-allowed" : "pointer",
-                }}
-              >
-                {isCodeSent ? `Gửi lại sau ${formatTime(countdown)}` : "Gửi mã"}
-              </Button>
-            </Grid>
-            <FormInput
-              label="Ngày sinh"
-              placeholder=""
-              type="Date"
-              value={
-                userForm.DOB.value
-                  ? userForm.DOB.value.toISOString().split("T")[0]
-                  : ""
-              }
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleDateChange("DOB", e.target.value)
-              }
-              errorMessage={userForm.DOB.errorMessage}
-            />
-            <FormControl className={style.formImage}>
-              <FormLabel className={style.formLabel} w="36%">
-                Logo thương hiệu
-              </FormLabel>
-              <Flex align="center">
-                {!brandForm.image.value && !brandForm.imageUrl?.value && (
-                  <Input
-                    type="file"
-                    className={style.inputImage}
-                    onChange={handleImageChange}
-                  />
-                )}
-                {(brandForm.image.value || brandForm.imageUrl?.value) && (
-                  <Button onClick={handleRemoveImage} ml={3}>
-                    Xoá
-                  </Button>
-                )}
-              </Flex>
-              {(brandForm.image.value ||
-                (brandForm.imageUrl && brandForm.imageUrl.value)) && (
-                <Image
-                  src={imageUrl}
-                  alt="Image Preview"
-                  className={style.imagePreview}
-                />
-              )}
-              {brandForm.image.errorMessage && (
-                <Text color="red.500">{brandForm.image.errorMessage}</Text>
-              )}
-            </FormControl>
-          </Grid>
-        </Box>
+        <RegistrationForm
+          brandForm={brandForm}
+          userForm={userForm}
+          email={email}
+          setEmail={setEmail}
+          handleBrandNameChange={handleBrandNameChange}
+          handleInputChange={handleInputChange}
+          handleDateChange={handleDateChange}
+          handleSendVerificationCode={handleSendVerificationCode}
+          handleImageChange={handleImageChange}
+          handleRemoveImage={handleRemoveImage}
+          isLoadingSendMail={isLoadingSendMail}
+          isCodeSent={isCodeSent}
+          countdown={countdown}
+          verificationCodeUser={verificationCodeUser}
+          setVerificationCodeUser={setVerificationCodeUser}
+          imageUrl={imageUrl}
+        />
 
         {/* Cột bên phải - Thông tin chi tiết gói */}
-        <Box bg="gray.50" p={6} borderRadius="md" className={style.packages}>
-          <Heading className={style.packagesTitle} mb={4}>
-            Thông tin chi tiết gói
-          </Heading>
-          <PackageDetail label="Tên gói" value={plan.planName} />
-          <PackageDetail label="Thời hạn gói" value="01 tháng" />
-          <Divider borderWidth="1px" mb={4} />
-          <PackageDetail label="Ngày hiệu lực" value={effectiveDate} />
-          <PackageDetail label="Sử dụng đến" value={expirationDate} />
-          <Divider borderWidth="1px" mb={4} />
-          <PackageDetail
-            label="Trị giá"
-            value={formatCurrencyVND(plan.price.toString())}
-          />
-          <Divider borderWidth="1px" mb={4} />
-          <PackageDetail
-            label="Thành tiền"
-            value={formatCurrencyVND(plan.price.toString())}
-            classNameValue={style.packagesFinalPrice}
-          />
-          <Flex justify="space-between" mb={4} w="100%">
-            <Button
-              mt={6}
-              fontSize="24px"
-              w="100%"
-              p={7}
-              bg={themeColors.primaryButton}
-              color="white"
-              _hover={{
-                borderColor: "transparent",
-                bg: `${themeColors.primaryButton}`,
-                opacity: 0.9,
-              }}
-              isLoading={isLoading}
-              loadingText="Thanh toán"
-              onClick={handleCreatePaymentLink}
-              _disabled={{
-                opacity: 0.6,
-                cursor: "not-allowed",
-              }}
-            >
-              Thanh toán
-            </Button>
-          </Flex>
-        </Box>
+        <PackageDetails
+          plan={plan}
+          effectiveDate={effectiveDate}
+          expirationDate={expirationDate}
+          isLoading={isLoading}
+          handleCreatePaymentLink={handleCreatePaymentLink}
+        />
       </Grid>
     </Box>
   );

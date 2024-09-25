@@ -180,8 +180,12 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 if (customerAtt == null || customerAtt.Emotions.IsNullOrEmpty() || customerAtt.Session.IsNullOrEmpty() || customerAtt.Age == 0)
                 {
                     var menuRecomend = await _unitOfWork.MenuRepository.GetByCondition(x => x.BrandId == brandId);
-                    var mapdto = _mapper.Map<MenuDTO>(menuRecomend);
-                    return mapdto;
+                    //var mapdto = _mapper.Map<MenuDTO>(menuRecomend);
+                    menuRecomend.TimeRcm = menuRecomend.TimeRcm == null ? 1 : menuRecomend.TimeRcm + 1;
+                    _unitOfWork.MenuRepository.Update(menuRecomend);
+                    await _unitOfWork.SaveAsync();
+                    //return mapdto;
+                    return await GetAsync(menuRecomend.MenuId);
                 }
                 // tim customer segment
                 var customerSegment = await _segmentAttributeService.GetCusSegmentAsync(customerAtt);
@@ -195,22 +199,34 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     //var menuRecomend = await _unitOfWork.MenuRepository.GetByID(menuSegment!.MenuId);
                     //var mapdto1 = _mapper.Map<MenuDTO>(menuRecomend);
                     //return mapdto1;
-                    return await GetAsync(menuSegment.MenuId);
+                    var menuRCM = await GetAsync(menuSegment.MenuId);
+                    menuRCM.TimeRcm = menuRCM.TimeRcm == null ? 1 : menuRCM.TimeRcm + 1;
+                    var menu = _mapper.Map<Menu>(menuRCM);
+                    _unitOfWork.MenuRepository.Update(menu);
+                    await _unitOfWork.SaveAsync();
+                    return menuRCM;
 
 
                 }
                 var menuDefault = await _unitOfWork.MenuRepository.GetAllNoPaging(x => x.BrandId == brandId, x => x.OrderByDescending(x => x.MenuId));
                 //var mapdto2 = _mapper.Map<MenuDTO>(menuDefault.FirstOrDefault());
-                return await GetAsync(menuDefault.FirstOrDefault().MenuId);
+
+                var menu2 = await GetAsync(menuDefault.FirstOrDefault().MenuId);
+                menu2.TimeRcm = menu2.TimeRcm == null ? 1 : menu2.TimeRcm + 1;
+                _unitOfWork.MenuRepository.Update(_mapper.Map<Menu>(menu2));
+                await _unitOfWork.SaveAsync();
+                return menu2;
             }
             catch
             {
                 var menuDefault = await _unitOfWork.MenuRepository.GetByCondition(x => x.BrandId == brandId, null!);
+                menuDefault.TimeRcm = menuDefault.TimeRcm == null ? 1 : menuDefault.TimeRcm + 1;
+                _unitOfWork.MenuRepository.Update(menuDefault);
+                await _unitOfWork.SaveAsync();
                 var mapdto2 = _mapper.Map<MenuDTO>(menuDefault);
                 return mapdto2;
             }
-            
-    }
 
+        }
     }
 }

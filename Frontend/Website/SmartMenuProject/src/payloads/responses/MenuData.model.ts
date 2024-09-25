@@ -8,6 +8,7 @@ export interface MenuData {
   description: string;
   priority: number;
   menuLists: MenuLists[];
+  isActive: boolean;
   menuSegments: MenuSegments[];
 }
 
@@ -43,7 +44,7 @@ export interface IndexProduct {
   indexInList: number;
 }
 
-export interface ListProductDetails  {
+export interface ListProductDetails {
   listId: number;
   indexProducts: IndexProduct[];
 }

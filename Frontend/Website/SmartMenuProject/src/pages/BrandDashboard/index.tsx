@@ -1,7 +1,7 @@
 import { Box, Card, CardBody, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import style from "./BrandDashboard.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import CardStats from "../../components/Dashboard/CardStats";
 import { themeColors } from "../../constants/GlobalStyles";
@@ -10,62 +10,89 @@ import { MdListAlt } from "react-icons/md";
 import { AiOutlineProduct } from "react-icons/ai";
 import { Bar, Line } from "react-chartjs-2";
 import { TooltipItem } from "chart.js";
-
-const menuAppearanceData = [
-  { menuName: "Menu dành cho giới trẻ", count: 120 },
-  { menuName: "Menu dành cho giới trung niên", count: 80 },
-  { menuName: "Menu dành cho giới trẻ", count: 60 },
-  { menuName: "Menu dành cho giới trẻ", count: 150 },
-  { menuName: "Menu dành cho giới trẻ", count: 150 },
-  { menuName: "Menu dành cho giới trẻ", count: 150 },
-  { menuName: "Menu dành cho giới trẻ", count: 150 },
-  { menuName: "Menu dành cho giới trẻ", count: 150 },
-  { menuName: "Menu dành cho giới trẻ", count: 150 },
-  { menuName: "Menu dành cho giới trẻ", count: 150 },
-];
-
-const fakeProductData = [
-  { category: "Trà", count: 5 },
-  { category: "Cà Phê", count: 4 },
-  { category: "Đá xay", count: 3 },
-  { category: "Đồ Ăn Nhẹ", count: 6 },
-  { category: "Trà Sữa", count: 2 },
-];
+import { BrandDashboardData } from "../../payloads/responses/DashboarData.model";
+import { getInitialBrandDashboardData } from "../../utils/initialData";
+import { getDashboardBrand } from "../../services/DashbroadService";
 
 function BrandDashboard() {
   const location = useLocation();
   const navigate = useNavigate();
-  let flag = false;
+  const flag = useRef(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [data, setData] = useState<BrandDashboardData>(getInitialBrandDashboardData());
 
   useEffect(() => {
-    if (location.state?.toastMessage && !flag) {
+    if (location.state?.toastMessage && !flag.current) {
       toast.success(location.state.toastMessage, {
         autoClose: 2500,
       });
-      flag = true;
+      flag.current = true;
       navigate(location.pathname, { replace: true });
     }
   }, [location.state]);
+
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const loadData = async () => {
+        const { statusCode, data } = await getDashboardBrand(
+          Number(localStorage.getItem("BrandId")),
+        );
+        if (statusCode === 200) {
+          setData(data);
+          setIsLoading(false);
+        }
+      };
+
+      setTimeout(loadData, 500);
+    } catch (err) {
+      toast.error("Lỗi khi lấy dữ liệu");
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!flag.current) {
+      fetchData();
+      flag.current = true;
+    } else {
+      fetchData();
+    }
+  }, [fetchData]);
 
   const stats = [
     {
       icon: IoGitBranchOutline,
       label: "Chi nhánh",
-      value: 10,
+      value: data.store,
       bgColor: themeColors.userStatColor,
     },
     {
       icon: MdListAlt,
       label: "Thực đơn",
-      value: 10,
+      value: data.menus,
       bgColor: themeColors.revenueDarkenColor,
     },
     {
       icon: AiOutlineProduct,
       label: "Sản phẩm",
-      value: 10,
+      value: data.product,
       bgColor: themeColors.tradeMarkDarkenColor,
     },
+  ];
+
+  const menuAppearanceData = [
+    { menuName: "Menu món chay đặc biệt", count: 110 },
+    { menuName: "Menu dành cho trẻ em", count: 95 },
+    { menuName: "Menu dành cho giới trẻ", count: 75 },
+    { menuName: "Menu gia đình", count: 130 },
+    { menuName: "Menu dành cho người lớn tuổi", count: 85 },
+    { menuName: "Menu các món hải sản", count: 140 },
+    { menuName: "Menu bữa sáng năng lượng", count: 65 },
+    { menuName: "Menu món ăn nhẹ", count: 120 },
+    { menuName: "Menu đồ uống lạnh", count: 150 },
+    { menuName: "Menu món chính buổi tối", count: 100 },
   ];
 
   const maxMenuNameLength = 4;
@@ -114,15 +141,23 @@ function BrandDashboard() {
   };
 
   const barChartProductData = {
-    labels: fakeProductData.map((data) => data.category),
+    labels: data.productsByCate.map((data) => data.cateName),
     datasets: [
       {
         label: "Sản phẩm theo danh mục",
-        data: fakeProductData.map((data) => data.count),
+        data: data.productsByCate.map((data) => data.numberOfProduct),
         backgroundColor: themeColors.tradeMarkLightenColor,
         borderColor: "rgba(153, 102, 255, 1)",
       },
     ],
+  };
+
+  const barChartProductOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
   };
 
   return (
@@ -140,7 +175,7 @@ function BrandDashboard() {
         <Card>
           <CardBody>
             <Heading className={style.title}>Thống kê sản phẩm theo danh mục</Heading>
-            <Bar data={barChartProductData} />
+            <Bar data={barChartProductData} options={barChartProductOptions} />
           </CardBody>
         </Card>
       </SimpleGrid>

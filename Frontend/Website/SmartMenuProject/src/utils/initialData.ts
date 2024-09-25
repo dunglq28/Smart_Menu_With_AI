@@ -4,7 +4,7 @@ import { PasswordForm } from "../models/Password.model";
 import { ProductForm } from "../models/ProductForm.model";
 import { UserForm } from "../models/UserForm.model";
 import { LimitBrandData } from "../payloads/responses/BrandData.model";
-import { AdminDashboardData } from "../payloads/responses/DashboarData.model";
+import { AdminDashboardData, BrandDashboardData } from "../payloads/responses/DashboarData.model";
 import { PlanData } from "../payloads/responses/PlanResponse.model";
 import { UserData } from "../payloads/responses/UserData.model";
 
@@ -75,6 +75,14 @@ export const getInitialAdminDashboardData = (): AdminDashboardData => ({
   listBrandCounts: [],
   latestUsers: [],
   recentTransactions: [],
+});
+
+export const getInitialBrandDashboardData = (): BrandDashboardData => ({
+  stores: 0,
+  product: 0,
+  menus: 0,
+  timesRecomments: [],
+  productsByCate: [],
 });
 
 export const getInitialPlanData = (): PlanData => ({
