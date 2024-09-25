@@ -35,6 +35,7 @@ export interface AdminDashboardData {
 interface timesRecomments {
   menuId: number;
   times: number;
+  description: string;
 }
 
 interface productsByCate {

@@ -1,20 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Grid,
-  Select,
-  Text,
-  Heading,
-  Flex,
-  Divider,
-  Image,
-} from "@chakra-ui/react";
-import style from "./PaymentInfor.module.scss";
-import { themeColors } from "../../../constants/GlobalStyles";
+import { Box, Grid } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { BrandForm } from "../../../models/BrandForm.model";
 import {

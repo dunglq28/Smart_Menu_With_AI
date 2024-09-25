@@ -6,6 +6,7 @@ import { UserForm } from "../models/UserForm.model";
 import { LimitBrandData } from "../payloads/responses/BrandData.model";
 import { AdminDashboardData, BrandDashboardData } from "../payloads/responses/DashboarData.model";
 import { PlanData } from "../payloads/responses/PlanResponse.model";
+import { SubscriptionData } from "../payloads/responses/SubscriptionData.model";
 import { UserData } from "../payloads/responses/UserData.model";
 
 export const getInitialUserForm = (): UserForm => ({
@@ -78,7 +79,7 @@ export const getInitialAdminDashboardData = (): AdminDashboardData => ({
 });
 
 export const getInitialBrandDashboardData = (): BrandDashboardData => ({
-  stores: 0,
+  store: 0,
   product: 0,
   menus: 0,
   timesRecomments: [],
@@ -91,6 +92,21 @@ export const getInitialPlanData = (): PlanData => ({
   maxMenu: 0,
   maxAccount: 0,
   price: "",
+});
+
+export const getInitialSubscriptionData = (): SubscriptionData => ({
+  userId: 0,
+  subscriptionId: 0,
+  startDate: null,
+  endDate: null,
+  planId: "",
+  planName: "",
+  price: "",
+  maxMenu: 0,
+  maxAccount: 0,
+  menuCount: 0,
+  storeCount: 0,
+  payments: [],
 });
 
 export const getInitialLimitBrandData = (): LimitBrandData => ({

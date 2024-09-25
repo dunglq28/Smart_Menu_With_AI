@@ -82,27 +82,14 @@ function BrandDashboard() {
     },
   ];
 
-  const menuAppearanceData = [
-    { menuName: "Menu món chay đặc biệt", count: 110 },
-    { menuName: "Menu dành cho trẻ em", count: 95 },
-    { menuName: "Menu dành cho giới trẻ", count: 75 },
-    { menuName: "Menu gia đình", count: 130 },
-    { menuName: "Menu dành cho người lớn tuổi", count: 85 },
-    { menuName: "Menu các món hải sản", count: 140 },
-    { menuName: "Menu bữa sáng năng lượng", count: 65 },
-    { menuName: "Menu món ăn nhẹ", count: 120 },
-    { menuName: "Menu đồ uống lạnh", count: 150 },
-    { menuName: "Menu món chính buổi tối", count: 100 },
-  ];
-
   const maxMenuNameLength = 4;
 
-  const truncatedMenuAppearanceData = menuAppearanceData.map((menu) => ({
+  const truncatedMenuAppearanceData = data.timesRecomments.map((menu) => ({
     ...menu,
     displayName:
-      menu.menuName.length > maxMenuNameLength
-        ? menu.menuName.substring(0, maxMenuNameLength) + "..."
-        : menu.menuName,
+      menu.description && menu.description.length > maxMenuNameLength
+        ? menu.description.substring(0, maxMenuNameLength) + "..."
+        : menu.description || "",
   }));
 
   const barChartMenuData = {
@@ -110,7 +97,7 @@ function BrandDashboard() {
     datasets: [
       {
         label: "Số lần menu xuất hiện",
-        data: truncatedMenuAppearanceData.map((data) => data.count),
+        data: truncatedMenuAppearanceData.map((data) => data.times),
         backgroundColor: themeColors.revenueLightenColor,
         borderColor: "rgba(75, 192, 192, 1)",
       },
@@ -133,7 +120,7 @@ function BrandDashboard() {
       tooltip: {
         callbacks: {
           label: function (tooltipItem: TooltipItem<"line">) {
-            return menuAppearanceData[tooltipItem.dataIndex].menuName;
+            return data.timesRecomments[tooltipItem.dataIndex].description || "";
           },
         },
       },

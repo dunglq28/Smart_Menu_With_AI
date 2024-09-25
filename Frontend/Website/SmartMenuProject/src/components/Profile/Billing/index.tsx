@@ -7,7 +7,7 @@ import { formatCurrencyVND, formatDate, formatDateAndTime } from "../../../utils
 import { useNavigate } from "react-router-dom";
 
 interface BillingProps {
-  subscription: SubscriptionData | null;
+  subscription: SubscriptionData;
 }
 
 const Billing: React.FC<BillingProps> = ({ subscription }) => {
@@ -42,7 +42,7 @@ const Billing: React.FC<BillingProps> = ({ subscription }) => {
           <Input
             focusBorderColor={themeColors.primaryButton}
             readOnly
-            value={formatDate(subscription?.startDate!) || "N/A"}
+            value={formatDate(subscription.startDate!) || "N/A"}
           />
         </Flex>
         <Flex className={style.tab_panels_container_content_column}>
@@ -50,7 +50,7 @@ const Billing: React.FC<BillingProps> = ({ subscription }) => {
           <Input
             focusBorderColor={themeColors.primaryButton}
             readOnly
-            value={formatDate(subscription?.endDate!) || "N/A"}
+            value={formatDate(subscription.endDate!) || "N/A"}
           />
         </Flex>
       </Flex>
@@ -61,7 +61,7 @@ const Billing: React.FC<BillingProps> = ({ subscription }) => {
           <Text className={style.text_title_content}>
             {t("Số lượt tạo chi nhánh")}:{" "}
             <span>
-              {subscription?.storeCount || 0}/{subscription?.maxAccount || 0}
+              {subscription.storeCount || 0}/{subscription.maxAccount || 0}
             </span>
           </Text>
         </Flex>
@@ -69,7 +69,7 @@ const Billing: React.FC<BillingProps> = ({ subscription }) => {
           <Text className={style.text_title_content}>
             {t("Số lượt tạo menu")}:{" "}
             <span>
-              {subscription?.menuCount || 0}/{subscription?.maxMenu || 0}
+              {subscription.menuCount || 0}/{subscription.maxMenu || 0}
             </span>
           </Text>
         </Flex>

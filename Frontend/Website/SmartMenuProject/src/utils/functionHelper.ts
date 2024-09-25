@@ -76,9 +76,7 @@ export const getRoleName = (roleId: number): string => {
   } else if (roleId === UserRole.BranchManager) {
     return "Quản lý chi nhánh";
   }
-  return UserRole[roleId]
-    ? `Vai trò: ${UserRole[roleId]}`
-    : "Vai trò không xác định";
+  return UserRole[roleId] ? `Vai trò: ${UserRole[roleId]}` : "Vai trò không xác định";
 };
 
 export const getGender = (gender: string): string => {
@@ -110,7 +108,11 @@ export const translateDemographics = (demographics: string): string => {
     Evening: "Buổi Chiều",
   };
 
-  return `${genderMap[gender] || "Không xác định"}, ${
-    timeMap[time] || "Không xác định"
-  }`;
+  return `${genderMap[gender] || "Không xác định"}, ${timeMap[time] || "Không xác định"}`;
+};
+
+export const addOneMonthToDate = (date: Date): string => {
+  const currentDate = new Date(date);
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  return currentDate.toLocaleDateString("vi-VN");
 };

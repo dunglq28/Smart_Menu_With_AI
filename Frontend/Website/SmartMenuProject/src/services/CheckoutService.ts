@@ -26,3 +26,18 @@ export const createPaymentLink = async (
     throw new Error("Unexpected error");
   }
 };
+
+export const createExtendPaymentLink = async (subId: number): Promise<ApiResponse<string>> => {
+  try {
+    const res = await axiosAuth.post("PayOS/Extend/create-payment-link", {
+      subId: subId,
+    });
+    const apiResponse = res.data as ApiResponse<string>;
+    return apiResponse;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response.data as ApiResponse<string>;
+    }
+    throw new Error("Unexpected error");
+  }
+};

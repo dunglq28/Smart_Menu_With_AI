@@ -129,7 +129,7 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return null!;
             }
             return _mapper?.Map<PaymentDTO>(entity)!;
-        }      
+        }
         // -> chưa đăng ký chưa kích hoạt = null (count = 0) -> create new ,
         // -> đã đăng ký thành công những chưa kích hoạt thành công = payment (count > 0) -> update -> trả payment
 
@@ -165,6 +165,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 return false;
             }
 
+            //check status phải là pending
+
             // Lấy subscription từ SubscriptionRepository dựa vào paymentId
             var subscription = await _unitOfWork.SubscriptioRepository.GetByCondition(s => s.PaymentId == paymentId);
             if (subscription == null || subscription.PaymentId != paymentId || subscription.UserId != userId)
@@ -179,11 +181,11 @@ namespace FSU.SmartMenuWithAI.Service.Services
             _unitOfWork.PaymentRepository.Update(payment);
 
             subscription.Status = status; // 1 = Thành công, 2 = Thất bại
-            //if (status == 1)
-            //{
-                //subscription.StartDate = DateTime.Now;
-                //subscription.EndDate = DateTime.Now.AddMonths(1); // Đăng ký có giá trị trong 1 tháng nếu thành công
-            //}
+                                          //if (status == 1)
+                                          //{
+                                          //subscription.StartDate = DateTime.Now;
+                                          //subscription.EndDate = DateTime.Now.AddMonths(1); // Đăng ký có giá trị trong 1 tháng nếu thành công
+                                          //}
             _unitOfWork.SubscriptioRepository.Update(subscription);
 
             // Cập nhật trạng thái người dùng nếu cần (chỉ nếu thanh toán thành công)
@@ -194,6 +196,9 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 {
                     user.IsActive = true; // Kích hoạt người dùng nếu thanh toán thành công
                     _unitOfWork.AppUserRepository.Update(user);
+
+                    // check if isRenew
+
                     var decryptedPassword = PasswordHelper.ConvertToDecrypt(user.Password!); // Giải mã mật khẩu trước khi gửi
                     var subject = "Thông tin tài khoản Smart Menu của bạn";
 
@@ -221,6 +226,68 @@ namespace FSU.SmartMenuWithAI.Service.Services
             var result = await _unitOfWork.SaveAsync();
 
             return result > 0; // Nếu lưu thành công trả về true, ngược lại false
+        }
+
+        public async Task<PaymentDTO> Extend(int subId, int transactionId)
+        {
+            var subcription = await _unitOfWork.SubscriptioRepository.GetByID(subId);
+
+            var payment1 = await _unitOfWork.PaymentRepository.GetByID(subcription.PaymentId);
+
+            var payment = new Payment();
+            payment.Amount = payment1.Amount;
+            payment.Email = payment1.Email;
+            payment.UserId = payment1.UserId;
+            payment.Status = (int)PaymentStatus.Pending;
+            payment.PaymentDate = DateTime.Now;
+            payment.CreatedAt = DateTime.Now;
+            payment.UpdatedAt = DateTime.Now;
+            payment.TransactionId = transactionId.ToString();
+
+            await _unitOfWork.PaymentRepository.Insert(payment);
+
+            var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
+            if (result)
+            {
+                return _mapper?.Map<PaymentDTO>(payment)!;
+            }
+            return null!;
+        }
+
+        public async Task<SubscriptionDTO> AddExtendSubscription(int paymentId, int subId)
+        {
+            var sub1 = await _unitOfWork.SubscriptioRepository.GetByID(subId);
+
+            var subscription = new Subscription();
+            subscription.SubscriptionCode = Guid.NewGuid().ToString();
+            subscription.Status = (int)PaymentStatus.Pending;
+            subscription.StartDate = sub1.EndDate;
+            subscription.EndDate = subscription.StartDate.AddMonths(1);
+            subscription.UserId = sub1.UserId;
+            subscription.Email = sub1.Email;
+            subscription.PlanId = sub1.PlanId;
+            subscription.PaymentId = paymentId;
+
+            await _unitOfWork.SubscriptioRepository.Insert(subscription);
+
+            var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
+            if (result)
+            {
+                return _mapper?.Map<SubscriptionDTO>(subscription)!;
+            }
+            return null!;
+        }
+
+        public async Task<PaymentDTO> GetPayment(int paymentId)
+        {
+            Expression<Func<Payment, bool>> filter = x => x.PaymentId == paymentId;
+
+            string includeProperties = "Subscription,Subscription.Plan";
+
+            var payment = await _unitOfWork.PaymentRepository
+                .GetByCondition(filter: filter, includeProperties: includeProperties);
+
+            return _mapper.Map<PaymentDTO>(payment)!;
         }
     }
 }

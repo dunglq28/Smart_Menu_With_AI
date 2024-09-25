@@ -18,6 +18,8 @@ import { formatTime } from "../../../utils/functionHelper";
 import { BrandForm } from "../../../models/BrandForm.model";
 import { UserForm } from "../../../models/UserForm.model";
 
+import style from "./RegistrationForm.module.scss";
+
 interface RegistrationFormProps {
   brandForm: BrandForm;
   userForm: UserForm;
@@ -56,8 +58,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   imageUrl,
 }) => {
   return (
-    <Box bg="gray.50" p={6} borderRadius="md" className="form">
-      <Heading mb={4} className="formTitle">
+    <Box bg="gray.50" p={6} borderRadius="md" className={style.form}>
+      <Heading mb={4} className={style.formTitle}>
         Thông tin đăng ký
       </Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
@@ -72,18 +74,22 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
           label="Họ và tên"
           placeholder="Nhập họ và tên"
           value={userForm.fullName.value}
-          onChange={(e) => handleInputChange("fullName", e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleInputChange("fullName", e.target.value)
+          }
           errorMessage={userForm.fullName.errorMessage}
         />
         <FormInput
           label="Số điện thoại"
           placeholder="Nhập số điện thoại"
           value={userForm.phoneNumber.value}
-          onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleInputChange("phoneNumber", e.target.value)
+          }
           errorMessage={userForm.phoneNumber.errorMessage}
         />
         <FormControl>
-          <FormLabel className="formLabel">Giới tính</FormLabel>
+          <FormLabel className={style.formLabel}>Giới tính</FormLabel>
           <Select
             focusBorderColor={themeColors.primaryButton}
             onChange={(e) => handleInputChange("gender", e.target.value)}
@@ -96,7 +102,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
           label="Email"
           placeholder="Nhập email"
           value={email.value}
-          onChange={(e) => setEmail({ value: e.target.value, errorMessage: "" })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEmail({ value: e.target.value, errorMessage: "" })
+          }
           errorMessage={email.errorMessage}
         />
         <Grid templateColumns="2fr auto" gap={4}>
@@ -104,7 +112,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             label="Mã xác thực"
             placeholder="Nhập mã 6 chữ số"
             value={verificationCodeUser.value}
-            onChange={(e) => setVerificationCodeUser({ value: e.target.value, errorMessage: "" })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setVerificationCodeUser({
+                value: e.target.value,
+                errorMessage: "",
+              })
+            }
             errorMessage={verificationCodeUser.errorMessage}
           />
           <Button
@@ -127,16 +140,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
           label="Ngày sinh"
           type="date"
           value={userForm.DOB.value ? userForm.DOB.value.toISOString().split("T")[0] : ""}
-          onChange={(e) => handleDateChange("DOB", e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleDateChange("DOB", e.target.value)
+          }
           errorMessage={userForm.DOB.errorMessage}
         />
-        <FormControl className="formImage">
-          <FormLabel className="formLabel" w="36%">
+        <FormControl className={style.formImage}>
+          <FormLabel className={style.formLabel} w="36%">
             Logo thương hiệu
           </FormLabel>
           <Flex align="center">
             {!brandForm.image.value && !brandForm.imageUrl?.value && (
-              <Input type="file" className="inputImage" onChange={handleImageChange} />
+              <Input type="file" className={style.inputImage} onChange={handleImageChange} />
             )}
             {(brandForm.image.value || brandForm.imageUrl?.value) && (
               <Button onClick={handleRemoveImage} ml={3}>
@@ -145,7 +160,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             )}
           </Flex>
           {(brandForm.image.value || brandForm.imageUrl?.value) && (
-            <Image src={imageUrl} alt="Image Preview" className="imagePreview" />
+            <Image src={imageUrl} alt="Image Preview" className={style.imagePreview} />
           )}
           {brandForm.image.errorMessage && (
             <Text color="red.500">{brandForm.image.errorMessage}</Text>

@@ -13,7 +13,7 @@ export const getDashboardBrand = async (
   brandId: number,
 ): Promise<ApiResponse<BrandDashboardData>> => {
   try {
-    const res = await axiosAuth.get(`brands/${brandId}`);
+    const res = await axiosAuth.get(`brands/dashboard/${brandId}`);
     const apiResponse = res.data as ApiResponse<BrandDashboardData>;
     return apiResponse;
   } catch (error) {

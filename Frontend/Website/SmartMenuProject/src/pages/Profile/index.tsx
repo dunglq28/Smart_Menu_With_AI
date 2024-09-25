@@ -11,46 +11,14 @@ import { BrandData } from "../../payloads/responses/BrandData.model";
 import { getBrand } from "../../services/BrandService";
 import { SubscriptionData } from "../../payloads/responses/SubscriptionData.model";
 import { getSubscription } from "../../services/SubscriptionsService";
+import { getInitialSubscriptionData } from "../../utils/initialData";
 
 const sidebarProfileTitle = ["Thông tin cá nhân", " Cài đặt bảo mật", "Thanh toán"];
-
-const paymentHistory = [
-  {
-    name: "Gói cơ bản",
-    date: "01/09/2024",
-    amount: "100.000",
-    note: "Gói cơ bản tháng 9",
-  },
-  {
-    name: "Gói cơ bản",
-    date: "15/08/2024",
-    amount: "100.000",
-    note: "Gia hạn gói cơ bản",
-  },
-  {
-    name: "Gói cơ bản",
-    date: "01/08/2024",
-    amount: "100.000",
-    note: "Gói cơ bản tháng 8",
-  },
-  {
-    name: "Gói cơ bản",
-    date: "15/07/2024",
-    amount: "100.000",
-    note: "Gia hạn gói cơ bản",
-  },
-  {
-    name: "Gói cơ bản",
-    date: "01/07/2024",
-    amount: "100.000",
-    note: "Gói cơ bản tháng 7",
-  },
-];
 
 function Profile() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [brandData, setBrandData] = useState<BrandData | null>(null);
-  const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
+  const [subscription, setSubscription] = useState<SubscriptionData>(getInitialSubscriptionData());
   const [locationString, setLocationString] = useState<string>("");
   const [flag, setFlag] = useState<string>("");
   const apiGetLocation = import.meta.env.VITE_API_GET_LOCATION;
@@ -160,7 +128,7 @@ function Profile() {
               <SecuritySettings locationString={locationString} flag={flag} />
             </TabPanel>
             <TabPanel>
-              <Billing subscription={subscription} paymentHistory={paymentHistory} />
+              <Billing subscription={subscription} />
             </TabPanel>
           </TabPanels>
         </Flex>

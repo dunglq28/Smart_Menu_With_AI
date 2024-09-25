@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Box, Heading, Text, Button, Flex, Grid, Alert, AlertIcon } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import PricingPackageCard from "../../../components/Payment/PricingPackageCard";
-import { PricingPackageType } from "../../../models/PricingPackageType";
-import { getPlans } from "../../../services/PlanService";
-import { PlanData } from "../../../payloads/responses/PlanResponse.model";
-import { formatCurrencyVND } from "../../../utils/functionHelper";
-import { toast } from "react-toastify";
-import basicPackage from "../../../assets/images/basicPackage.png";
-import standardPackage from "../../../assets/images/standardPackage.png";
-import premiumPackage from "../../../assets/images/premiumPackage.png";
 import PackageDetails from "../../../components/Payment/PackageDetails";
 import moment from "moment";
-import { getInitialPlanData } from "../../../utils/initialData";
-import FormInput from "../../../components/Payment/FormInput";
+import { getInitialSubscriptionData } from "../../../utils/initialData";
+import { SubscriptionData } from "../../../payloads/responses/SubscriptionData.model";
+import { getSubscription } from "../../../services/SubscriptionsService";
+import { createExtendPaymentLink } from "../../../services/CheckoutService";
 
 const RenewPackage = () => {
-  const [pricingPackages, setPricingPackages] = useState<PricingPackageType[]>([]);
-  const [plan, setPlan] = useState<PlanData>(getInitialPlanData());
+  const [subscription, setSubscription] = useState<SubscriptionData>(getInitialSubscriptionData());
   const today = moment();
   const effectiveDate = today.format("DD/MM/YYYY");
   const expirationDate = today.add(1, "month").format("DD/MM/YYYY");
@@ -25,7 +17,37 @@ const RenewPackage = () => {
 
   const navigate = useNavigate();
 
-  async function handleCreatePaymentLink() {}
+  const getSubscriptionByUserId = async (): Promise<SubscriptionData | null> => {
+    try {
+      var userId = localStorage.getItem("UserId");
+      const response = await getSubscription(Number(userId));
+      if (!response.isSuccess) {
+        throw new Error("Failed to fetch Subscription");
+      }
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching Subscription:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      const subscriptionData = await getSubscriptionByUserId();
+      if (subscriptionData) {
+        setSubscription(subscriptionData);
+      }
+    };
+    fetchSubscription();
+  }, []);
+
+  async function handleCreatePaymentLink() {
+    const result = await createExtendPaymentLink(subscription.subscriptionId);
+
+    if (result.isSuccess) {
+      return (window.location.href = result.data);
+    }
+  }
 
   return (
     <Box
@@ -45,7 +67,7 @@ const RenewPackage = () => {
 
       {/* Package Details Section */}
       <PackageDetails
-        plan={plan}
+        subscription={subscription}
         effectiveDate={effectiveDate}
         expirationDate={expirationDate}
         isLoading={isLoading}

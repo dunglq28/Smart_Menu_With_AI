@@ -26,8 +26,8 @@ namespace FSU.SmartMenuWithAI.Service.Models
 
         public string Email { get; set; } = null!;
         // Các thuộc tính từ Subscription và Plan
-        public int SubscriptionId { get; set; }
-        public int PlanId { get; set; }
+        public int? SubscriptionId { get; set; }
+        public int? PlanId { get; set; }
         public string? PlanName { get; set; }
     }
 }

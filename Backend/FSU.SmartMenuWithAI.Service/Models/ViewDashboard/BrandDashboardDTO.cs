@@ -19,6 +19,7 @@ namespace FSU.SmartMenuWithAI.Service.Models.ViewDashboard
     {
         public int menuid { get; set; }
         public int times { get; set; }
+        public string? description { get; set; }
     }
 
     public class ProductByCate
