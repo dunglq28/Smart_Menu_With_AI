@@ -258,10 +258,22 @@ namespace FSU.SmartMenuWithAI.Service.Services
         {
             var sub1 = await _unitOfWork.SubscriptioRepository.GetByID(subId);
 
+            var latestSub = await _unitOfWork.SubscriptioRepository.Get(filter: s => s.UserId == sub1.UserId && s.Status == 1,
+                                                                        orderBy: q => q.OrderByDescending(s => s.EndDate) // Sắp xếp theo EndDate giảm dần
+                                                                        );
+            var latestSubscription = latestSub.FirstOrDefault();
+
             var subscription = new Subscription();
             subscription.SubscriptionCode = Guid.NewGuid().ToString();
             subscription.Status = (int)PaymentStatus.Pending;
-            subscription.StartDate = sub1.EndDate;
+            if (latestSubscription != null)
+            {
+                subscription.StartDate = latestSubscription.EndDate; // Nếu có subscription, bắt đầu sau ngày kết thúc gần nhất
+            }
+            else
+            {
+                subscription.StartDate = DateTime.Now; // Nếu không có, bắt đầu từ ngày hiện tại
+            }
             subscription.EndDate = subscription.StartDate.AddMonths(1);
             subscription.UserId = sub1.UserId;
             subscription.Email = sub1.Email;
