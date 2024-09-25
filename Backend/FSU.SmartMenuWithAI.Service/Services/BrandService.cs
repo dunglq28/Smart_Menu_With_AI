@@ -234,7 +234,8 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 .Select(menu => new TimesRecomment
                 {
                     menuid = menu.MenuId, // Default to 0 if MenuId is null
-                    times = menu.TimeRcm ?? 0  // Default to 0 if TimeRcm is null
+                    times = menu.TimeRcm ?? 0,  // Default to 0 if TimeRcm is null
+                    description = menu.Description
                 })
                 .ToList();
             // Retrieve product counts by category (example logic)

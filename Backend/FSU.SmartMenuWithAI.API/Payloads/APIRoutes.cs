@@ -27,6 +27,7 @@
         {
             public const string CheckoutPayOs = Base + "/PayOS/create-payment-link";
             public const string GetPaymentLink = Base + "/PayOS/get-payment-link";
+            public const string Extend = Base + "/PayOS/Extend/create-payment-link";
         }
         public static class Email
         {
@@ -77,7 +78,7 @@
 
             public const string CheckLimit = Base + "/brands/checklimit/{user-id}";
 
-            public const string GetDashboard = Base + "/brands/{brand-id}";
+            public const string GetDashboard = Base + "/brands/dashboard/{brand-id}";
         }
 
         public static class Store
