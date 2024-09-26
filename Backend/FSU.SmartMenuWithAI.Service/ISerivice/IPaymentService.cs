@@ -17,7 +17,7 @@ namespace FSU.SmartMenuWithAI.Service.ISerivice
         Task<PaymentDTO> GetByEmail2(string email);
         Task<PaymentDTO> Checkout(int userID, decimal? amount, string email, int transactionId);
         Task<PaymentDTO> Extend(int subId, int transactionId);
-        Task<bool> ConfirmPaymentAsync(int paymentId, int userId, int status);
+        Task<bool> ConfirmPaymentAsync(int paymentId, int userId, int status, bool isRenew);
 
         //tạo subscription nhưng ở paymentservice
         Task<SubscriptionDTO> AddSubscription(int userID, string email, int planId, int paymentId);

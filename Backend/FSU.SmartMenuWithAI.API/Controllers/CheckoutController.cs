@@ -12,6 +12,7 @@ using FSU.SmartMenuWithAI.Service.Models.PayOS;
 using Microsoft.Extensions.Options;
 using FSU.SmartMenuWithAI.API.Payloads.Request.Payment;
 using FSU.SmartMenuWithAI.Service.ISerivice;
+using Newtonsoft.Json;
 
 namespace FSU.SmartMenuWithAI.API.Controllers
 {
@@ -88,7 +89,7 @@ namespace FSU.SmartMenuWithAI.API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost(APIRoutes.Checkout.Extend, Name = "Extend")]
-        public async Task<IActionResult> Extend(/*[FromBody] PayOsRequest request*/ [FromQuery(Name = "sub-id")] int subId)
+        public async Task<IActionResult> Extend([FromBody] ExtendSubscriptionRequest request)
         {
             try
             {
@@ -99,11 +100,11 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                 //viết ở đây
                 // Tạo payment history với status đang thanh toán
                 var transactionid = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
-                var payment = await _paymentService.Extend(subId, transactionid);
+                var payment = await _paymentService.Extend(request.SubId, transactionid);
                 if (payment != null)
                 {
                     //tạo subscription sau khi đã tạo payment thành công
-                    var subscription = await _paymentService.AddExtendSubscription(payment.PaymentId, subId);
+                    var subscription = await _paymentService.AddExtendSubscription(payment.PaymentId, request.SubId);
                     if (subscription == null) { throw new Exception("Lỗi nghiêm trọng!!! Gói đăng kí chưa được khởi tạo"); }
 
                 }
