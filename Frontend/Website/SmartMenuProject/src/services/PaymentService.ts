@@ -21,9 +21,7 @@ export const getPayments = async (
   return apiResponse.data as GetData<PaymentData>;
 };
 
-export const checkExistEmail = async (
-  email: string,
-): Promise<ApiResponse<PaymentData>> => {
+export const checkExistEmail = async (email: string): Promise<ApiResponse<PaymentData>> => {
   const res = await axiosAuth.get("payments/check-exist-email", {
     params: {
       email: email,
@@ -37,12 +35,14 @@ export const updatePaymentStatus = async (
   paymentId: number,
   userId: number,
   status: PaymentStatus,
+  isRenew: boolean,
 ): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosAuth.put("payments", {
       paymentId: paymentId,
       userId: userId,
       status: status,
+      isRenew: isRenew,
     });
     const apiResponse = res.data as ApiResponse<Object>;
     return apiResponse;
