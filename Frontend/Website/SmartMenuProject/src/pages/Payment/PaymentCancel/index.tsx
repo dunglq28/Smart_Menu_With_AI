@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -12,18 +12,26 @@ import {
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { updatePaymentStatus } from "../../../services/PaymentService";
 import { PaymentStatus } from "../../../constants/Enum";
+import { useNavigate } from "react-router-dom";
 
 function PaymentCancel() {
+  const navigate = useNavigate();
   const headingSize = useBreakpointValue({ base: "lg", md: "xl" });
   const textSize = useBreakpointValue({ base: "md", md: "xl" });
+  const [isRenew, setIsRenew] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchChangePaymentStatus = async () => {
       const queryParams = new URLSearchParams(location.search);
       const paymentIdParam = queryParams.get("payment-id");
       const userIdParam = queryParams.get("user-id");
+      const isRenewParam = queryParams.get("is-renew");
 
-      if (paymentIdParam && userIdParam) {
+      if (isRenewParam) {
+        setIsRenew(isRenewParam.toLowerCase() === "true");
+      }
+
+      if (paymentIdParam && userIdParam && isRenewParam) {
         const paymentId = parseInt(paymentIdParam);
         const userId = parseInt(userIdParam);
 
@@ -32,6 +40,7 @@ function PaymentCancel() {
             paymentId,
             userId,
             PaymentStatus.Cancelled,
+            isRenew,
           );
         } catch (err) {
           console.error(err);
@@ -43,6 +52,14 @@ function PaymentCancel() {
 
     fetchChangePaymentStatus();
   }, []);
+
+  const handleClickBackHome = () => {
+    if (isRenew) {
+      navigate("/brand-dashboard");
+    } else {
+    }
+    navigate("/");
+  };
 
   return (
     <Box height="100vh" bg="gray.100" w="100%" p={4}>
@@ -66,8 +83,8 @@ function PaymentCancel() {
 
         {/* Thông báo */}
         <Text fontSize={textSize} mb={6} px={4}>
-          Thanh toán của bạn đã bị hủy. Vui lòng thử lại hoặc liên hệ với bộ
-          phận hỗ trợ nếu bạn cần giúp đỡ.
+          Thanh toán của bạn đã bị hủy. Vui lòng thử lại hoặc liên hệ với bộ phận hỗ trợ nếu bạn cần
+          giúp đỡ.
         </Text>
 
         {/* Các bước tiếp theo */}
@@ -83,20 +100,16 @@ function PaymentCancel() {
           </HStack>
           <HStack>
             <Icon as={AiOutlineCloseCircle} color="red.500" />
-            <Text fontSize={textSize}>
-              Kiểm tra email để biết thêm thông tin nếu có vấn đề.
-            </Text>
+            <Text fontSize={textSize}>Kiểm tra email để biết thêm thông tin nếu có vấn đề.</Text>
           </HStack>
           <HStack>
             <Icon as={AiOutlineCloseCircle} color="red.500" />
-            <Text fontSize={textSize}>
-              Liên hệ bộ phận hỗ trợ nếu bạn cần giúp đỡ.
-            </Text>
+            <Text fontSize={textSize}>Liên hệ bộ phận hỗ trợ nếu bạn cần giúp đỡ.</Text>
           </HStack>
         </VStack>
 
         {/* Nút quay về trang chủ */}
-        <Button colorScheme="teal" size="lg" mb={4} width="full" maxW="300px">
+        <Button onClick={handleClickBackHome} colorScheme="teal" size="lg" mb={4} width="full" maxW="300px">
           Quay về trang chủ
         </Button>
       </Box>

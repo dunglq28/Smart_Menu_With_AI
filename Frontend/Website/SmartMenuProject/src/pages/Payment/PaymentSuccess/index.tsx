@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -18,6 +18,7 @@ function PaymentSuccess() {
   const navigate = useNavigate();
   const headingSize = useBreakpointValue({ base: "lg", md: "xl" });
   const textSize = useBreakpointValue({ base: "md", md: "xl" });
+  const [isRenew, setIsRenew] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchChangePaymentStatus = async () => {
@@ -25,14 +26,19 @@ function PaymentSuccess() {
       const paymentIdParam = queryParams.get("payment-id");
       const userIdParam = queryParams.get("user-id");
       const statusParam = queryParams.get("status");
+      const isRenewParam = queryParams.get("is-renew");
+
+      if (isRenewParam) {
+        setIsRenew(isRenewParam.toLowerCase() === "true");
+      }
 
       if (statusParam != null && statusParam.toUpperCase() != "PAID") {
         navigate(
-          `/payment/payment-failure?payment-id=${paymentIdParam}&user-id=${userIdParam}`,
+          `/payment/payment-failure?payment-id=${paymentIdParam}&user-id=${userIdParam}&is-renew=${isRenewParam}`,
         );
       }
-      
-      if (paymentIdParam && userIdParam) {
+
+      if (paymentIdParam && userIdParam && isRenewParam) {
         const paymentId = parseInt(paymentIdParam);
         const userId = parseInt(userIdParam);
 
@@ -41,6 +47,7 @@ function PaymentSuccess() {
             paymentId,
             userId,
             PaymentStatus.Succeed,
+            isRenew,
           );
         } catch (err) {
           console.error(err);
@@ -53,6 +60,14 @@ function PaymentSuccess() {
     fetchChangePaymentStatus();
   }, []);
 
+  const handleClickBackHome = () => {
+    if (isRenew) {
+      navigate("/brand-dashboard");
+    } else {
+    }
+    navigate("/");
+  };
+
   return (
     <Box height="100vh" bg="gray.100" w="100%" p={4}>
       <Box
@@ -62,21 +77,22 @@ function PaymentSuccess() {
         justifyContent="center"
         height="80vh"
         textAlign="center"
-        maxW="650px" // Giới hạn chiều rộng để cân đối nội dung
-        mx="auto" // Canh giữa cho nội dung
+        maxW="650px"
+        mx="auto"
       >
         {/* Icon thành công */}
         <Icon as={AiOutlineCheckCircle} color="green.500" boxSize={24} mb={4} />
 
         {/* Tiêu đề */}
         <Heading as="h1" size={headingSize} mb={4}>
-          Đăng ký gói Smart Menu thành công!
+          {isRenew ? "Gia hạn gói Smart Menu thành công!" : "Đăng ký gói Smart Menu thành công!"}
         </Heading>
 
         {/* Thông báo */}
         <Text fontSize={textSize} mb={6} px={4}>
-          Cảm ơn bạn đã đăng ký. Tài khoản và mật khẩu sẽ được gửi đến email mà
-          bạn đã đăng ký.
+          {isRenew
+            ? "Cảm ơn bạn đã gia hạn gói. Tài khoản của bạn sẽ tiếp tục hoạt động với gói đã chọn."
+            : "Cảm ơn bạn đã đăng ký. Tài khoản và mật khẩu sẽ được gửi đến email mà bạn đã đăng ký."}
         </Text>
 
         {/* Các bước tiếp theo */}
@@ -87,34 +103,41 @@ function PaymentSuccess() {
           <HStack>
             <Icon as={AiOutlineCheckCircle} color="green.500" />
             <Text fontSize={textSize}>
-              Kiểm tra email để nhận thông tin tài khoản
+              {isRenew
+                ? "Tiếp tục sử dụng hệ thống Smart Menu với gói đã gia hạn"
+                : "Kiểm tra email để nhận thông tin tài khoản"}
             </Text>
           </HStack>
           <HStack>
             <Icon as={AiOutlineCheckCircle} color="green.500" />
-            <Text fontSize={textSize}>Đăng nhập vào hệ thống Smart Menu</Text>
+            <Text fontSize={textSize}>
+              {isRenew ? "Không cần đăng nhập lại" : "Đăng nhập vào hệ thống Smart Menu"}
+            </Text>
           </HStack>
           <HStack>
             <Icon as={AiOutlineCheckCircle} color="green.500" />
             <Text fontSize={textSize}>
-              Bắt đầu tùy chỉnh và sử dụng Smart Menu
+              {isRenew
+                ? "Tiếp tục tùy chỉnh và sử dụng Smart Menu"
+                : "Bắt đầu tùy chỉnh và sử dụng Smart Menu"}
             </Text>
           </HStack>
         </VStack>
 
         {/* Nút quay về trang chủ */}
-        <Button colorScheme="teal" size="lg" mb={4} width="full" maxW="300px">
+        <Button
+          onClick={handleClickBackHome}
+          colorScheme="teal"
+          size="lg"
+          mb={4}
+          width="full"
+          maxW="300px"
+        >
           Quay về trang chủ
         </Button>
 
         {/* Nút chuyển đến trang hướng dẫn sử dụng */}
-        <Button
-          variant="outline"
-          size="lg"
-          colorScheme="teal"
-          width="full"
-          maxW="300px"
-        >
+        <Button variant="outline" size="lg" colorScheme="teal" width="full" maxW="300px">
           Xem hướng dẫn sử dụng
         </Button>
       </Box>

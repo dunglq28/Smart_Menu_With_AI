@@ -37,6 +37,8 @@ import { AdminDashboardData } from "../../payloads/responses/DashboarData.model"
 import { getInitialAdminDashboardData } from "../../utils/initialData";
 import { PaymentStatus } from "../../constants/Enum";
 import CardStats from "../../components/Dashboard/CardStats";
+import LineChart from "../../components/Dashboard/LineChart";
+import BarChart from "../../components/Dashboard/BarChart";
 
 function AdminDashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -154,19 +156,13 @@ function AdminDashboard() {
       <CardStats stats={stats} />
 
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
-        <Card>
-          <CardBody>
-            <Heading className={style.title}>Thống kê doanh thu theo tháng</Heading>
-            <Line data={lineChartData} options={lineChartOptions} />
-          </CardBody>
-        </Card>
+        <LineChart
+          title="Thống kê doanh thu theo tháng"
+          data={lineChartData}
+          options={lineChartOptions}
+        />
 
-        <Card>
-          <CardBody>
-            <Heading className={style.title}>Thống kê thương hiệu theo tháng</Heading>
-            <Bar data={barChartData} />
-          </CardBody>
-        </Card>
+        <BarChart title="Thống kê thương hiệu theo tháng" data={barChartData} />
       </SimpleGrid>
 
       <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4} mt={8}>
