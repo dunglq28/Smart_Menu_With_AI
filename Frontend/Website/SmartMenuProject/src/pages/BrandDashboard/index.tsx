@@ -13,6 +13,8 @@ import { TooltipItem } from "chart.js";
 import { BrandDashboardData } from "../../payloads/responses/DashboarData.model";
 import { getInitialBrandDashboardData } from "../../utils/initialData";
 import { getDashboardBrand } from "../../services/DashbroadService";
+import LineChart from "../../components/Dashboard/LineChart";
+import BarChart from "../../components/Dashboard/BarChart";
 
 function BrandDashboard() {
   const location = useLocation();
@@ -152,19 +154,17 @@ function BrandDashboard() {
       <CardStats stats={stats} />
 
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
-        <Card>
-          <CardBody>
-            <Heading className={style.title}>Thống kê số lần xuất hiện của menu</Heading>
-            <Line data={barChartMenuData} options={lineChartOptions} />
-          </CardBody>
-        </Card>
+        <LineChart
+          title="Thống kê số lần xuất hiện của menu"
+          data={barChartMenuData}
+          options={lineChartOptions}
+        />
 
-        <Card>
-          <CardBody>
-            <Heading className={style.title}>Thống kê sản phẩm theo danh mục</Heading>
-            <Bar data={barChartProductData} options={barChartProductOptions} />
-          </CardBody>
-        </Card>
+        <BarChart
+          title="Thống kê sản phẩm theo danh mục"
+          data={barChartProductData}
+          options={barChartProductOptions}
+        />
       </SimpleGrid>
     </Box>
   );
