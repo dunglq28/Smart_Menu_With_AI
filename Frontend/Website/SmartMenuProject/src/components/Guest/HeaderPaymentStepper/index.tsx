@@ -116,7 +116,7 @@ const HeaderPaymentStepper: React.FC = () => {
             <Image src={logo} alt="Logo" w="100%" h="auto" />
           </Box>
           <Heading size="lg" color={themeColors.primaryButton}>
-            Smart Menu
+            Menius
           </Heading>
         </Flex>
         {/* Stepper */}

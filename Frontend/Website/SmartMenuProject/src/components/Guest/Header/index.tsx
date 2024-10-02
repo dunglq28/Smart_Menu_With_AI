@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Heading,
-  Button,
-  Link,
-  Text,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, Button, Link, Text, Image } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { themeColors } from "../../../constants/GlobalStyles";
@@ -57,39 +49,23 @@ const Header: React.FC = () => {
             <Image src={logo} alt="Logo" w="100%" h="auto" />
           </Box>
           <Heading size="lg" color={themeColors.primaryButton}>
-            Smart Menu
+            Menius
           </Heading>
         </Flex>
 
         {/* Liên kết và nút */}
         <Flex justify="flex-start" align="center">
           <Flex align="flex-end" fontSize="lg">
-            <Link
-              mx={5}
-              fontWeight="bold"
-              onClick={() => handleNavigateAndScroll("about")}
-            >
+            <Link mx={5} fontWeight="bold" onClick={() => handleNavigateAndScroll("about")}>
               Giới thiệu
             </Link>
-            <Link
-              mx={5}
-              fontWeight="bold"
-              onClick={() => handleNavigateAndScroll("features")}
-            >
+            <Link mx={5} fontWeight="bold" onClick={() => handleNavigateAndScroll("features")}>
               Tính năng
             </Link>
-            <Link
-              mx={5}
-              fontWeight="bold"
-              onClick={() => handleNavigateAndScroll("benefits")}
-            >
+            <Link mx={5} fontWeight="bold" onClick={() => handleNavigateAndScroll("benefits")}>
               Lợi ích
             </Link>
-            <Link
-              mx={5}
-              fontWeight="bold"
-              onClick={() => handleNavigateAndScroll("pricing")}
-            >
+            <Link mx={5} fontWeight="bold" onClick={() => handleNavigateAndScroll("pricing")}>
               Bảng giá
             </Link>
           </Flex>
@@ -104,7 +80,7 @@ const Header: React.FC = () => {
             size="lg"
             _hover={{
               borderColor: "transparent",
-              bg: `${themeColors.primaryButton}`, 
+              bg: `${themeColors.primaryButton}`,
               opacity: 0.9,
             }}
             onClick={() => navigate("/login")}
