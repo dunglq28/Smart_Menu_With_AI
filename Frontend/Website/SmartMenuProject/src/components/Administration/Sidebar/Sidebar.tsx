@@ -337,7 +337,7 @@ function Sidebar() {
       <Flex>
         <Flex className={style.Logo}>
           <Avatar src={Logo} className={style.Avatar} />
-          {isExpanded && <Text className={style.LogoText}>Smart Menu</Text>}
+          {isExpanded && <Text className={style.LogoText}>Menius</Text>}
         </Flex>
         <IoIosArrowForward
           className={style.ArrowSidebar}

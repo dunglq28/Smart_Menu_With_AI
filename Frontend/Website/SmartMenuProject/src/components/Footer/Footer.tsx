@@ -8,18 +8,18 @@ function Footer() {
     <Flex className={style.Footer}>
       <Flex>
         <Flex className={style.LeftFooter}>
-          <Text className={style.LogoText}>Smart Menu With AI🍽️</Text>
+          <Text className={style.LogoText}>Menius🍽️</Text>
 
           <Flex className={style.ContentOfLeftFooter}>
             <Flex className={style.LeftContentOfLeftFooter}>
-              <Text>Dashboard</Text>
-              <Text>User</Text>
-              <Text>Branch</Text>
+              <Text>Bảng điều khiển</Text>
+              <Text>Người dùng</Text>
+              <Text>Chi nhánh</Text>
             </Flex>
             <Flex className={style.RightContentOfRightFooter}>
-              <Text>Products</Text>
-              <Text>Menu</Text>
-              <Text>New Product</Text>
+              <Text>Sản phẩm</Text>
+              <Text>Thực đơn</Text>
+              <Text>Sản phẩm mới</Text>
             </Flex>
           </Flex>
 
@@ -38,24 +38,22 @@ function Footer() {
             type="email"
             className={style.InputRightFooter}
           />
-          <Button className={style.ContactBtn}>Contact Us</Button>
+          <Button className={style.ContactBtn}>Liên hệ với chúng tôi</Button>
         </Flex>
       </Flex>
 
       <Flex className={style.BottomFooter}>
-        <Text className={style.TextBottomFooter}>Website Terms</Text>
-        <Text className={style.TextBottomFooter}>Privacy Policy</Text>
-        <Text className={style.TextBottomFooter}>Accessibility Statement</Text>
+        <Text className={style.TextBottomFooter}>Điều khoản trang web</Text>
+        <Text className={style.TextBottomFooter}>Chính sách bảo mật</Text>
+        <Text className={style.TextBottomFooter}>Tuyên bố về khả năng truy cập</Text>
         <Text className={style.TextBottomFooter}>
-          CA Transparency in Supply Chains Act
+          Đạo luật minh bạch trong chuỗi cung ứng của CA
         </Text>
-        <Text className={style.TextBottomFooter}>Supplier Code of Conduct</Text>
-        <Text className={style.TextBottomFooter}>Marketing to Children</Text>
-        <Text className={style.TextBottomFooter}>
-          Do Not Sell My Information
-        </Text>
+        <Text className={style.TextBottomFooter}>Quy tắc ứng xử nhà cung cấp</Text>
+        <Text className={style.TextBottomFooter}>Tiếp thị cho trẻ em</Text>
+        <Text className={style.TextBottomFooter}>Không bán thông tin của tôi</Text>
       </Flex>
-      <Text>©2024 Smart Menu with AI.</Text>
+      <Text>©2024 Thực đơn thông minh với AI.</Text>
     </Flex>
   );
 }
