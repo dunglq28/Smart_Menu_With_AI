@@ -59,6 +59,7 @@ function Menu() {
   const initialUserBrandId = state?.userBrandId
     ? state.userBrandId
     : localStorage.getItem("UserId");
+  const isAdmin = state?.userBrandId ? true : false;
   const brandId = state?.id || localStorage.getItem("BrandId") || "";
   const flagRef = useRef(false);
 
@@ -89,7 +90,6 @@ function Menu() {
         setIsLoading(true);
         const loadData = async () => {
           var result = await getAllMenu(Number(brandId), currentPage, rowsPerPage);
-          console.log(result);
 
           setData(result.list);
           setTotalPages(result.totalPage);
@@ -189,12 +189,14 @@ function Menu() {
             Số thực đơn: {limitBrand.numberMenu}/{limitBrand.maxMenu}
           </Text>
         </Flex>
-        <Button onClick={handleClickCreate} className={style.AddMenuBtn}>
-          <Text as="span" fontSize="25px" me={3}>
-            <IoAddCircleOutline />
-          </Text>
-          Tạo menu
-        </Button>
+        {!isAdmin && (
+          <Button onClick={handleClickCreate} className={style.AddMenuBtn}>
+            <Text as="span" fontSize="25px" me={3}>
+              <IoAddCircleOutline />
+            </Text>
+            Tạo menu
+          </Button>
+        )}
       </Flex>
 
       <Flex className={style.Menu}>
@@ -209,7 +211,7 @@ function Menu() {
                 <Th className={style.HeaderTbl}>độ ưu tiên</Th>
                 <Th className={style.HeaderTbl}>Nhân khẩu học</Th>
                 <Th className={style.HeaderTbl}>Đang hoạt động</Th>
-                <Th className={style.HeaderTbl}>cài đặt</Th>
+                {!isAdmin && <Th className={style.HeaderTbl}>cài đặt</Th>}
               </Tr>
             </Thead>
             <Tbody>
@@ -257,14 +259,16 @@ function Menu() {
                       </Collapse>
                     </Td>
                     <Td>{menu.isActive ? "Có" : "Không"}</Td>
-                    <Td>
-                      <Button
-                        onClick={() => handleClickMenu(menu.menuId)}
-                        className={style.MenuButton}
-                      >
-                        Chỉnh sửa
-                      </Button>
-                    </Td>
+                    {!isAdmin && (
+                      <Td>
+                        <Button
+                          onClick={() => handleClickMenu(menu.menuId)}
+                          className={style.MenuButton}
+                        >
+                          Chỉnh sửa
+                        </Button>
+                      </Td>
+                    )}
                   </Tr>
                 ))
               )}
