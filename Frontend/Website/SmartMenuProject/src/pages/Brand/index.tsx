@@ -149,6 +149,7 @@ function Brand() {
                   <ActionMenuBrand
                     id={brand.brandId}
                     brandName={brand.brandName}
+                    userBrandId={brand.userId}
                     onDelete={handleDelete}
                     onEdit={handleEdit}
                   />

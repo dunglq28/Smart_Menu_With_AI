@@ -18,7 +18,7 @@ import {
   Collapse,
   Box,
 } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useLocation, useNavigate } from "react-router-dom";
+import { Link as ReactRouterLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import style from "./Menu.module.scss";
 import MenuCard from "../../components/Menu/MenuCard";
 import { MenuData } from "../../payloads/responses/MenuData.model";
@@ -39,7 +39,9 @@ import { getInitialLimitBrandData } from "../../utils/initialData";
 
 function Menu() {
   const location = useLocation();
+  const { state } = location;
   const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
   const [data, setData] = useState<MenuData[]>([]);
@@ -53,9 +55,12 @@ function Menu() {
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [openMenuIds, setOpenMenuIds] = useState<number[]>([]);
   const [limitBrand, setLimitBrand] = useState<LimitBrandData>(getInitialLimitBrandData());
-  const brandId = localStorage.getItem("BrandId");
+
+  const initialUserBrandId = state?.userBrandId
+    ? state.userBrandId
+    : localStorage.getItem("UserId");
+  const brandId = state?.id || localStorage.getItem("BrandId") || "";
   const flagRef = useRef(false);
-  const { isOpen, onToggle } = useDisclosure();
 
   useEffect(() => {
     if (location.state?.toastMessage && !flagRef.current) {
@@ -68,7 +73,7 @@ function Menu() {
   }, [location.state, navigate]);
 
   const getLimitBrand = async () => {
-    const userId = localStorage.getItem("UserId");
+    const userId = initialUserBrandId;
     if (userId) {
       const { statusCode, data } = await getLimitBrandByUserId(userId);
       if (statusCode === 200) {
@@ -85,7 +90,7 @@ function Menu() {
         const loadData = async () => {
           var result = await getAllMenu(Number(brandId), currentPage, rowsPerPage);
           console.log(result);
-          
+
           setData(result.list);
           setTotalPages(result.totalPage);
           setTotalRecords(result.totalRecord);

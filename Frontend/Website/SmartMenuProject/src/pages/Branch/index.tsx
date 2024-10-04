@@ -35,9 +35,11 @@ function Branch() {
 
   const initialId = state?.id || localStorage.getItem("BrandId") || "";
   const initialBrandName = state?.brandName || localStorage.getItem("BrandName") || "";
+  const initialUserBrandId = state?.userBrandId
+    ? state.userBrandId
+    : localStorage.getItem("UserId");
   const initialState = { id: initialId, brandName: initialBrandName };
 
-  const [brandId, setBrandId] = useState<string | null>(localStorage.getItem("BrandId"));
   const [brandInfo, setBrandInfo] = useState(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
@@ -51,7 +53,7 @@ function Branch() {
   const flagRef = useRef(false);
 
   const getLimitBrand = async () => {
-    const userId = localStorage.getItem("UserId");
+    const userId = initialUserBrandId;
     if (userId) {
       const { statusCode, data } = await getLimitBrandByUserId(userId);
       if (statusCode === 200) {
@@ -148,7 +150,7 @@ function Branch() {
 
   async function handleDelete(id: number) {
     try {
-      const result = await deleteBranch(id, brandId);
+      const result = await deleteBranch(id, brandInfo.id);
       if (result.statusCode === 200) {
         getLimitBrand();
         if ((totalRecords - 1) % rowsPerPage === 0 && currentPage > 1) {
@@ -165,7 +167,7 @@ function Branch() {
 
   async function handleEdit(branch: branchUpdate) {
     try {
-      var result = await updateBranch(branch, brandId);
+      var result = await updateBranch(branch, brandInfo.id);
       if (result.statusCode === 200) {
         fetchData();
         toast.success("Cập nhật chi nhánh thành công");

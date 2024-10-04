@@ -27,23 +27,15 @@ import { getInitialBrandForm } from "../../../utils/initialData";
 interface ActionMenuProps {
   id: number;
   brandName: string;
+  userBrandId: number;
   onDelete: (id: number) => void;
   onEdit: (brand: brandUpdate) => void;
 }
 
-const ActionMenuBrand: FC<ActionMenuProps> = ({
-  id,
-  brandName,
-  onDelete,
-  onEdit,
-}) => {
+const ActionMenuBrand: FC<ActionMenuProps> = ({ id, brandName, userBrandId, onDelete, onEdit }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isOpenBrand,
-    onOpen: onOpenBrand,
-    onClose: onCloseBrand,
-  } = useDisclosure();
+  const { isOpen: isOpenBrand, onOpen: onOpenBrand, onClose: onCloseBrand } = useDisclosure();
   const cancelRef: React.LegacyRef<HTMLButtonElement> = React.useRef(null);
   const navigate = useNavigate();
   //BRAND DATA
@@ -64,7 +56,6 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({
     var result = await getBrand(id);
     if (result.statusCode === 200) {
       const { brandName, imageUrl } = result.data;
-
       const updatedBrandData: BrandForm = {
         brandName: { value: brandName, errorMessage: "" },
         image: { value: null, errorMessage: "" },
@@ -78,7 +69,10 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({
   const handleViewClick = (path: string) => {
     switch (path) {
       case "branches":
-        navigate(`/branches/${brandName}`, { state: { id, brandName } });
+        navigate(`/branches/${brandName}`, { state: { id, brandName, userBrandId } });
+        break;
+      case "menu":
+        navigate(`/menu/${brandName}`, { state: { id, userBrandId } });
         break;
       default:
         break;
@@ -99,17 +93,15 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({
           <PopoverContent className={style.PopoverContent}>
             <PopoverArrow />
             <PopoverBody>
-              <Flex
-                className={style.PopupButton}
-                onClick={() => handleViewClick("branches")}
-              >
+              <Flex className={style.PopupButton} onClick={() => handleViewClick("branches")}>
                 <Text className={style.PopupButtonText}>Xem chi nhánh</Text>
+              </Flex>
+              <Flex className={style.PopupButton} onClick={() => handleViewClick("menu")}>
+                <Text className={style.PopupButtonText}>Xem thực đơn</Text>
               </Flex>
               <Divider />
               <Flex className={style.PopupButton} onClick={handleEditClick}>
-                <Text className={style.PopupButtonText}>
-                  Cập nhật thương hiệu
-                </Text>
+                <Text className={style.PopupButtonText}>Cập nhật thương hiệu</Text>
               </Flex>
               <Divider />
               <Flex className={style.PopupButton} onClick={onOpen}>
