@@ -1,9 +1,5 @@
 import { refreshToken } from "./../services/AuthenticationService";
-import axios, {
-  AxiosInstance,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
+import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
 import { kebabCase } from "change-case";
 import {
@@ -18,9 +14,7 @@ const API_DEVELOPMENT = import.meta.env.VITE_API_DEVELOPMENT;
 const API_DEPLOY = import.meta.env.VITE_API_DEPLOY;
 
 const BASE_URL =
-  API_DEVELOPMENT === true
-    ? `${API_DEPLOY}/api`
-    : `${API_HOST}:${API_PORT}/api`;
+  Boolean(API_DEVELOPMENT) === true ? `${API_DEPLOY}/api` : `${API_HOST}:${API_PORT}/api`;
 
 const axiosAuth: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -52,7 +46,7 @@ axiosAuth.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Add Response interceptor
@@ -93,7 +87,7 @@ axiosAuth.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosAuth;
