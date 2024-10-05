@@ -72,9 +72,19 @@ function Sidebar() {
   const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
 
   const customOnOpenBranch = async () => {
+    const roleid = localStorage.getItem("RoleId");
+
+    if (!roleid || roleid === UserRole.Admin.toString()) {
+      onOpenBranch();
+      return;
+    }
+
     const userId = localStorage.getItem("UserId");
-    if (userId) {
+    if (!userId) return;
+
+    try {
       const { statusCode, data } = await getLimitBrandByUserId(userId);
+
       if (statusCode === 200) {
         if (data.numberAccount < data.maxAccount) {
           onOpenBranch();
@@ -84,8 +94,9 @@ function Sidebar() {
       } else {
         toast.error("Đã có lỗi xảy ra, vui lòng thử lại.");
       }
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra, vui lòng thử lại.");
     }
-    return;
   };
 
   const changeItem = setItem;
