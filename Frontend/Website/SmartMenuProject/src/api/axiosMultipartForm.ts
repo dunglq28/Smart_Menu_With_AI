@@ -1,13 +1,6 @@
-import axios, {
-  AxiosInstance,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
+import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
-import {
-  convertKeysToCamelCase,
-  convertKeysToKebabCase,
-} from "../utils/keyCaseConverter";
+import { convertKeysToCamelCase, convertKeysToKebabCase } from "../utils/keyCaseConverter";
 import { refreshToken } from "../services/AuthenticationService";
 
 const API_HOST = import.meta.env.VITE_API_HOST;
@@ -16,9 +9,7 @@ const API_DEVELOPMENT = import.meta.env.VITE_API_DEVELOPMENT;
 const API_DEPLOY = import.meta.env.VITE_API_DEPLOY;
 
 const BASE_URL =
-  API_DEVELOPMENT === true
-    ? `${API_DEPLOY}/api`
-    : `${API_HOST}:${API_PORT}/api`;
+  Boolean(API_DEVELOPMENT) === true ? `${API_DEPLOY}/api` : `${API_HOST}:${API_PORT}/api`;
 
 const axiosMultipartForm: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -46,7 +37,7 @@ axiosMultipartForm.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Add Response interceptor
@@ -87,7 +78,7 @@ axiosMultipartForm.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosMultipartForm;
