@@ -95,6 +95,7 @@ function AdminDashboard() {
   const lineChartOptions: ChartOptions<"line"> = {
     scales: {
       y: {
+        beginAtZero: true,
         ticks: {
           callback: function (value: number | string) {
             return value.toLocaleString("vi-VN");
@@ -121,6 +122,19 @@ function AdminDashboard() {
         borderColor: "rgba(153, 102, 255, 1)",
       },
     ],
+  };
+
+  const barChartProductOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    datasets: {
+      bar: {
+        minBarLength: 5,
+      },
+    },
   };
 
   const fetchData = useCallback(async () => {
@@ -162,7 +176,11 @@ function AdminDashboard() {
           options={lineChartOptions}
         />
 
-        <BarChart title="Thống kê thương hiệu theo tháng" data={barChartData} />
+        <BarChart
+          title="Thống kê thương hiệu theo tháng"
+          data={barChartData}
+          options={barChartProductOptions}
+        />
       </SimpleGrid>
 
       <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4} mt={8}>
