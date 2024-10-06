@@ -33,6 +33,11 @@ namespace FSU.SmartMenuWithAI.Service.Services
             {
                 return false;
             }
+            foreach (var menuSegment in deleteMenu.MenuSegments) 
+            {
+                _unitOfWork.MenuSegmentRepository.Delete(menuSegment);
+
+            }
             // Xóa tất cả các ProductLists
             foreach (var menuList in deleteMenu.MenuLists)
             {
