@@ -362,8 +362,8 @@ const PaymentInfoPage = () => {
 
         if (brandResult?.isSuccess) {
           const result = await createPaymentLink(
-            // plan.price,
-            "2000",
+            plan.price,
+            // "2000",
             brandResult.userId,
             email.value,
             plan.planId,

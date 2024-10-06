@@ -18,7 +18,7 @@ import {
   Collapse,
   Box,
 } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useLocation, useNavigate } from "react-router-dom";
+import { Link as ReactRouterLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import style from "./Menu.module.scss";
 import MenuCard from "../../components/Menu/MenuCard";
 import { MenuData } from "../../payloads/responses/MenuData.model";
@@ -39,7 +39,9 @@ import { getInitialLimitBrandData } from "../../utils/initialData";
 
 function Menu() {
   const location = useLocation();
+  const { state } = location;
   const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
   const [data, setData] = useState<MenuData[]>([]);
@@ -53,9 +55,13 @@ function Menu() {
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [openMenuIds, setOpenMenuIds] = useState<number[]>([]);
   const [limitBrand, setLimitBrand] = useState<LimitBrandData>(getInitialLimitBrandData());
-  const brandId = localStorage.getItem("BrandId");
+
+  const initialUserBrandId = state?.userBrandId
+    ? state.userBrandId
+    : localStorage.getItem("UserId");
+  const isAdmin = state?.userBrandId ? true : false;
+  const brandId = state?.id || localStorage.getItem("BrandId") || "";
   const flagRef = useRef(false);
-  const { isOpen, onToggle } = useDisclosure();
 
   useEffect(() => {
     if (location.state?.toastMessage && !flagRef.current) {
@@ -68,7 +74,7 @@ function Menu() {
   }, [location.state, navigate]);
 
   const getLimitBrand = async () => {
-    const userId = localStorage.getItem("UserId");
+    const userId = initialUserBrandId;
     if (userId) {
       const { statusCode, data } = await getLimitBrandByUserId(userId);
       if (statusCode === 200) {
@@ -84,8 +90,7 @@ function Menu() {
         setIsLoading(true);
         const loadData = async () => {
           var result = await getAllMenu(Number(brandId), currentPage, rowsPerPage);
-          console.log(result);
-          
+
           setData(result.list);
           setTotalPages(result.totalPage);
           setTotalRecords(result.totalRecord);
@@ -140,11 +145,11 @@ function Menu() {
   };
 
   const handleClickCreate = async () => {
-    if (limitBrand.numberMenu < limitBrand.maxMenu) {
+    // if (limitBrand.numberMenu < limitBrand.maxMenu) {
       navigate("/menu/create-menu");
-    } else {
-      toast.error(`Bạn đã tạo đủ ${limitBrand.maxMenu} thực đơn`);
-    }
+    // } else {
+    //   toast.error(`Bạn đã tạo đủ ${limitBrand.maxMenu} thực đơn`);
+    // }
   };
 
   const handleToggleMenu = async (menuId: number) => {
@@ -184,12 +189,14 @@ function Menu() {
             Số thực đơn: {limitBrand.numberMenu}/{limitBrand.maxMenu}
           </Text>
         </Flex>
-        <Button onClick={handleClickCreate} className={style.AddMenuBtn}>
-          <Text as="span" fontSize="25px" me={3}>
-            <IoAddCircleOutline />
-          </Text>
-          Tạo menu
-        </Button>
+        {!isAdmin && (
+          <Button onClick={handleClickCreate} className={style.AddMenuBtn}>
+            <Text as="span" fontSize="25px" me={3}>
+              <IoAddCircleOutline />
+            </Text>
+            Tạo menu
+          </Button>
+        )}
       </Flex>
 
       <Flex className={style.Menu}>
@@ -204,7 +211,7 @@ function Menu() {
                 <Th className={style.HeaderTbl}>độ ưu tiên</Th>
                 <Th className={style.HeaderTbl}>Nhân khẩu học</Th>
                 <Th className={style.HeaderTbl}>Đang hoạt động</Th>
-                <Th className={style.HeaderTbl}>cài đặt</Th>
+                {!isAdmin && <Th className={style.HeaderTbl}>cài đặt</Th>}
               </Tr>
             </Thead>
             <Tbody>
@@ -252,14 +259,16 @@ function Menu() {
                       </Collapse>
                     </Td>
                     <Td>{menu.isActive ? "Có" : "Không"}</Td>
-                    <Td>
-                      <Button
-                        onClick={() => handleClickMenu(menu.menuId)}
-                        className={style.MenuButton}
-                      >
-                        Chỉnh sửa
-                      </Button>
-                    </Td>
+                    {!isAdmin && (
+                      <Td>
+                        <Button
+                          onClick={() => handleClickMenu(menu.menuId)}
+                          className={style.MenuButton}
+                        >
+                          Chỉnh sửa
+                        </Button>
+                      </Td>
+                    )}
                   </Tr>
                 ))
               )}

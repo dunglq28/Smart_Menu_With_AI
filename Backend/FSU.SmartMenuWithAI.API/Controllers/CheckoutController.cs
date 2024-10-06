@@ -59,8 +59,8 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                   transactionid,
                   request.PlanName,
                   (int)request.Amount!,
-                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={request.UserId}&is-renew={false}",
-                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={request.UserId}&is-renew={false}"
+                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={request.UserId}&is-renew=false",
+                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={request.UserId}&is-renew=false"
                 );
 
 
@@ -130,8 +130,8 @@ namespace FSU.SmartMenuWithAI.API.Controllers
                   transactionid,
                   paymentCreated.PlanName,
                   (int)paymentCreated.Amount!,
-                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={payment.UserId}&is-renew={true}",
-                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={payment.UserId}&is-renew={true}"
+                  $"payment/payment-success?payment-id={payment.PaymentId}&user-id={payment.UserId}&is-renew=true",
+                  $"payment/payment-cancel?payment-id={payment.PaymentId}&user-id={payment.UserId}&is-renew=true"
                 );
 
 

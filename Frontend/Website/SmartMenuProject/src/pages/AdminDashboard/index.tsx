@@ -37,6 +37,8 @@ import { AdminDashboardData } from "../../payloads/responses/DashboarData.model"
 import { getInitialAdminDashboardData } from "../../utils/initialData";
 import { PaymentStatus } from "../../constants/Enum";
 import CardStats from "../../components/Dashboard/CardStats";
+import LineChart from "../../components/Dashboard/LineChart";
+import BarChart from "../../components/Dashboard/BarChart";
 
 function AdminDashboard() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -93,6 +95,7 @@ function AdminDashboard() {
   const lineChartOptions: ChartOptions<"line"> = {
     scales: {
       y: {
+        beginAtZero: true,
         ticks: {
           callback: function (value: number | string) {
             return value.toLocaleString("vi-VN");
@@ -119,6 +122,19 @@ function AdminDashboard() {
         borderColor: "rgba(153, 102, 255, 1)",
       },
     ],
+  };
+
+  const barChartProductOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    datasets: {
+      bar: {
+        minBarLength: 5,
+      },
+    },
   };
 
   const fetchData = useCallback(async () => {
@@ -154,19 +170,17 @@ function AdminDashboard() {
       <CardStats stats={stats} />
 
       <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={4} mt={8}>
-        <Card>
-          <CardBody>
-            <Heading className={style.title}>Thống kê doanh thu theo tháng</Heading>
-            <Line data={lineChartData} options={lineChartOptions} />
-          </CardBody>
-        </Card>
+        <LineChart
+          title="Thống kê doanh thu theo tháng"
+          data={lineChartData}
+          options={lineChartOptions}
+        />
 
-        <Card>
-          <CardBody>
-            <Heading className={style.title}>Thống kê thương hiệu theo tháng</Heading>
-            <Bar data={barChartData} />
-          </CardBody>
-        </Card>
+        <BarChart
+          title="Thống kê thương hiệu theo tháng"
+          data={barChartData}
+          options={barChartProductOptions}
+        />
       </SimpleGrid>
 
       <SimpleGrid columns={{ sm: 1, md: 3 }} spacing={4} mt={8}>

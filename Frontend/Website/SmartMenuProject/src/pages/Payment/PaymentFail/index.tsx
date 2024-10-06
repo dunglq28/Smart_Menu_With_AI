@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -12,18 +12,25 @@ import {
 import { AiOutlineCloseCircle } from "react-icons/ai"; // Import biểu tượng thất bại
 import { updatePaymentStatus } from "../../../services/PaymentService";
 import { PaymentStatus } from "../../../constants/Enum";
+import { useNavigate } from "react-router-dom";
 
 function PaymentFailure() {
+  const navigate = useNavigate();
   const headingSize = useBreakpointValue({ base: "lg", md: "xl" });
   const textSize = useBreakpointValue({ base: "md", md: "xl" });
+  const [isRenew, setIsRenew] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchChangePaymentStatus = async () => {
       const queryParams = new URLSearchParams(location.search);
       const paymentIdParam = queryParams.get("payment-id");
       const userIdParam = queryParams.get("user-id");
+      const isRenewParam = queryParams.get("is-renew");
 
-      if (paymentIdParam && userIdParam) {
+      if (isRenewParam) {
+        setIsRenew(isRenewParam.toLowerCase() === "true");
+      }
+      if (paymentIdParam && userIdParam && isRenewParam) {
         const paymentId = parseInt(paymentIdParam);
         const userId = parseInt(userIdParam);
 
@@ -32,6 +39,7 @@ function PaymentFailure() {
             paymentId,
             userId,
             PaymentStatus.Failed,
+            isRenew,
           );
         } catch (err) {
           console.error(err);
@@ -43,6 +51,14 @@ function PaymentFailure() {
 
     fetchChangePaymentStatus();
   }, []);
+
+  const handleClickBackHome = () => {
+    if (isRenew) {
+      navigate("/brand-dashboard");
+    } else {
+    }
+    navigate("/");
+  };
 
   return (
     <Box height="100vh" bg="gray.100" w="100%" p={4}>
@@ -76,26 +92,27 @@ function PaymentFailure() {
           </Text>
           <HStack>
             <Icon as={AiOutlineCloseCircle} color="red.500" />
-            <Text fontSize={textSize}>
-              Kiểm tra lại thông tin thẻ hoặc tài khoản của bạn
-            </Text>
+            <Text fontSize={textSize}>Kiểm tra lại thông tin thẻ hoặc tài khoản của bạn</Text>
           </HStack>
           <HStack>
             <Icon as={AiOutlineCloseCircle} color="red.500" />
-            <Text fontSize={textSize}>
-              Thử lại sau vài phút nếu có sự cố mạng
-            </Text>
+            <Text fontSize={textSize}>Thử lại sau vài phút nếu có sự cố mạng</Text>
           </HStack>
           <HStack>
             <Icon as={AiOutlineCloseCircle} color="red.500" />
-            <Text fontSize={textSize}>
-              Liên hệ bộ phận hỗ trợ nếu vấn đề vẫn tiếp diễn
-            </Text>
+            <Text fontSize={textSize}>Liên hệ bộ phận hỗ trợ nếu vấn đề vẫn tiếp diễn</Text>
           </HStack>
         </VStack>
 
         {/* Nút quay về trang chủ */}
-        <Button colorScheme="teal" size="lg" mb={4} width="full" maxW="300px">
+        <Button
+          onClick={handleClickBackHome}
+          colorScheme="teal"
+          size="lg"
+          mb={4}
+          width="full"
+          maxW="300px"
+        >
           Quay về trang chủ
         </Button>
       </Box>
