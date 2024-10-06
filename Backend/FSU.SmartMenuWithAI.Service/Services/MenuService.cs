@@ -204,12 +204,12 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     //var menuRecomend = await _unitOfWork.MenuRepository.GetByID(menuSegment!.MenuId);
                     //var mapdto1 = _mapper.Map<MenuDTO>(menuRecomend);
                     //return mapdto1;
-                    var menuRCM = await GetAsync(menuSegment.MenuId);
+                    var menuRCM = await _unitOfWork.MenuRepository.GetByCondition(m => m.MenuId == menuSegment.MenuId && m.BrandId == brandId); /*GetAsync(menuSegment.MenuId);*/
                     menuRCM.TimeRcm = menuRCM.TimeRcm == null ? 1 : menuRCM.TimeRcm + 1;
-                    var menu = _mapper.Map<Menu>(menuRCM);
-                    _unitOfWork.MenuRepository.Update(menu);
+                    //var menu = _mapper.Map<Menu>(menuRCM);
+                    _unitOfWork.MenuRepository.Update(menuRCM);
                     await _unitOfWork.SaveAsync();
-                    return menuRCM;
+                    return _mapper.Map<MenuDTO>(menuRCM) /*menuRCM*/;
 
 
                 }
