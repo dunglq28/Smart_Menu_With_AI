@@ -145,11 +145,11 @@ function Menu() {
   };
 
   const handleClickCreate = async () => {
-    if (limitBrand.numberMenu < limitBrand.maxMenu) {
+    // if (limitBrand.numberMenu < limitBrand.maxMenu) {
       navigate("/menu/create-menu");
-    } else {
-      toast.error(`Bạn đã tạo đủ ${limitBrand.maxMenu} thực đơn`);
-    }
+    // } else {
+    //   toast.error(`Bạn đã tạo đủ ${limitBrand.maxMenu} thực đơn`);
+    // }
   };
 
   const handleToggleMenu = async (menuId: number) => {
