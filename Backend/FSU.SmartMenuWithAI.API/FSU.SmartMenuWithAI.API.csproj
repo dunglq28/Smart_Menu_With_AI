@@ -18,4 +18,10 @@
     <ProjectReference Include="..\FSU.SmartMenuWithAI.Service\FSU.SmartMenuWithAI.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

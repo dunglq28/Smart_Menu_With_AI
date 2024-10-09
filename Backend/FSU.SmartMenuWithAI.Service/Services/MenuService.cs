@@ -33,6 +33,11 @@ namespace FSU.SmartMenuWithAI.Service.Services
             {
                 return false;
             }
+            foreach (var menuSegment in deleteMenu.MenuSegments) 
+            {
+                _unitOfWork.MenuSegmentRepository.Delete(menuSegment);
+
+            }
             // Xóa tất cả các ProductLists
             foreach (var menuList in deleteMenu.MenuLists)
             {
@@ -189,7 +194,10 @@ namespace FSU.SmartMenuWithAI.Service.Services
                 }
                 // tim customer segment
                 var customerSegment = await _segmentAttributeService.GetCusSegmentAsync(customerAtt);
-
+                if (customerSegment == null)
+                {
+                    throw new Exception("Không có phân khúc cho khách hàng này");
+                }
                 // tim menu cos priority cao nhat trong bang MenuSegment
                 Func<IQueryable<MenuSegment>, IOrderedQueryable<MenuSegment>> orderBy = q => q.OrderBy(x => x.Priority);
                 var menuSegment = await _unitOfWork.MenuSegmentRepository.HighestMenuSegment(segmentId: customerSegment.SegmentId, BrandId: brandId);
@@ -199,27 +207,27 @@ namespace FSU.SmartMenuWithAI.Service.Services
                     //var menuRecomend = await _unitOfWork.MenuRepository.GetByID(menuSegment!.MenuId);
                     //var mapdto1 = _mapper.Map<MenuDTO>(menuRecomend);
                     //return mapdto1;
-                    var menuRCM = await GetAsync(menuSegment.MenuId);
+                    var menuRCM = await _unitOfWork.MenuRepository.GetByCondition(m => m.MenuId == menuSegment.MenuId && m.BrandId == brandId); /*GetAsync(menuSegment.MenuId);*/
                     menuRCM.TimeRcm = menuRCM.TimeRcm == null ? 1 : menuRCM.TimeRcm + 1;
-                    var menu = _mapper.Map<Menu>(menuRCM);
-                    _unitOfWork.MenuRepository.Update(menu);
+                    //var menu = _mapper.Map<Menu>(menuRCM);
+                    _unitOfWork.MenuRepository.Update(menuRCM);
                     await _unitOfWork.SaveAsync();
-                    return menuRCM;
+                    return _mapper.Map<MenuDTO>(menuRCM) /*menuRCM*/;
 
 
                 }
                 var menuDefault = await _unitOfWork.MenuRepository.GetAllNoPaging(x => x.BrandId == brandId, x => x.OrderByDescending(x => x.MenuId));
                 //var mapdto2 = _mapper.Map<MenuDTO>(menuDefault.FirstOrDefault());
 
-                var menu2 = await GetAsync(menuDefault.FirstOrDefault().MenuId);
+                var menu2 = await _unitOfWork.MenuRepository.GetByCondition(m => m.MenuId == menuDefault.FirstOrDefault().MenuId);
                 menu2.TimeRcm = menu2.TimeRcm == null ? 1 : menu2.TimeRcm + 1;
-                _unitOfWork.MenuRepository.Update(_mapper.Map<Menu>(menu2));
+                _unitOfWork.MenuRepository.Update(menu2);
                 await _unitOfWork.SaveAsync();
-                return menu2;
+                return _mapper.Map<MenuDTO>(menu2);
             }
             catch
             {
-                var menuDefault = await _unitOfWork.MenuRepository.GetByCondition(x => x.BrandId == brandId, null!);
+                var menuDefault = await _unitOfWork.MenuRepository.GetByCondition(x => x.BrandId == brandId);
                 menuDefault.TimeRcm = menuDefault.TimeRcm == null ? 1 : menuDefault.TimeRcm + 1;
                 _unitOfWork.MenuRepository.Update(menuDefault);
                 await _unitOfWork.SaveAsync();
