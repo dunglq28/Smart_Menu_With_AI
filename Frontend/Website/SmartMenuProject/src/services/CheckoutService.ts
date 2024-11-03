@@ -1,6 +1,6 @@
 import axios from "axios";
-import axiosAuth from "../api/axiosAuth";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
+import { axiosAuth } from "@/api";
+import { ApiResponse } from "@/payloads";
 
 export const createPaymentLink = async (
   amount: string,

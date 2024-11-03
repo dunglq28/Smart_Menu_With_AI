@@ -1,19 +1,15 @@
 import React, { useCallback, useMemo } from "react";
 import { Stack, Text, Select } from "@chakra-ui/react";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ArrowRightIcon,
-  ArrowLeftIcon,
-} from "@chakra-ui/icons";
 import PaginationButton from "./PaginationButton";
 import styles from "./NavigationDot.module.scss";
-import { NavigationDotProps } from "../../models/NavigationProp.model";
-import { themeColors } from "../../constants/GlobalStyles";
+import { NavigationDotProps } from "@/models";
+import { themeColors } from "@/constants";
+import { Icons } from "@/assets";
 
 const NavigationDot: React.FC<NavigationDotProps> = ({
   totalPages,
   currentPage,
+  rowsPerPage,
   onPageChange,
   rowsPerPageOptions,
   onRowsPerPageChange,
@@ -32,7 +28,7 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
         onPageChange(newPage);
       }
     },
-    [currentPage, totalPages, onPageChange]
+    [currentPage, totalPages, onPageChange],
   );
 
   const handleRowsPerPageChange = useCallback(
@@ -40,7 +36,7 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
       const newRowsPerPage = parseInt(event.target.value, 10);
       onRowsPerPageChange(newRowsPerPage);
     },
-    [onRowsPerPageChange]
+    [onRowsPerPageChange],
   );
 
   const buttons = useMemo(() => {
@@ -65,7 +61,7 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
           text={i.toString()}
           icon={null}
           fontSize="12px"
-        />
+        />,
       );
     }
 
@@ -73,22 +69,8 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
   }, [currentPage, totalPages, handlePageChange, primaryColor, secondaryColor, whiteColor]);
 
   return (
-    <Stack
-      direction="row"
-      spacing={2}
-      justify="center"
-      align="center"
-      mb={20}
-      mt={6}
-    >
-      <Stack
-        direction="row"
-        spacing={2}
-        align="center"
-        justify="center"
-        flex="1"
-        ml={10}
-      >
+    <Stack direction="row" spacing={2} justify="center" align="center" mb={20} mt={6}>
+      <Stack direction="row" spacing={2} align="center" justify="center" flex="1" ml={10}>
         <PaginationButton
           onClick={() => handlePageChange(1)}
           isDisabled={currentPage === 1}
@@ -100,7 +82,7 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
               : { bg: primaryColor, color: whiteColor }
           }
           fontSize="10px"
-          icon={<ArrowLeftIcon />}
+          icon={<Icons.arrowLeft />}
         />
         <PaginationButton
           onClick={() => handlePageChange(currentPage - 1)}
@@ -114,7 +96,7 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
           }
           text=""
           fontSize="20px"
-          icon={<ChevronLeftIcon />}
+          icon={<Icons.chevronLeft />}
         />
         {buttons}
         <PaginationButton
@@ -129,7 +111,7 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
           }
           text=""
           fontSize="20px"
-          icon={<ChevronRightIcon />}
+          icon={<Icons.chevronRight />}
         />
         <PaginationButton
           onClick={() => handlePageChange(totalPages)}
@@ -142,13 +124,14 @@ const NavigationDot: React.FC<NavigationDotProps> = ({
               : { bg: primaryColor, color: whiteColor }
           }
           fontSize="10px"
-          icon={<ArrowRightIcon />}
+          icon={<Icons.arrowRight />}
         />
       </Stack>
 
       <Stack direction="row" spacing={2} align="center" mr={10}>
         <Text className={styles.NavDotText}>Hàng trên mỗi trang</Text>
         <Select
+          value={rowsPerPage}
           onChange={handleRowsPerPageChange}
           width="70px"
           className={styles.NavDotSelect}

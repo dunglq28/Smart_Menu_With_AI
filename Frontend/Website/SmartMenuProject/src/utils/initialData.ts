@@ -1,13 +1,13 @@
-import { BranchForm } from "../models/BranchForm.model";
-import { BrandForm } from "../models/BrandForm.model";
-import { PasswordForm } from "../models/Password.model";
-import { ProductForm } from "../models/ProductForm.model";
-import { UserForm } from "../models/UserForm.model";
-import { LimitBrandData } from "../payloads/responses/BrandData.model";
-import { AdminDashboardData, BrandDashboardData } from "../payloads/responses/DashboarData.model";
-import { PlanData } from "../payloads/responses/PlanResponse.model";
-import { SubscriptionData } from "../payloads/responses/SubscriptionData.model";
-import { UserData } from "../payloads/responses/UserData.model";
+import { BranchForm } from "@/models/BranchForm.model";
+import { BrandForm } from "@/models/BrandForm.model";
+import { PasswordForm } from "@/models/Password.model";
+import { ProductForm } from "@/models/ProductForm.model";
+import { UserForm } from "@/models/UserForm.model";
+import { LimitBrandData } from "@/payloads/responses/BrandData.model";
+import { AdminDashboardData, BrandDashboardData } from "@/payloads/responses/DashboarData.model";
+import { PlanData } from "@/payloads/responses/PlanResponse.model";
+import { SubscriptionData } from "@/payloads/responses/SubscriptionData.model";
+import { CustomerSegmentForm } from "@/models/SegmentForm.model";
 
 export const getInitialUserForm = (): UserForm => ({
   fullName: {
@@ -66,6 +66,14 @@ export const getInitialPasswordForm = (): PasswordForm => ({
   oldPassword: { value: "", errorMessage: "" },
   newPassword: { value: "", errorMessage: "" },
   confirm: { value: "", errorMessage: "" },
+});
+
+export const getInitialCustomerSegmentForm = (): CustomerSegmentForm => ({
+  segmentName: { value: "", errorMessage: "" },
+  gender: { value: "Male", errorMessage: "" },
+  sessions: { value: [], errorMessage: "" },
+  ageFrom: { value: "", errorMessage: "" },
+  ageTo: { value: "", errorMessage: "" },
 });
 
 export const getInitialAdminDashboardData = (): AdminDashboardData => ({

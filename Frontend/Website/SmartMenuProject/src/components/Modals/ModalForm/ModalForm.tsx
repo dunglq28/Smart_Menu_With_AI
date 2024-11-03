@@ -1,11 +1,10 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   Button,
-  useDisclosure,
   useSteps,
   Stepper,
   Step,
@@ -17,18 +16,11 @@ import {
   StepTitle,
   StepSeparator,
 } from "@chakra-ui/react";
-import { IoMdCloseCircleOutline } from "react-icons/io";
 import styles from "./ModalForm.module.scss";
-import { themeColors } from "../../../constants/GlobalStyles";
-import { BrandForm } from "../../../models/BrandForm.model";
-import { BranchForm } from "../../../models/BranchForm.model";
-import { UserForm } from "../../../models/UserForm.model";
-import {
-  getInitialBranchForm,
-  getInitialBrandForm,
-  getInitialUserForm,
-} from "../../../utils/initialData";
-import { CurrentForm } from "../../../constants/Enum";
+import { getInitialBranchForm, getInitialBrandForm, getInitialUserForm } from "@/utils";
+import { Icons } from "@/assets";
+import { CurrentForm, themeColors } from "@/constants";
+import { BranchForm, BrandForm, UserForm } from "@/models";
 
 interface ModalFormProps {
   isEdit?: boolean;
@@ -73,10 +65,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
 
   const steps = [
     {
-      title:
-        stepperName === CurrentForm.BRAND
-          ? "Tạo thương hiệu mới"
-          : "Tạo chi nhánh mới",
+      title: stepperName === CurrentForm.BRAND ? "Tạo thương hiệu mới" : "Tạo chi nhánh mới",
     },
     { title: "Tạo người dùng mới" },
   ];
@@ -110,17 +99,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
 
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onClose={cancelHandler}
-        motionPreset="slideInBottom"
-      >
+      <Modal isOpen={isOpen} onClose={cancelHandler} motionPreset="slideInBottom">
         <ModalOverlay onClick={cancelHandler} />
         <ModalContent borderRadius="23px" maxW="40%">
-          <ModalHeader
-            className={styles["modal-header"]}
-            backgroundColor={themeColors.darken50}
-          >
+          <ModalHeader className={styles["modal-header"]} backgroundColor={themeColors.darken50}>
             {!isEdit && isValidStep ? (
               <Box className={styles["wrapper-stepper"]}>
                 <Stepper index={activeStep} w="90%">
@@ -196,7 +178,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
                   className={styles["close-button"]}
                   onClick={cancelHandler}
                 >
-                  <IoMdCloseCircleOutline />
+                  <Icons.closeCircle />
                 </Button>
               </>
             )}

@@ -1,0 +1,74 @@
+.Tbl {
+  border-radius: 8px;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  .Item {
+    transition: 0.3s;
+    user-select: text;
+    &:hover {
+      background-color: #f9fafb;
+      cursor: pointer;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+    &:active {
+      transition: 0.1s;
+      box-shadow: none;
+    }
+    td {
+      border-color: #e2e8f0;
+      font-size: 17px;
+    }
+  }
+  th {
+    border-color: #e2e8f0;
+  }
+
+  .HeaderTbl {
+    color: black;
+    font-size: 15px;
+    text-align: center;
+
+    .HeaderCol {
+      justify-content: center;
+      align-items: center;
+      margin-left: 20px;
+    }
+
+    .IconSort {
+      margin-left: 8px;
+      transform: rotate(180deg);
+      transition: opacity 0.3s ease-in-out;
+      opacity: 0;
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .HeaderTbl.pointer {
+    cursor: pointer;
+  }
+
+  .CheckboxTbl {
+    transform: scale(1.1);
+    border-color: #ccc;
+  }
+
+  .SelectedRow {
+    background-color: #e2f3f5 !important;
+  }
+}
+
+// .sticky {
+//   position: sticky;
+//   right: 0;
+//   top: auto;
+//   background: white;
+//   // z-index: 10;
+//   // width: 120px;
+//   text-align: center;
+//   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); // Hiệu ứng đổ bóng bên trái
+// }

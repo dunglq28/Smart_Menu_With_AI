@@ -1,6 +1,5 @@
-import axiosAuth from "../api/axiosAuth";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { PlanData } from "../payloads/responses/PlanResponse.model";
+import { axiosAuth } from "@/api";
+import { ApiResponse, PlanData } from "@/payloads";
 
 export const getPlans = async (): Promise<ApiResponse<PlanData[]>> => {
   const res = await axiosAuth.get("plans");

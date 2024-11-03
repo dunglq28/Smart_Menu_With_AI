@@ -1,5 +1,59 @@
-@import "../../../styles//shared.scss";
+// @import "../../../styles//shared.scss";
 
+// .form {
+//   @extend .form;
+// }
+
+// Payment ----------------------------------------------------------------
 .form {
-  @extend .form;
+  .formTitle {
+    font-size: 24px;
+  }
+  .formLabel {
+    font-size: 1.25rem !important;
+  }
+  .formImage {
+    .inputImage {
+      width: 52%;
+      border: none;
+      padding: 0;
+      border-radius: 0;
+
+      &:focus {
+        border: none;
+      }
+      &:hover {
+        border: none;
+      }
+    }
+    .imagePreview {
+      margin-top: 10px;
+      max-width: 200px;
+      height: auto;
+      border: 1px solid #ccc;
+      padding: 5px;
+    }
+  }
+  input,
+  select {
+    font-size: 1.2rem !important;
+  }
+}
+
+.packages {
+  .packagesTitle {
+    font-size: 24px;
+  }
+  .packagesDetails {
+    font-size: 1.25rem;
+  }
+  .packagesDescription {
+    font-weight: 600;
+  }
+
+  .packagesFinalPrice {
+    font-weight: 600;
+    font-size: 1.75rem;
+    color: #466d6b;
+  }
 }

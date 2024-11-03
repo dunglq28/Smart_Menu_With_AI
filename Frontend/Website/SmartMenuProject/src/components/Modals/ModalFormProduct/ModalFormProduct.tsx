@@ -11,12 +11,11 @@ import {
 } from "@chakra-ui/react";
 import style from "./ModalFormProduct.module.scss";
 import Select from "react-select";
-import { getCategoryByBrandId } from "../../../services/CategoryService";
 import { toast } from "react-toastify";
-import { ProductForm } from "../../../models/ProductForm.model";
-import { isImageFile, validateProductForm } from "../../../utils/validation";
-import { getProduct } from "../../../services/ProductService";
-import { getInitialProductForm } from "../../../utils/initialData";
+
+import { ProductForm } from "@/models";
+import { isImageFile, validateProductForm, getInitialProductForm } from "@/utils";
+import { CategoryService, ProductService } from "@/services";
 
 interface ModalFormProductProps {
   id?: number;
@@ -40,24 +39,20 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
   handleEdit,
 }) => {
   const brandId = Number(localStorage.getItem("BrandId"));
-  const [categoryOptions, setCategoryOptions] = useState<
-    { value: number; label: string }[]
-  >([]);
+  const [categoryOptions, setCategoryOptions] = useState<{ value: number; label: string }[]>([]);
 
   const [formData, setFormData] = useState<ProductForm>(getInitialProductForm());
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const result = await getCategoryByBrandId(brandId);
+        const result = await CategoryService.getCategoryByBrandId(brandId);
         if (result && Array.isArray(result)) {
-          const categories: CategoryDataSelection[] = result.map(
-            (category) => ({
-              categoryId: category.categoryId,
-              categoryCode: category.categoryCode,
-              categoryName: category.categoryName,
-            }),
-          );
+          const categories: CategoryDataSelection[] = result.map((category) => ({
+            categoryId: category.categoryId,
+            categoryCode: category.categoryCode,
+            categoryName: category.categoryName,
+          }));
 
           const options = categories.map((category) => ({
             value: category.categoryId,
@@ -80,7 +75,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
     if (isEdit && id) {
       const loadProductData = async () => {
         try {
-          const product = await getProduct(id);
+          const product = await ProductService.getProduct(id);
           if (product) {
             setFormData({
               category: { value: product.data.categoryId, errorMessage: "" },
@@ -168,10 +163,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
     const hasErrors = Object.values(errors).some((error) => error !== "");
     if (!hasErrors) {
       const productForm = new FormData();
-      productForm.append(
-        "CategoryId",
-        formData.category.value?.toString() || "",
-      );
+      productForm.append("CategoryId", formData.category.value?.toString() || "");
 
       productForm.append("ProductName", formData.productName.value);
       productForm.append("Description", formData.description.value);
@@ -203,17 +195,11 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
               options={categoryOptions}
               closeMenuOnSelect={true}
               className={style.FlavourSelect}
-              onChange={(selectedOption) =>
-                handleChange("category", selectedOption?.value || 0)
-              }
-              value={categoryOptions.find(
-                (option) => option.value === formData.category.value,
-              )}
+              onChange={(selectedOption) => handleChange("category", selectedOption?.value || 0)}
+              value={categoryOptions.find((option) => option.value === formData.category.value)}
             />
             {formData.category.errorMessage && (
-              <Text className={style.ErrorText}>
-                {formData.category.errorMessage}
-              </Text>
+              <Text className={style.ErrorText}>{formData.category.errorMessage}</Text>
             )}
           </Flex>
           <Flex className={style.ModalBodyItem}>
@@ -225,38 +211,24 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
               onChange={(e) => handleChange("productName", e.target.value)}
             />
             {formData.productName.errorMessage && (
-              <Text className={style.ErrorText}>
-                {formData.productName.errorMessage}
-              </Text>
+              <Text className={style.ErrorText}>{formData.productName.errorMessage}</Text>
             )}
           </Flex>
           <Flex className={style.ModalBodyItem}>
             <Text className={style.FieldTitle}>Hình ảnh</Text>
             {!formData.image.value && !formData.imageUrl?.value && (
-              <Input
-                type="file"
-                className={style.InputFileField}
-                onChange={handleImageChange}
-              />
+              <Input type="file" className={style.InputFileField} onChange={handleImageChange} />
             )}
-            {(formData.image.value ||
-              (formData.imageUrl && formData.imageUrl.value)) && (
+            {(formData.image.value || (formData.imageUrl && formData.imageUrl.value)) && (
               <Button onClick={handleRemoveImage} w={40}>
                 Xoá
               </Button>
             )}
-            {(formData.image.value ||
-              (formData.imageUrl && formData.imageUrl.value)) && (
-              <Image
-                src={imageUrl}
-                alt="Image Preview"
-                className={style.imagePreview}
-              />
+            {(formData.image.value || (formData.imageUrl && formData.imageUrl.value)) && (
+              <Image src={imageUrl} alt="Image Preview" className={style.imagePreview} />
             )}
             {formData.image.errorMessage && (
-              <Text className={style.ErrorText}>
-                {formData.image.errorMessage}
-              </Text>
+              <Text className={style.ErrorText}>{formData.image.errorMessage}</Text>
             )}
           </Flex>
           <Flex className={style.ModalBodyItem}>
@@ -268,9 +240,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
               onChange={(e) => handleChange("description", e.target.value)}
             />
             {formData.description.errorMessage && (
-              <Text className={style.ErrorText}>
-                {formData.description.errorMessage}
-              </Text>
+              <Text className={style.ErrorText}>{formData.description.errorMessage}</Text>
             )}
           </Flex>
           <Flex className={style.ModalBodyItem}>
@@ -282,9 +252,7 @@ const ModalFormProduct: React.FC<ModalFormProductProps> = ({
               onChange={(e) => handleChange("price", e.target.value)}
             />
             {formData.price.errorMessage && (
-              <Text className={style.ErrorText}>
-                {formData.price.errorMessage}
-              </Text>
+              <Text className={style.ErrorText}>{formData.price.errorMessage}</Text>
             )}
           </Flex>
         </Flex>

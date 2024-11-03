@@ -13,23 +13,16 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import styles from "./ModalFormUser.module.scss";
-import { themeColors } from "../../../constants/GlobalStyles";
-import { CurrentForm } from "../../../constants/Enum";
-import { BrandForm } from "../../../models/BrandForm.model";
-import { UserForm } from "../../../models/UserForm.model";
-import {
-  validateUserForm,
-} from "../../../utils/validation";
+import { themeColors, CurrentForm } from "@/constants";
+import { BrandForm, UserForm, BranchForm } from "@/models";
 import {
   generateUsernameFromBranch,
   generateUsernameFromBrand,
-} from "../../../utils/createUserName";
-import { BranchForm } from "../../../models/BranchForm.model";
-import {
+  validateUserForm,
   getInitialBranchForm,
   getInitialBrandForm,
   getInitialUserForm,
-} from "../../../utils/initialData";
+} from "@/utils";
 
 interface ModalFormBrandProps {
   isEdit: boolean;
@@ -68,17 +61,13 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
       ? generateUsernameFromBrand(brandName)
       : userData.userName.value;
   } else if (formPrevious === CurrentForm.BRANCH) {
-    initialUserNameValue = branch
-      ? generateUsernameFromBranch(branch)
-      : userData.userName.value;
+    initialUserNameValue = branch ? generateUsernameFromBranch(branch) : userData.userName.value;
   }
 
   const [formData, setFormData] = useState<UserForm>({
     fullName: { value: userData.fullName.value, errorMessage: "" },
     userName: {
-      value: initialUserNameValue
-        ? initialUserNameValue
-        : userData.userName.value,
+      value: initialUserNameValue ? initialUserNameValue : userData.userName.value,
       errorMessage: "",
     },
     phoneNumber: { value: userData.phoneNumber.value, errorMessage: "" },
@@ -143,7 +132,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
     const errors = validateUserForm(formData);
     const updatedFormData = {
       fullName: { ...formData.fullName, errorMessage: errors.fullName },
-      userName: { ...formData.userName, errorMessage: "" }, 
+      userName: { ...formData.userName, errorMessage: "" },
       phoneNumber: { ...formData.phoneNumber, errorMessage: errors.phoneNumber },
       DOB: { ...formData.DOB, errorMessage: errors.DOB },
       gender: { ...formData.gender, errorMessage: "" },
@@ -171,11 +160,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
   return (
     <>
       <ModalBody>
-        <Flex
-          direction="column"
-          alignItems="stretch"
-          className={styles.containerForm}
-        >
+        <Flex direction="column" alignItems="stretch" className={styles.containerForm}>
           <Flex justify="space-between" mb={3}>
             <Box flex="1" ml={2}>
               <Text className={styles.textFontWeight600} py={3} pr={3}>
@@ -198,12 +183,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
               <Text className={styles.textFontWeight600} py={3} pr={3}>
                 Tên tài khoản
               </Text>
-              <Input
-                readOnly
-                placeholder="Tên tài khoản"
-                pl={3}
-                value={formData.userName.value}
-              />
+              <Input readOnly placeholder="Tên tài khoản" pl={3} value={formData.userName.value} />
             </Box>
           </Flex>
 
@@ -216,9 +196,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
                 placeholder="Số điện thoại"
                 pl={3}
                 value={formData.phoneNumber.value}
-                onChange={(e) =>
-                  handleInputChange("phoneNumber", e.target.value)
-                }
+                onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
               />
               {formData.phoneNumber.errorMessage && (
                 <Text color="red.500">{formData.phoneNumber.errorMessage}</Text>
@@ -232,11 +210,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
               <Input
                 type="date"
                 pl={3}
-                value={
-                  formData.DOB.value
-                    ? formData.DOB.value.toISOString().split("T")[0]
-                    : ""
-                }
+                value={formData.DOB.value ? formData.DOB.value.toISOString().split("T")[0] : ""}
                 onChange={(e) => handleDateChange("DOB", e.target.value)}
               />
               {formData.DOB.errorMessage && (
@@ -250,10 +224,7 @@ const ModalFormUser: React.FC<ModalFormBrandProps> = ({
               <Text className={styles.textFontWeight600} py={3} pr={3} mb={2}>
                 Giới tính
               </Text>
-              <RadioGroup
-                value={formData.gender.value}
-                onChange={handleGenderChange}
-              >
+              <RadioGroup value={formData.gender.value} onChange={handleGenderChange}>
                 <Stack spacing={5} direction="row" ml={3}>
                   <Radio value="Nam">
                     <Text className={styles.textFontWeight600}>Nam</Text>

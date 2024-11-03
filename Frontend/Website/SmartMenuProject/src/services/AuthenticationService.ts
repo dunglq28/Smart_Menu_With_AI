@@ -1,9 +1,7 @@
 import axios from "axios";
-import axiosAuth from "../api/axiosAuth";
-import axiosLogin from "../api/axiosLogin";
-import { Password, PasswordForm } from "../models/Password.model";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { LoginResponse } from "../payloads/responses/LoginResponse.model";
+import { axiosAuth, axiosLogin } from "@/api";
+import { PasswordForm } from "@/models";
+import { ApiResponse, LoginResponse } from "@/payloads";
 
 export const login = async (username: string, password: string): Promise<LoginResponse> => {
   const res = await axiosLogin.post("authentication/login", {

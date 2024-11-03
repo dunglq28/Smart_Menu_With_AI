@@ -1,28 +1,28 @@
-import Login from "../pages/Login/Login";
-import User from "../pages/User";
-import Brand from "../pages/Brand";
-import Products from "../pages/Product";
-import Menu from "../pages/Menu";
-import Settings from "../pages/Setting";
-import New from "../pages/New";
-import Profile from "../pages/Profile";
-import { HeaderOnly } from "../layouts";
-import Branch from "../pages/Branch";
-import Category from "../pages/Category";
-import CustomerSegment from "../pages/CustomerSegment";
-import CreateMenu from "../pages/Menu/CreateMenu";
-import AdminDashboard from "../pages/AdminDashboard";
-import BrandDashboard from "../pages/BrandDashboard";
-import PaymentHistory from "../pages/Payment/PaymentHistory"; 
-import GuestLayout from "../layouts/GuestLayout";
-import LandingPage from "../pages/LandingPage";
-import BuyingGuide from "../pages/Payment/BuyingGuide"; 
-import PaymentInfor from "../pages/Payment/PaymentInfor";
-import PaymentStepperLayout from "../layouts/PaymentStepperLayout";
-import PaymentSuccess from "../pages/Payment/PaymentSuccess";
-import PaymentFailure from "../pages/Payment/PaymentFail";
-import PaymentCancel from "../pages/Payment/PaymentCancel";
-import RenewPackage from "../pages/Payment/RenewPackage";
+import {
+  Login,
+  User,
+  Brand,
+  Products,
+  Menu,
+  Settings,
+  Profile,
+  Branch,
+  Category,
+  CustomerSegment,
+  CreateMenu,
+  AdminDashboard,
+  BrandDashboard,
+  PaymentHistory,
+  LandingPage,
+  BuyingGuide,
+  PaymentInfor,
+  PaymentSuccess,
+  PaymentFailure,
+  PaymentCancel,
+  RenewPackage,
+} from "@/pages";
+
+import { GuestLayout, PaymentStepperLayout, HeaderOnly } from "@/layouts";
 
 interface RouteItem {
   path: string;
@@ -55,9 +55,7 @@ export const publicRoutes: RouteItem[] = [
   { path: "/menu/create-menu", component: CreateMenu, layout: HeaderOnly },
   { path: "/menu/update-menu", component: CreateMenu, layout: HeaderOnly },
   { path: "/settings", component: Settings },
-  { path: "/new", component: New },
   { path: "/profile", component: Profile, layout: HeaderOnly },
-  // { path: "/newBranch", component: New },
 ];
 
 export const privateRoutes: RouteItem[] = [];

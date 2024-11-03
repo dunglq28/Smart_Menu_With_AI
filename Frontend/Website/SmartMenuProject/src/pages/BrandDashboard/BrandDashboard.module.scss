@@ -1,7 +1,5 @@
 @import "../../styles/shared.scss";
 
 .container_dashboard {
-  @extend .container_dashboard;
-  margin-bottom: 3rem;
+  @extend .container_dashboard_base;
 }
-

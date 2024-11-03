@@ -1,5 +1,5 @@
 import moment from "moment";
-import { UserRole } from "../constants/Enum";
+import { UserRole } from "@/constants/Enum";
 
 export const getOptions = (total: number): number[] => {
   if (total > 50) return [5, 10, 20, 50, 100];

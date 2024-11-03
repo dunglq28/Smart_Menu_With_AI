@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Flex, ModalBody, ModalFooter, Text } from "@chakra-ui/react";
 import style from "./ModalError.module.scss";
-import { CustomerSegmentForm } from "../../../models/SegmentForm.model";
+import { CustomerSegmentForm } from "@/models";
 
 interface ModalErrorProps {
   errorMessage: string;
@@ -10,12 +10,7 @@ interface ModalErrorProps {
   form?: CustomerSegmentForm;
 }
 
-const ModalError: React.FC<ModalErrorProps> = ({
-  errorMessage,
-  onClose,
-  onOpenPrev,
-  form
-}) => {
+const ModalError: React.FC<ModalErrorProps> = ({ errorMessage, onClose, onOpenPrev, form }) => {
   const formattedErrorMessage = errorMessage.split("/n").map((line, index) => (
     <React.Fragment key={index}>
       {line}
@@ -39,17 +34,10 @@ const ModalError: React.FC<ModalErrorProps> = ({
       </ModalBody>
       <ModalFooter>
         <Flex className={style.Footer}>
-          <Button
-            variant="ghost"
-            backgroundColor="#ccc"
-            onClick={() => onClose()}
-          >
+          <Button variant="ghost" backgroundColor="#ccc" onClick={() => onClose()}>
             Cancel
           </Button>
-          <Button
-            className={style.AddSegmentBtn}
-            onClick={openFormPreviousHandler}
-          >
+          <Button className={style.AddSegmentBtn} onClick={openFormPreviousHandler}>
             Back
           </Button>
         </Flex>

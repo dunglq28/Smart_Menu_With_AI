@@ -1,15 +1,12 @@
-import axiosAuth from "../api/axiosAuth";
-import { UserForm } from "../models/UserForm.model";
-import { userUpdate } from "../payloads/requests/updateRequests.model";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { GetData } from "../payloads/responses/GetData.model";
-import { UserData } from "../payloads/responses/UserData.model";
+import { axiosAuth } from "@/api";
+import { UserForm } from "@/models";
+import { userUpdate, ApiResponse, GetData, UserData } from "@/payloads";
 
 export const getUsers = async (
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string,
   brandId: string | null,
+  searchValue?: string,
 ): Promise<GetData<UserData>> => {
   const res = await axiosAuth.get("app-users", {
     params: {
@@ -49,8 +46,8 @@ export const getUser = async (id: number): Promise<ApiResponse<UserData>> => {
 
 export const updateUser = async (
   id: number,
-  brandId: string | null,
   user: userUpdate,
+  brandId: string | null,
 ): Promise<ApiResponse<Object>> => {
   const params: Record<string, any> = { id: id };
   if (brandId !== null) {

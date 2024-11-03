@@ -2,16 +2,11 @@ import React, { useEffect, useState } from "react";
 import { ModalBody, Flex, Box, Input, Text, Button, ModalFooter, Select } from "@chakra-ui/react";
 
 import styles from "./ModalFormBranch.module.scss";
-import { BranchForm } from "../../../models/BranchForm.model";
-import { City } from "../../../models/City.model";
-import { District } from "../../../models/District.model";
-import { Ward } from "../../../models/Ward.model";
-import { fetchCities, fetchDistricts, fetchWards } from "../../../services/ThirdService";
-import Loading from "../../Loading";
-import { BrandData } from "../../../payloads/responses/BrandData.model";
-import { getAllBrandName } from "../../../services/BrandService";
-import { getInitialBranchForm } from "../../../utils/initialData";
-import { validateBranchForm } from "../../../utils/validation";
+import { BrandService, ThirdService } from "@/services";
+import { Loading } from "@/components";
+import { BrandData } from "@/payloads";
+import { BranchForm, City, District, Ward } from "@/models";
+import { getInitialBranchForm, validateBranchForm } from "@/utils";
 
 interface ModalFormBranchProps {
   branchData: BranchForm;
@@ -68,12 +63,12 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
     const fetchData = async () => {
       try {
         // Fetch cities
-        const cityData = await fetchCities();
+        const cityData = await ThirdService.fetchCities();
         setCities(cityData);
 
         // Fetch brand names if not in edit mode
         if (!isEdit && brandNameCurrent == null) {
-          const brandNamesData = await getAllBrandName();
+          const brandNamesData = await BrandService.getAllBrandName();
           setBrandNames(brandNamesData.data);
         }
 
@@ -91,7 +86,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
 
         // Fetch districts if city ID is set
         if (formData.city.id) {
-          const districtData = await fetchDistricts(formData.city.id);
+          const districtData = await ThirdService.fetchDistricts(formData.city.id);
           setDistricts(districtData);
 
           // Set district ID if not already set
@@ -112,7 +107,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
 
         // Fetch wards if district ID is set
         if (formData.district.id) {
-          const wardData = await fetchWards(formData.district.id);
+          const wardData = await ThirdService.fetchWards(formData.district.id);
           setWards(wardData);
 
           // Set ward ID if not already set
@@ -145,7 +140,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
     try {
       if (citySelected != "") {
         const cityId = citySelected.split(",")[0].trim();
-        const districtData = await fetchDistricts(cityId);
+        const districtData = await ThirdService.fetchDistricts(cityId);
         setDistricts(districtData);
         setFormData((prevData) => ({
           ...prevData,
@@ -167,7 +162,7 @@ const ModalFormBranch: React.FC<ModalFormBranchProps> = ({
     try {
       if (districtSelected != "") {
         const districtId = districtSelected.split(",")[0].trim();
-        const wardData = await fetchWards(districtId);
+        const wardData = await ThirdService.fetchWards(districtId);
         setWards(wardData);
         setFormData((prevData) => ({
           ...prevData,

@@ -1,7 +1,5 @@
 import axios from "axios";
-import { City } from "../models/City.model";
-import { District } from "../models/District.model";
-import { Ward } from "../models/Ward.model";
+import { City, District, Ward } from "@/models";
 
 // Function to fetch cities
 export const fetchCities = async () => {
@@ -27,9 +25,7 @@ export const fetchCities = async () => {
 // Function to fetch districts by cityId
 export const fetchDistricts = async (cityId: string) => {
   try {
-    const response = await axios.get(
-      `https://esgoo.net/api-tinhthanh/2/${cityId}.htm`
-    );
+    const response = await axios.get(`https://esgoo.net/api-tinhthanh/2/${cityId}.htm`);
     const data = response.data;
     if (data.error === 0) {
       const districts: District[] = data.data.map((district: any) => ({
@@ -50,9 +46,7 @@ export const fetchDistricts = async (cityId: string) => {
 // Function to fetch wards by districtId
 export const fetchWards = async (districtId: string) => {
   try {
-    const response = await axios.get(
-      `https://esgoo.net/api-tinhthanh/3/${districtId}.htm`
-    );
+    const response = await axios.get(`https://esgoo.net/api-tinhthanh/3/${districtId}.htm`);
     const data = response.data;
     if (data.error === 0) {
       const wards: Ward[] = data.data.map((ward: any) => ({

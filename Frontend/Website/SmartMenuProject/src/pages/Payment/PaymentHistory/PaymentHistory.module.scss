@@ -9,20 +9,5 @@
 
   .PaymentHistory {
     @extend .table;
-
-    .PaymentHistoryTbl {
-      @extend .tableContainer;
-      @extend .shadow;
-
-      .PaymentHistoryItem {
-        @extend .tableItem;
-        td {
-          font-size: 17px;
-        }
-      }
-    }
-    .HeaderTbl {
-      @extend .header;
-    }
   }
 }

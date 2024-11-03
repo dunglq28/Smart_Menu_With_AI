@@ -1,23 +1,10 @@
 import React, { useState } from "react";
-import {
-  ModalBody,
-  Flex,
-  Box,
-  Input,
-  Text,
-  Image,
-  Button,
-  ModalFooter,
-} from "@chakra-ui/react";
+import { ModalBody, Flex, Box, Input, Text, Image, Button, ModalFooter } from "@chakra-ui/react";
 
 import styles from "./ModalFormBrand.module.scss";
-import { BrandForm } from "../../../models/BrandForm.model";
-import {
-  isImageFile,
-  validateBrandForm,
-} from "../../../utils/validation";
-import { getInitialBrandForm } from "../../../utils/initialData";
-import { getBrandByBrandName } from "../../../services/BrandService";
+import { BrandForm } from "@/models";
+import { isImageFile, validateBrandForm, getInitialBrandForm } from "@/utils";
+import { BrandService } from "@/services";
 
 interface ModalFormBrandProps {
   brandData: BrandForm;
@@ -97,7 +84,7 @@ const ModalFormBrand: React.FC<ModalFormBrandProps> = ({
     if (!hasError) {
       updateBrandData?.(formData, true);
       if (nextHandler) {
-        const result = await getBrandByBrandName(formData.brandName.value);
+        const result = await BrandService.getBrandByBrandName(formData.brandName.value);
         if (result.data == null) {
           nextHandler();
         } else {
@@ -120,11 +107,7 @@ const ModalFormBrand: React.FC<ModalFormBrandProps> = ({
   return (
     <>
       <ModalBody>
-        <Flex
-          direction="column"
-          alignItems="stretch"
-          className={styles.containerForm}
-        >
+        <Flex direction="column" alignItems="stretch" className={styles.containerForm}>
           <Flex justify="space-between" mb={3}>
             <Box flex="1" ml={2}>
               <Text className={styles.textFontWeight600} py={3} pr={3}>
@@ -145,26 +128,16 @@ const ModalFormBrand: React.FC<ModalFormBrandProps> = ({
                 </Text>
                 <Flex align="center">
                   {!formData.image.value && !formData.imageUrl?.value && (
-                    <Input
-                      type="file"
-                      className={styles.inputImage}
-                      onChange={handleImageChange}
-                    />
+                    <Input type="file" className={styles.inputImage} onChange={handleImageChange} />
                   )}
-                  {(formData.image.value ||
-                    (formData.imageUrl && formData.imageUrl.value)) && (
+                  {(formData.image.value || (formData.imageUrl && formData.imageUrl.value)) && (
                     <Button onClick={handleRemoveImage} ml={3}>
                       Xoá
                     </Button>
                   )}
                 </Flex>
-                {(formData.image.value ||
-                  (formData.imageUrl && formData.imageUrl.value)) && (
-                  <Image
-                    src={imageUrl}
-                    alt="Image Preview"
-                    className={styles.imagePreview}
-                  />
+                {(formData.image.value || (formData.imageUrl && formData.imageUrl.value)) && (
+                  <Image src={imageUrl} alt="Image Preview" className={styles.imagePreview} />
                 )}
                 {formData.image.errorMessage && (
                   <Text color="red.500">{formData.image.errorMessage}</Text>

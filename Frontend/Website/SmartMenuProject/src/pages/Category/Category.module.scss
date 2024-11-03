@@ -15,25 +15,25 @@
   .Category {
     @extend .table;
 
-    .CategoryTbl {
-      @extend .tableContainer;
-      @extend .shadow;
+  //   .CategoryTbl {
+  //     @extend .tableContainer;
+  //     @extend .shadow;
 
-      .CategoryItem {
-        @extend .tableItem;
-      }
+  //     .CategoryItem {
+  //       @extend .tableItem;
+  //     }
 
-      .WrapText {
-        @extend .wrapText;
-      }
+  //     .WrapText {
+  //       @extend .wrapText;
+  //     }
 
-      .CategoryImage {
-        @extend .itemImage;
-      }
-    }
+  //     .CategoryImage {
+  //       @extend .itemImage;
+  //     }
+  //   }
 
-    .HeaderTbl {
-      @extend .header;
-    }
+  //   .HeaderTbl {
+  //     @extend .header;
+  //   }
   }
 }

@@ -1,12 +1,11 @@
-import { refreshToken } from "./../services/AuthenticationService";
 import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
-import { kebabCase } from "change-case";
 import {
   convertKeysToCamelCase,
   convertKeysToKebabCase,
   convertQueryParamsToKebabCase,
-} from "../utils/keyCaseConverter";
+} from "@/utils";
+import { AuthenticationService } from "@/services";
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 const API_PORT = import.meta.env.VITE_API_PORT;
@@ -72,13 +71,14 @@ axiosAuth.interceptors.response.use(
       const authMessage = error.response.data.Message;
 
       if (authMessage && authMessage.includes("Token đã hết hạn!")) {
-        const newAccessToken = await refreshToken();
+        const newAccessToken = await AuthenticationService.refreshToken();
 
         if (newAccessToken) {
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axiosAuth(originalRequest);
         } else {
           toast.error("Token đã hết hạn. Vui lòng đăng nhập lại.");
+          localStorage.clear();
           window.location.href = "/login";
         }
       } else {

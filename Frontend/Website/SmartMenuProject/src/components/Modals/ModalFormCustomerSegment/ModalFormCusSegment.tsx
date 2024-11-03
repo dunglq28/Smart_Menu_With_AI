@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   Checkbox,
@@ -14,11 +14,11 @@ import {
 } from "@chakra-ui/react";
 import style from "./ModalFormCusSegment.module.scss";
 import { toast } from "react-toastify";
-import { CustomerSegmentForm } from "../../../models/SegmentForm.model";
-import { isInteger, validateCustomerSegmentForm } from "../../../utils/validation";
-import { customerSegmentUpdate } from "../../../payloads/requests/updateRequests.model";
-import { customerSegmentCreate } from "../../../payloads/requests/createRequests.model";
-import { getCustomerSegment } from "../../../services/CustomerSegmentService";
+
+import { CustomerSegmentForm } from "@/models";
+import { validateCustomerSegmentForm } from "@/utils";
+import { CustomerSegmentService } from "@/services";
+import { customerSegmentCreate, customerSegmentUpdate } from "@/payloads";
 
 interface ModalFormCustomerSegmentProps {
   formData: CustomerSegmentForm;
@@ -26,10 +26,10 @@ interface ModalFormCustomerSegmentProps {
   id?: number;
   handleCreate?: (brandId: number, segment: customerSegmentCreate) => void;
   handleEdit?: (
-    brandId: number,
     segmentId: number,
     segment: customerSegmentUpdate,
     onClose: () => void,
+    brandId: number,
   ) => void;
   onClose: () => void;
   isEdit: boolean;
@@ -50,12 +50,11 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
     if (isEdit && id) {
       const loadCustomerSegmentData = async () => {
         try {
-          const customerSegment = await getCustomerSegment(id);
+          const customerSegment = await CustomerSegmentService.getCustomerSegment(id);
           if (customerSegment) {
             const [ageFrom, ageTo] = customerSegment.data.age.split("-");
 
-            const [gender, ...sessions] =
-              customerSegment.data.demographic.split(", ");
+            const [gender, ...sessions] = customerSegment.data.demographic.split(", ");
             setFormData({
               segmentName: {
                 value: customerSegment.data.customerSegmentName,
@@ -91,10 +90,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
     }
   }, []);
 
-  const handleChange = (
-    field: keyof CustomerSegmentForm,
-    value: string | string[],
-  ) => {
+  const handleChange = (field: keyof CustomerSegmentForm, value: string | string[]) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [field]: { value, errorMessage: "" },
@@ -175,7 +171,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
           gender: formData.gender.value,
           session: formData.sessions.value[0],
         };
-        handleEdit?.(brandId, id!, customerSegmentUpdate, onClose);
+        handleEdit?.(id!, customerSegmentUpdate, onClose, brandId);
       }
     }
   };
@@ -194,9 +190,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
                 onChange={(e) => handleChange("segmentName", e.target.value)}
               />
               {formData.segmentName.errorMessage && (
-                <Text className={style.ErrorText}>
-                  {formData.segmentName.errorMessage}
-                </Text>
+                <Text className={style.ErrorText}>{formData.segmentName.errorMessage}</Text>
               )}
             </Flex>
             <Flex className={style.ModalBodyItem}>
@@ -211,9 +205,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
                 {!isEdit && <option value="Both">Cả hai</option>}
               </Select>
               {formData.gender.errorMessage && (
-                <Text className={style.ErrorText}>
-                  {formData.gender.errorMessage}
-                </Text>
+                <Text className={style.ErrorText}>{formData.gender.errorMessage}</Text>
               )}
             </Flex>
           </Flex>
@@ -257,9 +249,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
               </RadioGroup>
             )}
             {formData.sessions.errorMessage && (
-              <Text className={style.ErrorText}>
-                {formData.sessions.errorMessage}
-              </Text>
+              <Text className={style.ErrorText}>{formData.sessions.errorMessage}</Text>
             )}
           </Flex>
 
@@ -273,9 +263,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
                 onChange={(e) => handleChange("ageFrom", e.target.value)}
               />
               {formData.ageFrom.errorMessage && (
-                <Text className={style.ErrorText}>
-                  {formData.ageFrom.errorMessage}
-                </Text>
+                <Text className={style.ErrorText}>{formData.ageFrom.errorMessage}</Text>
               )}
             </Flex>
             <Flex className={style.ModalBodyItem}>
@@ -287,9 +275,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
                 onChange={(e) => handleChange("ageTo", e.target.value)}
               />
               {formData.ageTo.errorMessage && (
-                <Text className={style.ErrorText}>
-                  {formData.ageTo.errorMessage}
-                </Text>
+                <Text className={style.ErrorText}>{formData.ageTo.errorMessage}</Text>
               )}
             </Flex>
           </Flex>
@@ -297,11 +283,7 @@ const ModalFormCustomerSegment: React.FC<ModalFormCustomerSegmentProps> = ({
       </ModalBody>
       <ModalFooter>
         <Flex className={style.Footer}>
-          <Button
-            variant="ghost"
-            backgroundColor="#ccc"
-            onClick={() => onClose()}
-          >
+          <Button variant="ghost" backgroundColor="#ccc" onClick={() => onClose()}>
             Huỷ
           </Button>
           <Button className={style.AddSegmentBtn} onClick={handleSubmit}>

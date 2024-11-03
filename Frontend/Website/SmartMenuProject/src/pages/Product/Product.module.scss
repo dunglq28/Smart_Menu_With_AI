@@ -13,29 +13,17 @@
   }
   .Product {
     @extend .table;
-    .ProductTbl {
-      @extend .tableContainer;
-      @extend .shadow;
-
-      .ProductItem {
-        @extend .tableItem;
-      }
-
-      .WrapText {
-        min-width: 20%;
-        white-space: normal;
-        text-align: center;
-      }
-
-      .ProductImage {
-        max-width: 150px;
-        max-height: 150px;
-        object-fit: cover;
-      }
-    }
-
-    .HeaderTbl {
-      @extend .header;
-    }
   }
+}
+
+.WrapText {
+  min-width: 20%;
+  white-space: normal;
+  text-align: center;
+}
+
+.ProductImage {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
 }

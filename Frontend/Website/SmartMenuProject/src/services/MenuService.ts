@@ -1,21 +1,18 @@
 import axios from "axios";
-import axiosMultipartForm from "../api/axiosMultipartForm";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import axiosAuth from "../api/axiosAuth";
-import { listAddToMenu } from "../payloads/requests/createRequests.model";
+import { axiosMultipartForm, axiosAuth } from "@/api";
 import {
+  ApiResponse,
+  listAddToMenu,
   ListData,
   ListProductDetails,
   MenuData,
-} from "../payloads/responses/MenuData.model";
-import { GetData } from "../payloads/responses/GetData.model";
-import { MenuList } from "../models/Menu.model";
+  GetData,
+} from "@/payloads";
+import { MenuList } from "@/models";
 
 // Luồng tạo menu
 //================================================================//
-export const createMenu = async (
-  menuForm: FormData
-): Promise<ApiResponse<MenuData>> => {
+export const createMenu = async (menuForm: FormData): Promise<ApiResponse<MenuData>> => {
   try {
     const res = await axiosMultipartForm.post("menus", menuForm);
     const apiResponse = res.data as ApiResponse<MenuData>;
@@ -30,7 +27,7 @@ export const createMenu = async (
 
 export const createListPosition = async (
   menuList: MenuList[],
-  brandId: number
+  brandId: number,
 ): Promise<ApiResponse<ListData[]>> => {
   try {
     const listDetails = menuList.map((list) => ({
@@ -55,7 +52,7 @@ export const createListPosition = async (
 export const createMenuList = async (
   menuId: number,
   brandId: number,
-  listAddToMenu: listAddToMenu[]
+  listAddToMenu: listAddToMenu[],
 ): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosAuth.post("menu-list", {
@@ -75,7 +72,7 @@ export const createMenuList = async (
 
 export const createProductList = async (
   brandId: number,
-  listProductDetails: ListProductDetails[]
+  listProductDetails: ListProductDetails[],
 ): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosAuth.post("product-lists/add-list-product", {
@@ -95,7 +92,8 @@ export const createProductList = async (
 export const getAllMenu = async (
   brandId: number,
   currentPage: number,
-  rowsPerPage: number
+  rowsPerPage: number,
+  searchValue?: string
 ): Promise<GetData<MenuData>> => {
   const res = await axiosAuth.get("menus", {
     params: {
@@ -108,9 +106,7 @@ export const getAllMenu = async (
   return apiResponse.data as GetData<MenuData>;
 };
 
-export const getMenu = async (
-  menuId: number
-): Promise<ApiResponse<MenuData>> => {
+export const getMenu = async (menuId: number): Promise<ApiResponse<MenuData>> => {
   const res = await axiosAuth.get("menus/get-by-id", {
     params: {
       id: menuId,
@@ -120,9 +116,7 @@ export const getMenu = async (
   return apiResponse;
 };
 
-export const getMenuSegment = async (
-  menuId: number
-): Promise<ApiResponse<MenuData>> => {
+export const getMenuSegment = async (menuId: number): Promise<ApiResponse<MenuData>> => {
   const res = await axiosAuth.get("menu-segments/get-by-id", {
     params: {
       id: menuId,
@@ -132,9 +126,7 @@ export const getMenuSegment = async (
   return apiResponse;
 };
 //================================================================//
-export const updateMenu = async (
-  menu: FormData
-): Promise<ApiResponse<MenuData>> => {
+export const updateMenu = async (menu: FormData): Promise<ApiResponse<MenuData>> => {
   try {
     const res = await axiosMultipartForm.put("menus", menu);
     const apiResponse = res.data as ApiResponse<MenuData>;
@@ -149,7 +141,7 @@ export const updateMenu = async (
 
 export const updateListPosition = async (
   menuList: MenuList[],
-  brandId: number
+  brandId: number,
 ): Promise<ApiResponse<ListData[]>> => {
   try {
     const listDetails = menuList.map((list) => ({
@@ -174,7 +166,7 @@ export const updateListPosition = async (
 
 export const updateProductList = async (
   brandId: number,
-  listProductDetails: ListProductDetails[]
+  listProductDetails: ListProductDetails[],
 ): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosAuth.put("product-lists/update-list-product", {
@@ -191,9 +183,7 @@ export const updateProductList = async (
   }
 };
 //================================================================//
-export const deleteMenu = async (
-  menuId: Number
-): Promise<ApiResponse<Object>> => {
+export const deleteMenu = async (menuId: Number): Promise<ApiResponse<Object>> => {
   const res = await axiosAuth.delete("menus", {
     params: {
       id: menuId,

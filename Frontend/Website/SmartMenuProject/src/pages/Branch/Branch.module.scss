@@ -15,17 +15,5 @@
 
   .Branch {
     @extend .table;
-
-    .BranchTbl {
-      @extend .tableContainer;
-      @extend .shadow;
-
-      .BranchItem {
-        @extend .tableItem;
-      }
-    }
-    .HeaderTbl {
-      @extend .header;
-    }
   }
 }
