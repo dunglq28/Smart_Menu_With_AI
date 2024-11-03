@@ -1,15 +1,12 @@
-import axiosAuth from "../api/axiosAuth";
-import axiosMultipartForm from "../api/axiosMultipartForm";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { GetData } from "../payloads/responses/GetData.model";
-import { ProductData } from "../payloads/responses/ProductData.model";
 import axios from "axios";
+import { axiosAuth, axiosMultipartForm } from "@/api";
+import { ApiResponse, GetData, ProductData } from "@/payloads";
 
 export const getProducts = async (
   brandId: number,
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string
+  searchValue?: string,
 ): Promise<GetData<ProductData>> => {
   const res = await axiosAuth.get("products", {
     params: {
@@ -25,7 +22,7 @@ export const getProducts = async (
 
 export const getProductsByCategory = async (
   brandId: number,
-  categoryId: number
+  categoryId: number,
 ): Promise<GetData<ProductData>> => {
   const res = await axiosAuth.get("products/get-by-category", {
     params: {
@@ -37,9 +34,7 @@ export const getProductsByCategory = async (
   return apiResponse.data as GetData<ProductData>;
 };
 
-export const getProduct = async (
-  id: number
-): Promise<ApiResponse<ProductData>> => {
+export const getProduct = async (id: number): Promise<ApiResponse<ProductData>> => {
   const res = await axiosAuth.get("products/get-by-id", {
     params: {
       id: id,
@@ -49,9 +44,7 @@ export const getProduct = async (
   return apiResponse;
 };
 
-export const createProduct = async (
-  productForm: FormData
-): Promise<ApiResponse<Object>> => {
+export const createProduct = async (productForm: FormData): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosMultipartForm.post("products", productForm);
     const apiResponse = res.data as ApiResponse<Object>;
@@ -66,13 +59,10 @@ export const createProduct = async (
 
 export const updateProduct = async (
   id: number,
-  product: FormData
+  product: FormData,
 ): Promise<ApiResponse<Object>> => {
   try {
-    const res = await axiosMultipartForm.put(
-      `products?product-id=${id}`,
-      product
-    );
+    const res = await axiosMultipartForm.put(`products?product-id=${id}`, product);
     const apiResponse = res.data as ApiResponse<Object>;
     return apiResponse;
   } catch (error) {
@@ -83,9 +73,7 @@ export const updateProduct = async (
   }
 };
 
-export const deleteProduct = async (
-  id: number
-): Promise<ApiResponse<Object>> => {
+export const deleteProduct = async (id: number): Promise<ApiResponse<Object>> => {
   const res = await axiosAuth.delete("products", {
     params: {
       id: id,

@@ -1,35 +1,35 @@
 import React, { FC, useState } from "react";
 import {
+  Box,
   Button,
   Divider,
   Flex,
   Popover,
-  PopoverArrow,
   PopoverBody,
   PopoverContent,
+  PopoverHeader,
   PopoverTrigger,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { MdOutlineMoreHoriz } from "react-icons/md";
 
 import style from "./ActionMenuBrand.module.scss";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import ModalForm from "../../Modals/ModalForm/ModalForm";
-import ModalFormBrand from "../../Modals/ModalFormBrand/ModalFormBrand";
-import { BrandForm } from "../../../models/BrandForm.model";
-import { getBrand } from "../../../services/BrandService";
-import CustomAlertDialog from "../../AlertDialog";
-import { brandUpdate } from "../../../payloads/requests/updateRequests.model";
-import { getInitialBrandForm } from "../../../utils/initialData";
+
+import { BrandService } from "@/services";
+import { CustomAlertDialog, ModalForm, ModalFormBrand } from "@/components";
+import { Icons } from "@/assets";
+import { brandUpdate } from "@/payloads";
+import { BrandForm } from "@/models";
+import { getInitialBrandForm } from "@/utils";
 
 interface ActionMenuProps {
   id: number;
   brandName: string;
   userBrandId: number;
   onDelete: (id: number) => void;
-  onEdit: (brand: brandUpdate) => void;
+  onEdit: (id: number, brand: brandUpdate) => void;
 }
 
 const ActionMenuBrand: FC<ActionMenuProps> = ({ id, brandName, userBrandId, onDelete, onEdit }) => {
@@ -48,12 +48,12 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({ id, brandName, userBrandId, onDe
       image: brand.image.value,
     };
     if (isSave) {
-      onEdit(brandUpdate);
+      onEdit(id, brandUpdate);
     }
   };
 
   const handleEditClick = async () => {
-    var result = await getBrand(id);
+    var result = await BrandService.getBrand(id);
     if (result.statusCode === 200) {
       const { brandName, imageUrl } = result.data;
       const updatedBrandData: BrandForm = {
@@ -79,6 +79,29 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({ id, brandName, userBrandId, onDe
     }
   };
 
+  const actionItems = [
+    {
+      icon: <Icons.branch />,
+      label: "Xem chi nhánh",
+      onClick: () => handleViewClick("branches"),
+    },
+    {
+      icon: <Icons.menu />,
+      label: "Xem thực đơn",
+      onClick: () => handleViewClick("menu"),
+    },
+    {
+      icon: <Icons.edit />,
+      label: "Cập nhật thương hiệu",
+      onClick: handleEditClick,
+    },
+    {
+      icon: <Icons.delete />,
+      label: "Xoá thương hiệu",
+      onClick: onOpen,
+    },
+  ];
+
   return (
     <>
       <Flex className={style.SettingBrand}>
@@ -86,27 +109,19 @@ const ActionMenuBrand: FC<ActionMenuProps> = ({ id, brandName, userBrandId, onDe
           <PopoverTrigger>
             <Button className={style.SettingsIconBtn}>
               <Flex>
-                <MdOutlineMoreHoriz className={style.SettingsIcon} />
+                <Icons.outlineMoreHoriz className={style.SettingsIcon} />
               </Flex>
             </Button>
           </PopoverTrigger>
           <PopoverContent className={style.PopoverContent}>
-            <PopoverArrow />
-            <PopoverBody>
-              <Flex className={style.PopupButton} onClick={() => handleViewClick("branches")}>
-                <Text className={style.PopupButtonText}>Xem chi nhánh</Text>
-              </Flex>
-              <Flex className={style.PopupButton} onClick={() => handleViewClick("menu")}>
-                <Text className={style.PopupButtonText}>Xem thực đơn</Text>
-              </Flex>
-              <Divider />
-              <Flex className={style.PopupButton} onClick={handleEditClick}>
-                <Text className={style.PopupButtonText}>Cập nhật thương hiệu</Text>
-              </Flex>
-              <Divider />
-              <Flex className={style.PopupButton} onClick={onOpen}>
-                <Text className={style.PopupButtonText}>Xoá thương hiệu</Text>
-              </Flex>
+            <PopoverHeader className={style.PopoverHeader}>Cài đặt thương hiệu</PopoverHeader>
+            <PopoverBody className={style.PopoverBody}>
+              {actionItems.map((actionItem, i) => (
+                <Flex key={i} className={style.PopupButton} onClick={actionItem.onClick}>
+                  <Box className={style.PopupIcon}>{actionItem.icon}</Box>
+                  <Text className={style.PopupButtonText}>{actionItem.label}</Text>
+                </Flex>
+              ))}
             </PopoverBody>
           </PopoverContent>
         </Popover>

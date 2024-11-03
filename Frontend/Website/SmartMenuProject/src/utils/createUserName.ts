@@ -1,4 +1,4 @@
-import { BranchForm } from "../models/BranchForm.model";
+import { BranchForm } from "@/models/BranchForm.model";
 
 export const generateUsernameFromBrand = (brandName: string): string => {
   // Xóa dấu tiếng Việt và định dạng tên thương hiệu
@@ -45,9 +45,7 @@ export const generateUsernameFromBranch = (branch: BranchForm): string => {
     .toLowerCase();
   const cityInitials = branch.city.name[0].toLowerCase();
   const districtInitials = branch.district.name[0].toLowerCase();
-  const addressInitials = removeSpecialChars(
-    branch.address.value.split(" ")[0].toLowerCase(),
-  );
+  const addressInitials = removeSpecialChars(branch.address.value.split(" ")[0].toLowerCase());
 
   // Lấy ngày, tháng, năm hiện tại
   const currentDate = new Date();

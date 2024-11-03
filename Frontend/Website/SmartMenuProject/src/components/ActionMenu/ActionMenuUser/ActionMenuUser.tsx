@@ -1,28 +1,14 @@
 import React, { FC, useState } from "react";
-import {
-  Button,
-  Divider,
-  Flex,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { RiSettings3Line } from "react-icons/ri";
+import { useDisclosure } from "@chakra-ui/react";
 
-import style from "./ActionMenuUser.module.scss";
-import ModalForm from "../../Modals/ModalForm/ModalForm";
-import ModalFormUser from "../../Modals/ModalFormUser/ModalFormUser";
 import { useTranslation } from "react-i18next";
-import { UserForm } from "../../../models/UserForm.model";
-import { getInitialUserForm } from "../../../utils/initialData";
-import { getUser } from "../../../services/UserService";
-import CustomAlertDialog from "../../AlertDialog";
-import { userUpdate } from "../../../payloads/requests/updateRequests.model";
-import { getGender } from "../../../utils/functionHelper";
+
+import { Icons } from "@/assets";
+import { ActionMenuComponent, CustomAlertDialog, ModalForm, ModalFormUser } from "@/components";
+import { UserService } from "@/services";
+import { userUpdate } from "@/payloads";
+import { UserForm } from "@/models";
+import { getGender, getInitialUserForm } from "@/utils";
 
 interface ActionMenuProps {
   id: number;
@@ -34,19 +20,14 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef: React.LegacyRef<HTMLButtonElement> = React.useRef(null);
-  const {
-    isOpen: isOpenUser,
-    onOpen: onOpenUser,
-    onClose: onCloseUser,
-  } = useDisclosure();
+  const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
   // USER DATA
   const [userForm, setUserForm] = useState<UserForm>(getInitialUserForm());
 
   const handleEditClick = async () => {
-    var result = await getUser(id);
+    var result = await UserService.getUser(id);
 
     if (result.statusCode === 200) {
-      
       const { fullname, userName, phone, dob, gender, isActive } = result.data;
 
       const updatedUserData: UserForm = {
@@ -77,31 +58,22 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
     }
   };
 
+  const actionItems = [
+    {
+      icon: <Icons.edit />,
+      label: "Cập nhật người dùng",
+      onClick: handleEditClick,
+    },
+    {
+      icon: <Icons.delete />,
+      label: "Xoá người dùng",
+      onClick: onOpen,
+    },
+  ];
+
   return (
     <>
-      <Flex className={style.SettingUser}>
-        <Popover>
-          <PopoverTrigger>
-            <Button className={style.SettingsIconBtn}>
-              <Flex>
-                <RiSettings3Line className={style.SettingsIcon} />
-              </Flex>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className={style.PopoverContent}>
-            <PopoverArrow />
-            <PopoverBody>
-              <Flex className={style.PopupButton} onClick={handleEditClick}>
-                <Text className={style.PopupButtonText}>Cập nhật người dùng</Text>
-              </Flex>
-              <Divider />
-              <Flex className={style.PopupButton} onClick={onOpen}>
-                <Text className={style.PopupButtonText}>Xoá người dùng</Text>
-              </Flex>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-      </Flex>
+      <ActionMenuComponent title="Cài đặt người dùng" items={actionItems} />
 
       <CustomAlertDialog
         onClose={onClose}

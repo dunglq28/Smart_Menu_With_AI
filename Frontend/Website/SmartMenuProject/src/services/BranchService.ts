@@ -1,16 +1,13 @@
 import axios from "axios";
-import axiosAuth from "../api/axiosAuth";
-import { BranchForm } from "../models/BranchForm.model";
-import { branchUpdate } from "../payloads/requests/updateRequests.model";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { BranchData } from "../payloads/responses/BranchData.model";
-import { GetData } from "../payloads/responses/GetData.model";
+import { axiosAuth } from "@/api";
+import { BranchForm } from "@/models";
+import { branchUpdate, ApiResponse, BranchData, GetData } from "@/payloads";
 
 export const getBranches = async (
-  id: number,
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string,
+  id: number,
+  searchValue?: string,
 ): Promise<GetData<BranchData>> => {
   const res = await axiosAuth.get("stores", {
     params: {
@@ -49,6 +46,7 @@ export const createBranch = async (
 };
 
 export const updateBranch = async (
+  id: number,
   branch: branchUpdate,
   brandId: string | null,
 ): Promise<ApiResponse<Object>> => {

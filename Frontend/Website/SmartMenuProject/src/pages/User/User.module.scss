@@ -9,20 +9,5 @@
 
   .User {
     @extend .table;
-
-    .UserTbl {
-      @extend .tableContainer;
-      @extend .shadow;
-
-      .UserItem {
-        @extend .tableItem;
-        td {
-          font-size: 17px;
-        }
-      }
-    }
-    .HeaderTbl {
-      @extend .header;
-    }
   }
 }

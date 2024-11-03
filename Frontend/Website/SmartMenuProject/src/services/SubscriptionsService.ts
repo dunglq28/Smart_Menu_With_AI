@@ -1,6 +1,5 @@
-import axiosAuth from "../api/axiosAuth";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { SubscriptionData } from "../payloads/responses/SubscriptionData.model";
+import { axiosAuth } from "@/api";
+import { ApiResponse, SubscriptionData } from "@/payloads";
 
 export const getSubscription = async (userId: number): Promise<ApiResponse<SubscriptionData>> => {
   const res = await axiosAuth.get(`subscriptions/${userId}`);

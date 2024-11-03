@@ -6,6 +6,8 @@ import { ToastContainer } from "react-toastify";
 import "../node_modules/react-toastify/dist/ReactToastify.css";
 import { DataProvider } from "./store/DataContext";
 import ScrollToTop from "./components/ScrollToTop";
+import "./styles/shared.scss";
+import "./styles/global.scss";
 
 function App(): JSX.Element {
   return (
@@ -16,13 +18,8 @@ function App(): JSX.Element {
           <div className="App">
             <Routes>
               {publicRoutes.map((route, index) => {
-                const Layout =
-                  route.layout === null
-                    ? Fragment
-                    : route.layout || DefaultLayout;
-
+                const Layout = route.layout === null ? Fragment : route.layout || DefaultLayout;
                 const Page = route.component;
-
                 return (
                   <Route
                     key={index}

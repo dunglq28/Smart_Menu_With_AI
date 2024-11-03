@@ -1,16 +1,18 @@
 import axios from "axios";
-import axiosAuth from "../api/axiosAuth";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { GetData } from "../payloads/responses/GetData.model";
-import { CustomerSegmentData } from "../payloads/responses/CustomerSegment.model";
-import { customerSegmentCreate } from "../payloads/requests/createRequests.model";
-import { customerSegmentUpdate } from "../payloads/requests/updateRequests.model";
+import { axiosAuth } from "@/api";
+import {
+  ApiResponse,
+  GetData,
+  CustomerSegmentData,
+  customerSegmentCreate,
+  customerSegmentUpdate,
+} from "@/payloads";
 
 export const getCustomerSegments = async (
   brandId: number,
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string,
+  searchValue?: string,
 ): Promise<GetData<CustomerSegmentData>> => {
   const res = await axiosAuth.get("customer-segments", {
     params: {
@@ -78,8 +80,8 @@ export const createCustomerSegment = async (
 
 export const updateCustomerSegment = async (
   segmentId: number,
-  brandId: number,
   customerSegment: customerSegmentUpdate,
+  brandId: number,
 ): Promise<ApiResponse<Object>> => {
   try {
     const res = await axiosAuth.put(`customer-segments/update-value`, {

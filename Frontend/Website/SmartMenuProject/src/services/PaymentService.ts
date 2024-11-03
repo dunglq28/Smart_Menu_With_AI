@@ -1,14 +1,12 @@
 import axios from "axios";
-import axiosAuth from "../api/axiosAuth";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { PaymentStatus } from "../constants/Enum";
-import { PaymentData } from "../payloads/responses/PaymentData.model";
-import { GetData } from "../payloads/responses/GetData.model";
+import { axiosAuth } from "@/api";
+import { ApiResponse, PaymentData, GetData } from "@/payloads";
+import { PaymentStatus } from "@/constants";
 
 export const getPayments = async (
   currentPage: number,
   rowsPerPage: number,
-  searchValue: string,
+  searchValue?: string,
 ): Promise<GetData<PaymentData>> => {
   const res = await axiosAuth.get("payments", {
     params: {

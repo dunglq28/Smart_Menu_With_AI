@@ -9,46 +9,17 @@ import {
 } from "@chakra-ui/react";
 import style from "./Sidebar.module.scss";
 import React, { useState, useEffect } from "react";
-import { CgAddR } from "react-icons/cg";
-import { MdLogout } from "react-icons/md";
-import { IoIosArrowForward } from "react-icons/io";
 import { Link as ReactRouterLink, useLocation, useNavigate } from "react-router-dom";
-import Logo from "../../../assets/images/Logo.jpeg";
-import {
-  AiOutlineCreditCard,
-  AiOutlineCustomerService,
-  AiOutlineLayout,
-  AiOutlineProduct,
-} from "react-icons/ai";
-import { MdOutlineCategory } from "react-icons/md";
-import { GoHome } from "react-icons/go";
-import { AiOutlineUser } from "react-icons/ai";
-import { IoGitBranchOutline } from "react-icons/io5";
-import { IoSettingsOutline } from "react-icons/io5";
-import { MdListAlt } from "react-icons/md";
-import { MdOutlineBrandingWatermark } from "react-icons/md";
-import { MdOutlineDashboard } from "react-icons/md";
-import { GoPackage } from "react-icons/go";
+
 import { useTranslation } from "react-i18next";
 
-import { BrandForm } from "../../../models/BrandForm.model";
-import { BranchForm } from "../../../models/BranchForm.model";
-import { UserForm } from "../../../models/UserForm.model";
-import { CurrentForm, UserRole } from "../../../constants/Enum";
-import {
-  getInitialBranchForm,
-  getInitialBrandForm,
-  getInitialUserForm,
-} from "../../../utils/initialData";
 import { toast } from "react-toastify";
-import { createUser } from "../../../services/UserService";
-import { createBrand, getLimitBrandByUserId } from "../../../services/BrandService";
-import { createBranch } from "../../../services/BranchService";
-import ModalForm from "../../Modals/ModalForm/ModalForm";
-import ModalFormBrand from "../../Modals/ModalFormBrand/ModalFormBrand";
-import ModalFormBranch from "../../Modals/ModalFormBranch/ModalFormBranch";
-import ModalFormUser from "../../Modals/ModalFormUser/ModalFormUser";
-import { themeColors } from "../../../constants/GlobalStyles";
+import { Icons, Images } from "@/assets";
+import { ModalForm, ModalFormBranch, ModalFormBrand, ModalFormUser } from "@/components";
+import { BranchService, BrandService, UserService } from "@/services";
+import { CurrentForm, themeColors, UserRole } from "@/constants";
+import { BranchForm, BrandForm, UserForm } from "@/models";
+import { getInitialBranchForm, getInitialBrandForm, getInitialUserForm } from "@/utils";
 
 function Sidebar() {
   const { t } = useTranslation();
@@ -83,7 +54,7 @@ function Sidebar() {
     if (!userId) return;
 
     try {
-      const { statusCode, data } = await getLimitBrandByUserId(userId);
+      const { statusCode, data } = await BrandService.getLimitBrandByUserId(userId);
 
       if (statusCode === 200) {
         if (data.numberAccount < data.maxAccount) {
@@ -111,49 +82,49 @@ function Sidebar() {
   const roleId = roleIdString ? roleIdString : "";
   const menuItems = [
     {
-      icon: MdOutlineDashboard,
+      icon: Icons.dashboard,
       label: t("dashboard"),
       to: "/admin-dashboard",
       permissionRole: UserRole.Admin,
       isDisabled: false,
     },
     {
-      icon: MdOutlineDashboard,
+      icon: Icons.dashboard,
       label: t("dashboard"),
       to: "/brand-dashboard",
       permissionRole: UserRole.BrandManager,
       isDisabled: false,
     },
     {
-      icon: AiOutlineUser,
+      icon: Icons.user,
       label: t("users"),
       to: "/users",
       permissionRole: [UserRole.Admin, UserRole.BrandManager],
       isDisabled: false,
     },
     {
-      icon: AiOutlineCreditCard,
+      icon: Icons.creditCard,
       label: t("paymentHistory"),
       to: "/payment-history",
       permissionRole: [UserRole.Admin],
       isDisabled: false,
     },
     {
-      icon: GoPackage,
+      icon: Icons.packageIcon,
       label: t("packages"),
       to: "/payment-history",
       permissionRole: [UserRole.Admin],
       isDisabled: true,
     },
     {
-      icon: AiOutlineLayout,
+      icon: Icons.landingPage,
       label: t("landingPage"),
       to: "/payment-history",
       permissionRole: [UserRole.Admin],
       isDisabled: true,
     },
     {
-      icon: MdOutlineBrandingWatermark,
+      icon: Icons.brand,
       label: t("brands"),
       divider: true,
       to: "/brands",
@@ -161,21 +132,21 @@ function Sidebar() {
       isDisabled: false,
     },
     {
-      icon: AiOutlineProduct,
+      icon: Icons.product,
       label: t("products"),
       to: "/products",
       permissionRole: [UserRole.BrandManager],
       isDisabled: false,
     },
     {
-      icon: MdOutlineCategory,
+      icon: Icons.category,
       label: t("categories"),
       to: "/categories",
       permissionRole: [UserRole.BrandManager],
       isDisabled: false,
     },
     {
-      icon: AiOutlineCustomerService,
+      icon: Icons.customSegment,
       label: t("customer segment"),
       divider: true,
       to: "/customerSegment",
@@ -183,35 +154,35 @@ function Sidebar() {
       isDisabled: false,
     },
     {
-      icon: MdListAlt,
+      icon: Icons.menu,
       label: t("menu"),
       to: "/menu",
       permissionRole: [UserRole.BrandManager],
       isDisabled: false,
     },
     {
-      icon: IoGitBranchOutline,
+      icon: Icons.branch,
       label: t("branches"),
       to: "/branches",
       permissionRole: [UserRole.BrandManager],
       isDisabled: false,
     },
     {
-      icon: IoSettingsOutline,
+      icon: Icons.setting,
       label: t("settings"),
       divider: true,
       to: "/settings",
       isDisabled: false,
     },
     {
-      icon: CgAddR,
+      icon: Icons.plus,
       label: t("new brand"),
       onclick: onOpenBrand,
       permissionRole: UserRole.Admin,
       isDisabled: false,
     },
     {
-      icon: CgAddR,
+      icon: Icons.plus,
       label: t("new branch"),
       onclick: customOnOpenBranch,
       permissionRole: [UserRole.Admin, UserRole.BrandManager],
@@ -273,12 +244,12 @@ function Sidebar() {
         brandForm.append("Image", brandData.image.value);
       }
 
-      const userResult = await createUser(data, 2);
+      const userResult = await UserService.createUser(data, 2);
 
       if (userResult.statusCode === 200) {
         brandForm.append("UserId", userResult.data.toString());
 
-        const brandResult = await createBrand(brandForm);
+        const brandResult = await BrandService.createBrand(brandForm);
 
         if (brandResult.statusCode === 200) {
           await onCloseUser();
@@ -300,10 +271,13 @@ function Sidebar() {
 
   async function saveBranchHandle(data: UserForm) {
     try {
-      const userResult = await createUser(data, 3);
+      const userResult = await UserService.createUser(data, 3);
 
       if (userResult.statusCode === 200) {
-        const branchResult = await createBranch(branchData, userResult.data.toString());
+        const branchResult = await BranchService.createBranch(
+          branchData,
+          userResult.data.toString(),
+        );
 
         if (branchResult.statusCode === 200) {
           await onCloseUser();
@@ -347,10 +321,10 @@ function Sidebar() {
     <Flex className={style.Sidebar} width={isExpanded ? "250px" : "65px"} direction="column">
       <Flex>
         <Flex className={style.Logo}>
-          <Avatar src={Logo} className={style.Avatar} />
+          <Avatar src={Images.logo} className={style.Avatar} />
           {isExpanded && <Text className={style.LogoText}>Menius</Text>}
         </Flex>
-        <IoIosArrowForward
+        <Icons.arrowForward
           className={style.ArrowSidebar}
           onClick={toggleSidebar}
           style={{
@@ -402,7 +376,7 @@ function Sidebar() {
       </Flex>
 
       <Flex className={style.Profile} onClick={logoutHandler}>
-        <MdLogout className={style.LogoutIcon} />
+        <Icons.logout className={style.LogoutIcon} />
         {isExpanded && <Text className={style.LogoutText}>Đăng Xuất</Text>}
       </Flex>
 

@@ -1,7 +1,9 @@
 @import "../../../styles/shared.scss";
 
 .SettingBrand {
-  @extend .settingItem;
+  width: 100%;
+  height: 25px;
+  justify-content: center;
 
   .SettingsIconBtn {
     width: 0px;
@@ -25,5 +27,46 @@
 }
 
 .PopoverContent {
-  @extend .PopoverContent;
+  width: 100% !important;
+
+  .PopoverHeader {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 2px;
+  }
+
+  .PopoverBody {
+    padding: 6px;
+    .PopupIcon {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .PopupButton {
+      width: 100%;
+      height: 40px;
+      font-size: 16px;
+      justify-content: flex-start;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.3s;
+      border-radius: 8px;
+      font-weight: 600;
+
+      &:hover {
+        background-color: #55ad9b;
+        color: #fff;
+      }
+      &:active {
+        background-color: #55ad9b;
+      }
+
+      .PopupButtonText {
+        margin-left: 6px;
+        margin-right: 6px;
+      }
+    }
+  }
 }

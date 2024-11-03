@@ -1,10 +1,13 @@
 import axios from "axios";
-import axiosAuth from "../api/axiosAuth";
-import axiosMultipartForm from "../api/axiosMultipartForm";
-import { brandUpdate } from "../payloads/requests/updateRequests.model";
-import { ApiResponse, ApiResponseNotPagin } from "../payloads/responses/ApiResponse.model";
-import { BrandData, LimitBrandData } from "../payloads/responses/BrandData.model";
-import { GetData } from "../payloads/responses/GetData.model";
+import { axiosAuth, axiosMultipartForm } from "@/api";
+import {
+  brandUpdate,
+  ApiResponse,
+  ApiResponseNotPagin,
+  BrandData,
+  LimitBrandData,
+  GetData,
+} from "@/payloads";
 
 export const getBrands = async (
   currentPage: number,
@@ -69,7 +72,10 @@ export const createBrand = async (brandForm: FormData): Promise<ApiResponse<Obje
   return apiResponse;
 };
 
-export const updateBrand = async (brand: brandUpdate): Promise<ApiResponse<BrandData>> => {
+export const updateBrand = async (
+  id: number,
+  brand: brandUpdate,
+): Promise<ApiResponse<BrandData>> => {
   try {
     const res = await axiosMultipartForm.put("brands/update", brand);
     const apiResponse = res.data as ApiResponse<BrandData>;

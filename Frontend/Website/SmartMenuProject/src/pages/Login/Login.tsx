@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Flex,
   FormControl,
@@ -10,19 +9,14 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import bg from "../../assets/images/bg.svg";
-import avatar from "../../assets/images/avatar.svg";
-import wave from "../../assets/images/wave.png";
+
 import style from "./Login.module.scss";
-import { IoMdPerson } from "react-icons/io";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import { login } from "../../services/AuthenticationService";
 import { toast } from "react-toastify";
-import Loading from "../../assets/gif/loadingCoffee.gif";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserRole } from "../../constants/Enum";
-import { getBrand, getBrandByUserId } from "../../services/BrandService";
+import { UserRole } from "@/constants";
+import { Icons, Images } from "@/assets";
+import { AuthenticationService, BrandService } from "@/services";
 
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -68,11 +62,12 @@ function Login() {
     }
     try {
       setIsLoading(true);
-      const response = await login(credentials.username, credentials.password);
+      const response = await AuthenticationService.login(
+        credentials.username,
+        credentials.password,
+      );
 
-      if (
-        response.data.roleId.toString() === UserRole.BranchManager.toString()
-      ) {
+      if (response.data.roleId.toString() === UserRole.BranchManager.toString()) {
         toast.error("Bạn không có quyền truy cập vào trang web");
         return;
       }
@@ -83,19 +78,15 @@ function Login() {
         localStorage.setItem("RefreshToken", response.data.token.refreshToken);
         const toastMessage = response.message;
 
-        if (
-          response.data.roleId.toString() === UserRole.BrandManager.toString()
-        ) {
-          const brand = await getBrandByUserId(response.data.userId);
+        if (response.data.roleId.toString() === UserRole.BrandManager.toString()) {
+          const brand = await BrandService.getBrandByUserId(response.data.userId);
           localStorage.setItem("UserId", response.data.userId.toString());
           localStorage.setItem("BrandId", brand.data.brandId.toString());
           localStorage.setItem("BrandName", brand.data.brandName.toString());
           localStorage.setItem("BrandLogo", brand.data.imageUrl.toString());
           // ---------------------------------------------------------------
           navigate("/brand-dashboard", { state: { toastMessage } });
-        } else if (
-          response.data.roleId.toString() === UserRole.Admin.toString()
-        ) {
+        } else if (response.data.roleId.toString() === UserRole.Admin.toString()) {
           localStorage.setItem("UserId", response.data.userId.toString());
           navigate("/admin-dashboard", { state: { toastMessage } });
         }
@@ -118,7 +109,7 @@ function Login() {
         bg="#E1C278"
         zIndex="9999"
       >
-        <Image src={Loading} />
+        <Image src={Images.loadingCoffee} />
       </Flex>
     );
   }
@@ -127,20 +118,20 @@ function Login() {
     <>
       <Flex className={style.Login}>
         <Flex className={style.LeftContainer}>
-          <Image src={wave} className={style.Wave} />
-          <Image src={bg} className={style.Bg} />
+          <Image src={Images.wave} className={style.Wave} />
+          <Image src={Images.bg} className={style.Bg} />
         </Flex>
         <Flex className={style.RightContainer}>
           <Flex className={style.FormContainer}>
             <Flex className={style.HeaderContainer}>
-              <Image src={avatar} className={style.Avatar} />
+              <Image src={Images.avatar} className={style.Avatar} />
               <Text className={style.WelcomeText}>CHÀO MỪNG</Text>
             </Flex>
             <Flex className={style.InputContainer}>
               <FormControl>
                 <InputGroup>
                   <InputLeftElement pointerEvents="none" color="gray.300">
-                    <IoMdPerson />
+                    <Icons.person />
                   </InputLeftElement>
                   <Input
                     type="text"
@@ -155,7 +146,7 @@ function Login() {
               <FormControl>
                 <InputGroup>
                   <InputLeftElement pointerEvents="none" color="gray.300">
-                    <RiLockPasswordLine />
+                    <Icons.password />
                   </InputLeftElement>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -166,10 +157,7 @@ function Login() {
                     onKeyPress={handleKeyPress}
                   />
                   <InputRightElement className={style.ShowPasswordContainer}>
-                    <Button
-                      className={style.ShowPasswordButton}
-                      onClick={handleShowClick}
-                    >
+                    <Button className={style.ShowPasswordButton} onClick={handleShowClick}>
                       {showPassword ? "Ẩn" : "Hiện"}
                     </Button>
                   </InputRightElement>

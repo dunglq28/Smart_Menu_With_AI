@@ -1,0 +1,70 @@
+.settingItem {
+  width: 100%;
+  height: 25px;
+  justify-content: center;
+
+  .settingsIconBtn {
+    width: 0px;
+    height: 25px;
+    background-color: transparent !important;
+    .settingsIcon {
+      transition: 0.3s;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      &:hover {
+        rotate: 180deg;
+        background-color: transparent !important;
+      }
+      &:active {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+// Popover styles
+.PopoverContent {
+  width: 100% !important;
+
+  .PopoverHeader {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 2px;
+  }
+
+  .PopoverBody {
+    padding: 6px;
+    .PopupIcon {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .PopupButton {
+      width: 100%;
+      height: 40px;
+      color: black;
+      justify-content: flex-start;
+      align-items: center;
+      margin-right: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.3s;
+      border-radius: 8px;
+      font-weight: 600;
+
+      &:hover {
+        background-color: #55ad9b;
+        color: #fff;
+      }
+      &:active {
+        background-color: #55ad9b;
+      }
+
+      .PopupButtonText {
+      }
+    }
+  }
+}

@@ -1,12 +1,4 @@
-import {
-  Text,
-  Flex,
-  Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-} from "@chakra-ui/react";
+import { Text, Flex, Button, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
 
@@ -48,7 +40,6 @@ const CustomButton: React.FC<CustomButtonProps> = ({
           {text}
         </Button>
       </Flex>
-
     </>
   );
 };

@@ -1,49 +1,26 @@
 import React, { FC, useState } from "react";
-import {
-  Button,
-  Divider,
-  Flex,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 
-import style from "./ActionMenuBranch.module.scss";
 import { useTranslation } from "react-i18next";
-import ModalForm from "../../Modals/ModalForm/ModalForm";
-import CustomAlertDialog from "../../AlertDialog";
-import { BranchForm } from "../../../models/BranchForm.model";
-import ModalFormBranch from "../../Modals/ModalFormBranch/ModalFormBranch";
-import { RiSettings3Line } from "react-icons/ri";
-import { getBranch } from "../../../services/BranchService";
-import { branchUpdate } from "../../../payloads/requests/updateRequests.model";
-import { getInitialBranchForm } from "../../../utils/initialData";
+
+import { Icons } from "@/assets";
+import { BranchService } from "@/services";
+import { ActionMenuComponent, CustomAlertDialog, ModalForm, ModalFormBranch } from "@/components";
+import { branchUpdate } from "@/payloads";
+import { BranchForm } from "@/models";
+import { getInitialBranchForm } from "@/utils";
 
 interface ActionMenuProps {
   id: number;
   brandName: string;
   onDelete: (id: number) => void;
-  onEdit: (branch: branchUpdate) => void;
+  onEdit: (id: number, branch: branchUpdate) => void;
 }
 
-const ActionMenuBranch: FC<ActionMenuProps> = ({
-  id,
-  brandName,
-  onDelete,
-  onEdit,
-}) => {
+const ActionMenuBranch: FC<ActionMenuProps> = ({ id, brandName, onDelete, onEdit }) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isOpenBranch,
-    onOpen: onOpenBranch,
-    onClose: onCloseBranch,
-  } = useDisclosure();
-  const cancelRef: React.LegacyRef<HTMLButtonElement> = React.useRef(null);
+  const { isOpen: isOpenBranch, onOpen: onOpenBranch, onClose: onCloseBranch } = useDisclosure();
   //BRANCH DATA
   const [branchData, setBranchData] = useState<BranchForm>(getInitialBranchForm());
 
@@ -58,12 +35,12 @@ const ActionMenuBranch: FC<ActionMenuProps> = ({
     };
     onCloseBranch();
     if (isSave) {
-      onEdit(branchUpdate);
+      onEdit(id, branchUpdate);
     }
   };
 
   const handleEditClick = async () => {
-    var result = await getBranch(id);
+    var result = await BranchService.getBranch(id);
     if (result.statusCode === 200) {
       const { storeId, brandId, address, city } = result.data;
 
@@ -71,12 +48,8 @@ const ActionMenuBranch: FC<ActionMenuProps> = ({
       const districtIndex = address.indexOf("Quận");
       const streetNumberAndName =
         wardIndex !== -1 ? address.substring(0, wardIndex).trim() : address;
-      const ward =
-        wardIndex !== -1
-          ? address.substring(wardIndex + 6, districtIndex).trim()
-          : "";
-      const district =
-        districtIndex !== -1 ? address.substring(districtIndex + 5).trim() : "";
+      const ward = wardIndex !== -1 ? address.substring(wardIndex + 6, districtIndex).trim() : "";
+      const district = districtIndex !== -1 ? address.substring(districtIndex + 5).trim() : "";
 
       const updatedBranchData: BranchForm = {
         brandName: {
@@ -97,32 +70,22 @@ const ActionMenuBranch: FC<ActionMenuProps> = ({
     }
   };
 
+  const actionItems = [
+    {
+      icon: <Icons.edit />,
+      label: "Cập nhật chi nhánh",
+      onClick: handleEditClick,
+    },
+    {
+      icon: <Icons.delete />,
+      label: "Xoá chi nhánh",
+      onClick: onOpen,
+    },
+  ];
+
   return (
     <>
-      <Flex className={style.SettingBranch}>
-        <Popover>
-          <PopoverTrigger>
-            <Button className={style.SettingsIconBtn}>
-              <Flex>
-                <RiSettings3Line className={style.SettingsIcon} />
-              </Flex>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className={style.PopoverContent}>
-            <PopoverArrow />
-            <PopoverBody>
-              <Divider />
-              <Flex className={style.PopupButton} onClick={handleEditClick}>
-                <Text className={style.PopupButtonText}>Cập nhật chi nhánh</Text>
-              </Flex>
-              <Divider />
-              <Flex className={style.PopupButton} onClick={onOpen}>
-                <Text className={style.PopupButtonText}>Xoá chi nhánh</Text>
-              </Flex>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-      </Flex>
+      <ActionMenuComponent title="Cài đặt chi nhánh" items={actionItems} />
 
       <CustomAlertDialog
         onClose={onClose}

@@ -1,7 +1,6 @@
 import axios from "axios";
-import axiosAuth from "../api/axiosAuth";
-import { ApiResponse } from "../payloads/responses/ApiResponse.model";
-import { AdminDashboardData, BrandDashboardData } from "../payloads/responses/DashboarData.model";
+import { axiosAuth } from "@/api";
+import { ApiResponse, AdminDashboardData, BrandDashboardData } from "@/payloads";
 
 export const getDashboardAdmin = async (): Promise<ApiResponse<AdminDashboardData>> => {
   const res = await axiosAuth.get("dashboard");

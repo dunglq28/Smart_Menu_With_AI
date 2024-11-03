@@ -5,7 +5,6 @@ import {
   Button,
   Flex,
   Image,
-  Input,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -21,12 +20,11 @@ import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 import Select, { SingleValue } from "react-select";
 import style from "./Header.module.scss";
 import { useTranslation } from "react-i18next";
-import { FaRegBell } from "react-icons/fa";
-import { RiArrowDropDownLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import i18n from "../../../i18n/i18n";
-import { getRoleName } from "../../../utils/functionHelper";
-import { UserRole } from "../../../constants/Enum";
+import i18n from "@/i18n/i18n";
+import { getRoleName } from "@/utils";
+import { UserRole } from "@/constants";
+import { Icons, Images } from "@/assets";
 
 function Header() {
   const location = useLocation();
@@ -56,9 +54,7 @@ function Header() {
     localStorage.setItem("language", lng);
   };
 
-  const handleLanguageChange = (
-    selectedOption: SingleValue<{ value: string; label: string }>,
-  ) => {
+  const handleLanguageChange = (selectedOption: SingleValue<{ value: string; label: string }>) => {
     if (selectedOption) {
       const selectedLanguage = selectedOption.value === "en" ? "en" : "vi";
       changeLanguage(selectedLanguage);
@@ -101,9 +97,9 @@ function Header() {
     return savedHeaderSticky === "sticky" ? "sticky" : "relative";
   };
 
-  const [headerSticky, setHeaderSticky] = useState<
-    ResponsiveValue<PositionValue>
-  >(getInitialHeaderSticky());
+  const [headerSticky, setHeaderSticky] = useState<ResponsiveValue<PositionValue>>(
+    getInitialHeaderSticky(),
+  );
 
   const generateBreadcrumbItems = () => {
     const items = [];
@@ -148,9 +144,7 @@ function Header() {
       <Flex flexDirection="column">
         <Breadcrumb fontSize="16px">{generateBreadcrumbItems()}</Breadcrumb>
         <Text className={style.PathName}>
-          {translatedPathname === "THỰC ĐƠN / CREATE-MENU"
-            ? "TẠO MENU"
-            : translatedPathname}
+          {translatedPathname === "THỰC ĐƠN / CREATE-MENU" ? "TẠO MENU" : translatedPathname}
         </Text>
       </Flex>
       <Flex className={style.Content}>
@@ -166,7 +160,7 @@ function Header() {
           <Popover>
             <PopoverTrigger>
               <Button className={style.NotificationButton}>
-                <FaRegBell />
+                <Icons.regBell />
               </Button>
             </PopoverTrigger>
             <PopoverContent>
@@ -182,22 +176,16 @@ function Header() {
                 <Flex className={style.ProfileContainer}>
                   <Flex>
                     <Image
-                      src={logoUrl ? logoUrl : "https://bit.ly/dan-abramov"}
-                      className={
-                        !logoUrl ? style.ProfileImageAdmin : style.ProfileImage
-                      }
+                      src={logoUrl ? logoUrl : Images.adminAvatar}
+                      className={!logoUrl ? style.ProfileImageAdmin : style.ProfileImage}
                     />
                     <Flex className={style.ProfileInfo}>
-                      <Text className={style.ProfileName}>
-                        {brandName ? brandName : "Admin"}
-                      </Text>
-                      <Text className={style.ProfileRole}>
-                        {getRoleName(Number(roleId))}
-                      </Text>
+                      <Text className={style.ProfileName}>{brandName ? brandName : "Admin"}</Text>
+                      <Text className={style.ProfileRole}>{getRoleName(Number(roleId))}</Text>
                     </Flex>
                   </Flex>
                   {Number(roleId) === UserRole.BrandManager ? (
-                    <RiArrowDropDownLine className={style.DropdownIcon} />
+                    <Icons.arrowDropDownLine className={style.DropdownIcon} />
                   ) : (
                     <Flex className={style.DropdownIcon}></Flex>
                   )}

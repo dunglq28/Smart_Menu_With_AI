@@ -1,18 +1,9 @@
 import React, { memo } from "react";
 import { Button } from "@chakra-ui/react";
-import { PaginationButtonProps } from "../../models/PaginationButton.model";
+import { PaginationButtonProps } from "@/models";
 
 const PaginationButton: React.FC<PaginationButtonProps> = memo(
-  ({
-    onClick,
-    isDisabled,
-    bgColor,
-    color,
-    hoverStyles,
-    text,
-    fontSize,
-    icon,
-  }) => {
+  ({ onClick, isDisabled, bgColor, color, hoverStyles, text, fontSize, icon }) => {
     return (
       <Button
         onClick={onClick}
@@ -29,10 +20,9 @@ const PaginationButton: React.FC<PaginationButtonProps> = memo(
       >
         {icon}
         {text}
-        
       </Button>
     );
-  }
+  },
 );
 
 export default PaginationButton;

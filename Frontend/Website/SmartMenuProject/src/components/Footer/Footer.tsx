@@ -1,7 +1,6 @@
-import { Button, Divider, Flex, Input, Link, Text } from "@chakra-ui/react";
+import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import style from "./Footer.module.scss";
-import { FaFacebookSquare, FaInstagramSquare, FaYoutube } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { Icons } from "@/assets";
 
 function Footer() {
   return (
@@ -24,10 +23,10 @@ function Footer() {
           </Flex>
 
           <Flex className={style.SocialMediaIcon}>
-            <FaFacebookSquare />
-            <FaInstagramSquare />
-            <FaSquareXTwitter />
-            <FaYoutube />
+            <Icons.facebook />
+            <Icons.instagram />
+            <Icons.twitter />
+            <Icons.youtube />
           </Flex>
         </Flex>
 

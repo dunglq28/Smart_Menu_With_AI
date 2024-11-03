@@ -1,0 +1,15 @@
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  box-shadow: none !important;
+  outline: 2px solid #a0c4c3 !important;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}

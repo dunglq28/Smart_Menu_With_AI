@@ -1,27 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Flex,
-  Input,
-  ModalBody,
-  ModalFooter,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Flex, Input, ModalBody, ModalFooter, Text } from "@chakra-ui/react";
 import style from "./ModalFormCategory.module.scss";
 import { toast } from "react-toastify";
-import { CategoryForm } from "../../../models/CategoryForm.model";
+import { CategoryForm } from "@/models";
 import moment from "moment";
-import { getCategory } from "../../../services/CategoryService";
+import { CategoryService } from "@/services";
 
 interface ModalFormCategoryProps {
   id?: number;
   handleCreate?: (id: number, categoryName: string) => void;
-  handleEdit?: (
-    cateId: number,
-    brandId: number,
-    categoryName: string,
-    onClose: () => void,
-  ) => void;
+  handleEdit?: (cateId: number, categoryName: string, onClose: () => void, brandId: number) => void;
   onClose: () => void;
   isEdit: boolean;
 }
@@ -42,7 +30,7 @@ const ModalFormCategory: React.FC<ModalFormCategoryProps> = ({
     if (isEdit && id) {
       const loadCategoryData = async () => {
         try {
-          const category = await getCategory(id);
+          const category = await CategoryService.getCategory(id);
           if (category) {
             setFormData({
               categoryName: {
@@ -72,9 +60,7 @@ const ModalFormCategory: React.FC<ModalFormCategoryProps> = ({
 
   const handleSubmit = async () => {
     const errors = {
-      categoryName: formData.categoryName.value
-        ? ""
-        : "Tên danh mục là bắt buộc",
+      categoryName: formData.categoryName.value ? "" : "Tên danh mục là bắt buộc",
     };
 
     const updatedFormData = {
@@ -91,7 +77,7 @@ const ModalFormCategory: React.FC<ModalFormCategoryProps> = ({
       if (!isEdit) {
         handleCreate?.(brandId, formData.categoryName.value);
       } else {
-        handleEdit?.(id!, brandId, formData.categoryName.value, onClose);
+        handleEdit?.(id!, formData.categoryName.value, onClose, brandId);
       }
     }
   };
@@ -109,22 +95,15 @@ const ModalFormCategory: React.FC<ModalFormCategoryProps> = ({
               onChange={(e) => handleChange("categoryName", e.target.value)}
             />
             {formData.categoryName.errorMessage && (
-              <Text className={style.ErrorText}>
-                {formData.categoryName.errorMessage}
-              </Text>
+              <Text className={style.ErrorText}>{formData.categoryName.errorMessage}</Text>
             )}
           </Flex>
           <Flex className={style.ModalBodyItem}>
-            <Text className={style.FieldTitle}>
-              {" "}
-              {isEdit ? "Ngày cập nhật" : "Ngày tạo"}
-            </Text>
+            <Text className={style.FieldTitle}> {isEdit ? "Ngày cập nhật" : "Ngày tạo"}</Text>
             <Input
               className={style.InputField}
               readOnly={true}
-              value={moment(new Date().toISOString().split("T")[0]).format(
-                "DD/MM/YYYY",
-              )}
+              value={moment(new Date().toISOString().split("T")[0]).format("DD/MM/YYYY")}
             />
           </Flex>
         </Flex>

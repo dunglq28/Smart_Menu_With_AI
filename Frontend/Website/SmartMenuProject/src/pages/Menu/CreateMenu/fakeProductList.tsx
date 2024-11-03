@@ -1,4 +1,4 @@
-import { ProductData } from "../../../payloads/responses/ProductData.model";
+import { ProductData } from "@/payloads";
 
 const fakeProductList: ProductData[] = [
   {
