@@ -34,6 +34,10 @@ const ActionMenuCategory: FC<ActionMenuProps> = ({ id, onDelete, onEdit }) => {
     },
   ];
 
+  const handleDelete = () => {
+    onDelete(id);
+  };
+
   return (
     <>
       <ActionMenuComponent title="Cài đặt danh mục" items={actionItems} />
@@ -41,8 +45,7 @@ const ActionMenuCategory: FC<ActionMenuProps> = ({ id, onDelete, onEdit }) => {
       <CustomAlertDialog
         onClose={onClose}
         isOpen={isOpen}
-        id={id}
-        onDelete={onDelete}
+        onDelete={handleDelete}
         titleHeader="Xóa danh mục"
         titleBody="Bạn có chắc không? Bạn không thể hoàn tác hành động này sau đó."
         btnName="Xoá"

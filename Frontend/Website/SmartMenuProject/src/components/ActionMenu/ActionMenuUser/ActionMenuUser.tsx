@@ -71,6 +71,10 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
     },
   ];
 
+  const handleDelete = () => {
+    onDelete(id);
+  };
+
   return (
     <>
       <ActionMenuComponent title="Cài đặt người dùng" items={actionItems} />
@@ -78,8 +82,7 @@ const ActionMenuUser: FC<ActionMenuProps> = ({ id, onEdit, onDelete }) => {
       <CustomAlertDialog
         onClose={onClose}
         isOpen={isOpen}
-        id={id}
-        onDelete={onDelete}
+        onDelete={handleDelete}
         titleHeader="Xoá người dùng"
         titleBody="Bạn có chắc không? Bạn không thể hoàn tác hành động này sau đó."
         btnName="Xoá"

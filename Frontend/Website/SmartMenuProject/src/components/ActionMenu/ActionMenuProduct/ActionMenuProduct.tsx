@@ -29,6 +29,10 @@ const ActionMenuProduct: FC<ActionMenuProps> = ({ id, onDelete, onEdit }) => {
     },
   ];
 
+  const handleDelete = () => {
+    onDelete(id);
+  };
+
   return (
     <>
       <ActionMenuComponent title="Cài đặt sản phẩm" items={actionItems} />
@@ -36,8 +40,7 @@ const ActionMenuProduct: FC<ActionMenuProps> = ({ id, onDelete, onEdit }) => {
       <CustomAlertDialog
         onClose={onClose}
         isOpen={isOpen}
-        id={id}
-        onDelete={onDelete}
+        onDelete={handleDelete}
         titleHeader="Xoá sản phẩm"
         titleBody="Bạn có chắc không? Bạn không thể hoàn tác hành động này sau đó."
         btnName="Xoá"
