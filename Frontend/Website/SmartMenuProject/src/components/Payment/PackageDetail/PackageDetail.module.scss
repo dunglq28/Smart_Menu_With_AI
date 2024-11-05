@@ -1,5 +1,17 @@
-@import "../../../styles//shared.scss";
+.packages {
+  .packagesTitle {
+    font-size: 24px;
+  }
+  .packagesDetails {
+    font-size: 1.125rem;
+  }
+  .packagesDescription {
+    font-weight: 600;
+  }
 
-.form {
-  @extend .form;
+  .packagesFinalPrice {
+    font-weight: 600;
+    font-size: 1.75rem;
+    color: #466d6b;
+  }
 }
