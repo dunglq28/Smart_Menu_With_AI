@@ -41,6 +41,10 @@ const ActionMenuCustomerSegment: FC<ActionMenuProps> = ({
   } = useDisclosure();
   const cancelRef: React.LegacyRef<HTMLButtonElement> = React.useRef(null);
 
+  const handleDelete = () => {
+    onDelete(id);
+  };
+
   const actionItems = [
     {
       icon: <Icons.edit />,
@@ -61,8 +65,7 @@ const ActionMenuCustomerSegment: FC<ActionMenuProps> = ({
       <CustomAlertDialog
         onClose={onClose}
         isOpen={isOpen}
-        id={id}
-        onDelete={onDelete}
+        onDelete={handleDelete}
         titleHeader="Xóa phân khúc khách hàng"
         titleBody="Bạn có chắc không? Bạn không thể hoàn tác hành động này sau đó."
         btnName=" Xoá"

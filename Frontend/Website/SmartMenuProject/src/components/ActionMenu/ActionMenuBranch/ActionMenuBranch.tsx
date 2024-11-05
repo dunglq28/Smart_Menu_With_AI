@@ -70,6 +70,10 @@ const ActionMenuBranch: FC<ActionMenuProps> = ({ id, brandName, onDelete, onEdit
     }
   };
 
+  const handleDelete = () => {
+    onDelete(id);
+  };
+
   const actionItems = [
     {
       icon: <Icons.edit />,
@@ -90,8 +94,7 @@ const ActionMenuBranch: FC<ActionMenuProps> = ({ id, brandName, onDelete, onEdit
       <CustomAlertDialog
         onClose={onClose}
         isOpen={isOpen}
-        id={id}
-        onDelete={onDelete}
+        onDelete={handleDelete}
         titleHeader="Xoá chi nhánh"
         titleBody="Bạn có chắc không? Bạn không thể hoàn tác hành động này sau đó."
         btnName="Xoá"

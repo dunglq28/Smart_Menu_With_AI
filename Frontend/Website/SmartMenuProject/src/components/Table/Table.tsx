@@ -73,118 +73,121 @@ const TableComponent = <T extends {}>({
     setSelection([]);
   }, [currentPage, rowsPerPage]);
 
-  useEffect(() => {
-    console.log("Updated selection:", selection);
-  }, [selection]);
+  const deleteSelectedItems = () => {
+    console.log(selection);
+    setSelection([]);
+  };
 
   return (
     <>
       <TableContainer className={style.Tbl}>
-        <Table>
-          <TableCaption>{caption}</TableCaption>
-          <Thead >
-            <Tr>
-              {!isView && (
-                <Th className={style.HeaderTbl}>
-                  <Checkbox
-                    className={style.CheckboxTbl}
-                    isChecked={allSelected}
-                    isIndeterminate={indeterminate}
-                    onChange={(e) => toggleAllSelection(e.target.checked)}
-                  />
-                </Th>
-              )}
-
-              <Th className={style.HeaderTbl}>Id</Th>
-              {columns.map((col, index) => {
-                const isSortable = col.isSort === undefined || col.isSort;
-                return (
-                  <Th
-                    key={index}
-                    className={`${style.HeaderTbl} ${isSortable && style.pointer}`}
-                    onClick={isSortable ? () => handleSortClick(col.field.toString()) : undefined}
-                  >
-                    <Tooltip
-                      hasArrow
-                      label="Click để sắp xếp"
-                      isDisabled={!isSortable}
-                      placement="top"
-                      bg="green.500"
-                    >
-                      <Flex className={style.HeaderCol}>
-                        {col.header}
-                        {isSortable && (
-                          <Box
-                            className={style.IconSort}
-                            style={{
-                              opacity: selectedColumn === col.field ? 1 : undefined,
-                              transform: `rotate(${
-                                selectedColumn === col.field ? rotation : 360
-                              }deg)`,
-                              transition: "transform 0.3s ease-in-out",
-                            }}
-                          >
-                            <Icons.sort />
-                          </Box>
-                        )}
-                      </Flex>
-                    </Tooltip>
+        <div className={style.table_content}>
+          <Table>
+            <TableCaption>{caption}</TableCaption>
+            <Thead className={style.table_header_container}>
+              <Tr>
+                {!isView && (
+                  <Th className={style.HeaderTbl}>
+                    <Checkbox
+                      className={style.CheckboxTbl}
+                      isChecked={allSelected}
+                      isIndeterminate={indeterminate}
+                      onChange={(e) => toggleAllSelection(e.target.checked)}
+                    />
                   </Th>
-                );
-              })}
-              {renderAction && <Th className={`${style.HeaderTbl} ${style.sticky}`}>Cài đặt</Th>}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {isInitialLoad && isLoading ? (
-              <Tr>
-                <Td colSpan={10} className={style.LoadingCell}>
-                  <Loading />
-                </Td>
-              </Tr>
-            ) : rows.length === 0 ? (
-              <Tr>
-                <Td colSpan={10}>{notifyNoData}</Td>
-              </Tr>
-            ) : (
-              rows.map((row, index) => {
-                const rowId = row[rowKey] as string;
-                const isSelected = selection.includes(rowId);
+                )}
 
-                return (
-                  <Tr
-                    key={rowId}
-                    className={`${style.Item} ${isSelected ? style.SelectedRow : ""}`}
-                  >
-                    {!isView && (
-                      <Td>
-                        <Checkbox
-                          className={style.CheckboxTbl}
-                          isChecked={isSelected}
-                          onChange={() => toggleRowSelection(rowId)}
-                        />
-                      </Td>
-                    )}
-
-                    <Td>{(currentPage - 1) * rowsPerPage + index + 1}</Td>
-                    {columns.map((col, colIndex) => (
-                      <Td
-                        key={`${colIndex}-${rowId}`}
-                        className={col.className || style.DefaultCell}
+                <Th className={style.HeaderTbl}>Id</Th>
+                {columns.map((col, index) => {
+                  const isSortable = col.isSort === undefined || col.isSort;
+                  return (
+                    <Th
+                      key={index}
+                      className={`${style.HeaderTbl} ${isSortable && style.pointer}`}
+                      onClick={isSortable ? () => handleSortClick(col.field.toString()) : undefined}
+                    >
+                      <Tooltip
+                        hasArrow
+                        label="Click để sắp xếp"
+                        isDisabled={!isSortable}
+                        placement="top"
+                        bg="green.500"
                       >
-                        {col.accessor(row) ?? "N/A"}
-                      </Td>
-                    ))}
-                    {renderAction && <Td className={style.sticky}>{renderAction(row)}</Td>}
-                  </Tr>
-                );
-              })
-            )}
-          </Tbody>
-        </Table>
+                        <Flex className={style.HeaderCol}>
+                          {col.header}
+                          {isSortable && (
+                            <Box
+                              className={style.IconSort}
+                              style={{
+                                opacity: selectedColumn === col.field ? 1 : undefined,
+                                transform: `rotate(${
+                                  selectedColumn === col.field ? rotation : 360
+                                }deg)`,
+                                transition: "transform 0.3s ease-in-out",
+                              }}
+                            >
+                              <Icons.sort />
+                            </Box>
+                          )}
+                        </Flex>
+                      </Tooltip>
+                    </Th>
+                  );
+                })}
+                {renderAction && <Th className={`${style.HeaderTbl} ${style.sticky}`}>Cài đặt</Th>}
+              </Tr>
+            </Thead>
+            <Tbody>
+              {isInitialLoad && isLoading ? (
+                <Tr>
+                  <Td colSpan={10} className={style.LoadingCell}>
+                    <Loading />
+                  </Td>
+                </Tr>
+              ) : rows.length === 0 ? (
+                <Tr>
+                  <Td colSpan={10}>{notifyNoData}</Td>
+                </Tr>
+              ) : (
+                rows.map((row, index) => {
+                  const rowId = row[rowKey] as string;
+                  const isSelected = selection.includes(rowId);
+
+                  return (
+                    <Tr
+                      key={rowId}
+                      className={`${style.Item} ${isSelected ? style.SelectedRow : ""}`}
+                    >
+                      {!isView && (
+                        <Td>
+                          <Checkbox
+                            className={style.CheckboxTbl}
+                            isChecked={isSelected}
+                            onChange={() => toggleRowSelection(rowId)}
+                          />
+                        </Td>
+                      )}
+
+                      <Td>{(currentPage - 1) * rowsPerPage + index + 1}</Td>
+                      {columns.map((col, colIndex) => (
+                        <Td
+                          key={`${colIndex}-${rowId}`}
+                          className={col.className || style.DefaultCell}
+                        >
+                          {col.accessor(row) ?? "N/A"}
+                        </Td>
+                      ))}
+                      {renderAction && <Td className={style.sticky}>{renderAction(row)}</Td>}
+                    </Tr>
+                  );
+                })
+              )}
+            </Tbody>
+          </Table>
+        </div>
       </TableContainer>
 
-      <ActionBar selectedCount={selection.length} />
+      <ActionBar selectedCount={selection.length} deleteSelectedItems={deleteSelectedItems} />
     </>
   );
 };

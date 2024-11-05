@@ -148,7 +148,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
           <FormLabel className={style.formLabel} w="36%">
             Logo thương hiệu
           </FormLabel>
-          <Flex align="center">
+          <Flex>
             {!brandForm.image.value && !brandForm.imageUrl?.value && (
               <Input type="file" className={style.inputImage} onChange={handleImageChange} />
             )}
