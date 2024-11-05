@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import {
   isImageFile,
   validateBrandForm,
@@ -36,7 +35,6 @@ interface BrandResult {
 }
 
 const PaymentInfoPage = () => {
-  const navigate = useNavigate();
   const [brandForm, setBrandForm] = useState<BrandForm>(getInitialBrandForm());
   const [userForm, setUserForm] = useState<UserForm>(getInitialUserForm());
   const [email, setEmail] = useState({
@@ -365,7 +363,6 @@ const PaymentInfoPage = () => {
         if (brandResult?.isSuccess) {
           const result = await CheckoutService.createPaymentLink(
             plan.price,
-            // "2000",
             brandResult.userId,
             email.value,
             plan.planId,

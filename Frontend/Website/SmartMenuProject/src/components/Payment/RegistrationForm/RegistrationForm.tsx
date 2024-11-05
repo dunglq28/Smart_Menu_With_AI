@@ -17,8 +17,7 @@ import { themeColors } from "@/constants";
 import { formatTime } from "@/utils";
 import { BrandForm, UserForm } from "@/models/";
 
-import style from "./RegistrationForm.module.scss";
-
+import style from "./RegistrationForm.module.scss"
 interface RegistrationFormProps {
   brandForm: BrandForm;
   userForm: UserForm;
@@ -120,7 +119,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             errorMessage={verificationCodeUser.errorMessage}
           />
           <Button
-            mt={9}
+            mt={8}
             onClick={handleSendVerificationCode}
             isLoading={isLoadingSendMail}
             loadingText="Gửi mã"

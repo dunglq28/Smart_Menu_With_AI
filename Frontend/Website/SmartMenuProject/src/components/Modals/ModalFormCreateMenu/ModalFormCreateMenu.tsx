@@ -319,6 +319,10 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
     }
   };
 
+  const handleDelete = () => {
+    handleDeleteMenu(menuId);
+  };
+
   return (
     <>
       <Modal onClose={onClose} size="full" isOpen={isOpen}>
@@ -1198,8 +1202,7 @@ const ModalFormCreateMenu: React.FC<ModalProps> = ({
       <CustomAlertDialog
         onClose={onCloseAlertConfirmForm}
         isOpen={isOpenAlertConfirmForm}
-        id={menuId}
-        onDelete={handleDeleteMenu}
+        onDelete={handleDelete}
         titleHeader="Xoá menu"
         titleBody="Bạn có chắc không? Bạn không thể hoàn tác hành động này sau đó."
         btnName="Xoá"
