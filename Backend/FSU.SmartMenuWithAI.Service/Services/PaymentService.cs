@@ -215,11 +215,14 @@ namespace FSU.SmartMenuWithAI.Service.Services
                             <strong>Password:</strong> <span style='color: #5A3D41;'>{decryptedPassword}</span>
                         </p>
                         <p style='color: #5A3D41;'><strong>Lưu ý:</strong> Hãy đảm bảo thay đổi mật khẩu sau lần đăng nhập đầu tiên.</p>
+                        <p>
+                            <a href='https://drive.google.com/drive/folders/1Zr8PgOuj5YCFoKh09D5t_wviYE7UWKs8?usp=sharing' style='color: #5A3D41;'>Tải về ứng dụng và hướng dẫn cài đặt</a>
+                        </p>
                         <p>Trân trọng,<br />
                         <em>Đội ngũ hỗ trợ Smart Menu</em></p>
                         <hr />
                         <footer style='font-size: 12px;'>
-                            <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ chúng tôi qua email <a href='mailto:support@smartmenu.com' style='color: #5A3D41;'>support@smartmenu.com</a></p>
+                            <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ chúng tôi qua email <a href='mailto:meniusvn@gmail.com' style='color: #5A3D41;'>meniusvn@gmail.com</a></p>
                         </footer>
                     </div>";
                         await _emailService.SendEmailAsync(payment.Email, subject, body);
